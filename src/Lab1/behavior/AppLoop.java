@@ -40,7 +40,8 @@ public class AppLoop {
                 }
                 case "pf" -> printFaculties();
                 case "q" -> {
-                    System.out.println("EXITING PROGRAM...");
+                    System.out.println("| EXITING PROGRAM...                          |");
+                    System.out.println("+---------------------------------------------+");
                 }
                 case "h" -> {
                     System.out.println("| g - GENERAL OPERATIONS                      |");
