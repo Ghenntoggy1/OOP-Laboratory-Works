@@ -1,6 +1,6 @@
 package Lab1;
 
-public class Main {
+public class Board {
     public static void main(String[] args) {
 
     }
