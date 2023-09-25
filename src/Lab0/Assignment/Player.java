@@ -1,4 +1,4 @@
-package Lab1.Assignment;
+package Lab0.Assignment;
 
 // Assignment:
 // Create a class in a language and editor of your choice (Java, Python, C++, C#) that:

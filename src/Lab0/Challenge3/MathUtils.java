@@ -1,4 +1,4 @@
-package Lab1.Challenge3;// Challenge 2: Multiples of 3 or 5
+package Lab0.Challenge3;// Challenge 2: Multiples of 3 or 5
 // You are to write a method inside MathUtils class that will take as a parameter a number, and you’re to
 // print the sum of all multiples of 3 or 5.
 // 10 -> 23 (3, 5, 9)

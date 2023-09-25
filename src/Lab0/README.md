@@ -1,5 +1,5 @@
-# OOP-Laboratory-Work-1
-Laboratory Work on OOP nr.1 at TUM
+# OOP-Laboratory-Work-0
+Laboratory Work on OOP nr.0 at TUM
 
 Assignment 1:   (Player.java)
 <br>

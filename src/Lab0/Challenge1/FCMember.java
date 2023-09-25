@@ -1,4 +1,4 @@
-package Lab1.Challenge1;
+package Lab0.Challenge1;
 
 // Challenge 4:  Categorize a member
 // We are building a member system for a small football club. When adding a new user

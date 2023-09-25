@@ -1,4 +1,4 @@
-package Lab1.Challenge2;
+package Lab0.Challenge2;
 
 // Challenge 1: ABBREVIATE THE NAME:
 // We have a class User with two fields: firstName and lastName of type String.
