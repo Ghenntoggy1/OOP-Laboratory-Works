@@ -19,12 +19,16 @@ public class AppLoop {
     }
 
     public void run() {
-        System.out.println("WELCOME TO TUM's STUDENT MANAGEMENT SYSTEM!");
-        System.out.println("WHAT DO YOU WANT TO DO?");
-        System.out.println("g - GENERAL OPERATIONS");
-        System.out.println("f - FACULTY OPERATIONS");
-        System.out.println("s - STUDENT OPERATIONS");
-        System.out.println("\nq - QUIT PROGRAM");
+        System.out.println("+---------------------------------------------+");
+        System.out.println("| WELCOME TO TUM's STUDENT MANAGEMENT SYSTEM! |");
+        System.out.println("| WHAT DO YOU WANT TO DO?                     |");
+        System.out.println("| g - GENERAL OPERATIONS                      |");
+        System.out.println("| f - FACULTY OPERATIONS                      |");
+        System.out.println("| s - STUDENT OPERATIONS                      |");
+        System.out.println("| h - HELP                                    |");
+        System.out.println("+---------------------------------------------+");
+        System.out.println("| q - QUIT PROGRAM                            |");
+        System.out.println("+---------------------------------------------+");
 
         while (!this.choice.equals("q")) {
             this.choice = takeUserInput();
@@ -35,9 +39,19 @@ public class AppLoop {
                     handleFacultyCreate(commandsList);
                 }
                 case "pf" -> printFaculties();
-                case "q" -> {}
+                case "q" -> {
+                    System.out.println("EXITING PROGRAM...");
+                }
+                case "h" -> {
+                    System.out.println("| g - GENERAL OPERATIONS                      |");
+                    System.out.println("| f - FACULTY OPERATIONS                      |");
+                    System.out.println("| s - STUDENT OPERATIONS                      |");
+                    System.out.println("+---------------------------------------------+");
+                    System.out.println("| q - QUIT PROGRAM                            |");
+                    System.out.println("+---------------------------------------------+");
+                }
                 default -> {
-                    System.out.print("INVALID CHOICE! TRY AGAIN: ");
+                    System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
                 }
             }
         }
@@ -45,8 +59,10 @@ public class AppLoop {
     }
 
     private String takeUserInput() {
-        System.out.println("INPUT CHOICE: ");
-        return scanner.nextLine();
+        System.out.println("| INPUT CHOICE:                               |");
+        String sample = scanner.nextLine();
+        System.out.println("+---------------------------------------------+");
+        return sample;
     }
 
     private void handleFacultyCreate(String[] commandsList) {
@@ -69,17 +85,18 @@ public class AppLoop {
 
                 flag = false;
                 if (indexInt > StudyField.values().length || indexInt <= 0) {
-                    System.out.println("INVALID CHOICE OF FACULTY FIELD! CHOOSE FROM BELOW (INDEX): ");
+                    System.out.println("| INVALID CHOICE OF FACULTY FIELD! CHOOSE FROM BELOW (INDEX): |");
                     for (StudyField studyField : StudyField.values()) {
                         System.out.println(studyField.ordinal() + 1 + ". " + studyField);
                     }
                     flag = true;
                 }
             } catch (NumberFormatException numberFormatException) {
-                System.out.println("INVALID CHOICE OF FACULTY FIELD! CHOOSE FROM BELOW (INDEX): ");
+                System.out.println("| INVALID CHOICE OF FACULTY FIELD! CHOOSE FROM BELOW (INDEX): |");
                 for (StudyField studyField : StudyField.values()) {
                     System.out.println(studyField.ordinal() + 1 + ". " + studyField);
                 }
+
             }
         }
 
@@ -88,17 +105,19 @@ public class AppLoop {
 
 
     private void addFaculty() {
-        System.out.println("INPUT FACULTY NAME: ");
+        System.out.println("| INPUT FACULTY NAME:                         |");
         String facultyName = this.scanner.nextLine();
+        System.out.println("+---------------------------------------------+");
         System.out.println("INPUT FACULTY ABBREVIATION: ");
         String facultyAbbreviation = this.scanner.nextLine();
+        System.out.println("+---------------------------------------------+");
         System.out.println("CHOOSE FACULTY FIELD: ");
         for (StudyField studyField : StudyField.values()) {
             System.out.println(studyField.ordinal() + 1 + ". " + studyField);
         }
         int indexInt = getFacultyFieldIndex();
         StudyField facultyField = StudyField.values()[indexInt - 1];
-
+        System.out.println("+---------------------------------------------+");
         Faculty faculty = new Faculty(facultyName, facultyAbbreviation, facultyField);
         this.university.addFaculty(faculty);
     }
@@ -111,7 +130,7 @@ public class AppLoop {
                 facultyField = StudyField.valueOf(arguments[3]);
                 flag = false;
             } catch (IllegalArgumentException illegalArgumentException) {
-                System.out.println("INVALID FACULTY FIELD! INPUT FROM THE LIST:");
+                System.out.println("| INVALID FACULTY FIELD! INPUT FROM THE LIST: |");
                 for (StudyField studyField : StudyField.values()) {
                     System.out.println(studyField.ordinal() + 1 + ". " + studyField);
                 }
@@ -126,6 +145,7 @@ public class AppLoop {
     }
 
     private void printFaculties() {
-        System.out.println(university);
+        System.out.print(university);
+        System.out.println("+---------------------------------------------+");
     }
 }
