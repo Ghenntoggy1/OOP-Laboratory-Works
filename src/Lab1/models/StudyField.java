@@ -1,4 +1,4 @@
-package Lab1;
+package Lab1.models;
 
 public enum StudyField {
     MECHANICAL_ENGINEERING,
@@ -7,3 +7,4 @@ public enum StudyField {
     URBANISM_ARCHITECTURE,
     VETERINARY_MEDICINE
 }
+

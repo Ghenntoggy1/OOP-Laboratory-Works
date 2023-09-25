@@ -1,4 +1,4 @@
-package Lab1;
+package Lab1.models;
 
 import java.util.List;
 
@@ -8,10 +8,9 @@ public class Faculty {
     private List<Student> students;
     private StudyField studyField;
 
-    public Faculty(String name, String abbreviation, List<Student> students, StudyField studyField) {
+    public Faculty(String name, String abbreviation, StudyField studyField) {
         this.name = name;
         this.abbreviation = abbreviation;
-        this.students = students;
         this.studyField = studyField;
     }
 
@@ -45,5 +44,10 @@ public class Faculty {
 
     public void setStudyField(StudyField studyField) {
         this.studyField = studyField;
+    }
+
+    @Override
+    public String toString() {
+        return name + " - " + abbreviation + " - " + studyField;
     }
 }
