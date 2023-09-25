@@ -18,7 +18,7 @@
       * [x] create handling methods for errors
       * [x] create add faculty function
       * [x] create different type of input of adding a faculty
-      * create choice for over operations
+      * create choice for other operations
     * create Student class
       * [x] define methods
       * [x] define fields

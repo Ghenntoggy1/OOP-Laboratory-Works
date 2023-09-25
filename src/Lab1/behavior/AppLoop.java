@@ -10,18 +10,28 @@ public class AppLoop {
     private University university;
     private Scanner scanner;
     private String choice;
+    private String generalMenuOption;
     // may use state for different menus
 
     public AppLoop() {
         this.university = new University();
         this.scanner = new Scanner(System.in);
         this.choice = "";
+        this.generalMenuOption = "";
     }
 
-    public void run() {
+    private void startMenu() {
         System.out.println("+---------------------------------------------+");
         System.out.println("| WELCOME TO TUM's STUDENT MANAGEMENT SYSTEM! |");
         System.out.println("| WHAT DO YOU WANT TO DO?                     |");
+        choiceStartMenu();
+    }
+
+    private void helpStartMenu() {
+        choiceStartMenu();
+    }
+
+    private void choiceStartMenu() {
         System.out.println("| g - GENERAL OPERATIONS                      |");
         System.out.println("| f - FACULTY OPERATIONS                      |");
         System.out.println("| s - STUDENT OPERATIONS                      |");
@@ -29,31 +39,52 @@ public class AppLoop {
         System.out.println("+---------------------------------------------+");
         System.out.println("| q - QUIT PROGRAM                            |");
         System.out.println("+---------------------------------------------+");
+    }
 
+    private void generalOperationsMenu() {
+        System.out.println("| nf - CREATE A NEW FACULTY                        |");
+        System.out.println("| sf - SEARCH FACULTY A STUDENT BELONGS TO (BY ID) |");
+        System.out.println("| df - DISPLAY UNIVERSITY FACULTIES                |");
+        System.out.println("| dff - DISPLAY FACULTIES BELONGING TO A FIELD     |");
+        System.out.println("| h - HELP MENU                                    |");
+        System.out.println("+--------------------------------------------------+");
+        System.out.println("| q - QUIT MENU                                   |");
+        System.out.println("+--------------------------------------------------+");
+    }
+
+    public void run() {
+        startMenu();
         while (!this.choice.equals("q")) {
             this.choice = takeUserInput();
             String[] commandsList = this.choice.split("/");
 
             switch (commandsList[0]) {
-                case "f" -> {
-                    handleFacultyCreate(commandsList);
+                case "g" -> {
+                    generalOperationsMenu();
+                    while (!this.generalMenuOption.equals("q")) {
+                        String generalMenuOption = takeUserInput();
+                        String[] commandsList2 = generalMenuOption.split("/");
+                        switch (commandsList2[0]) {
+                            case "nf" -> handleFacultyCreate(commandsList2);
+                            case "df" -> printFaculties();
+                            case "q" -> {
+                                this.generalMenuOption = "q";
+                                System.out.println("| EXITING MENU...                             |");
+                                System.out.println("+---------------------------------------------+");
+                                choiceStartMenu();
+                            }
+                            case "h" -> generalOperationsMenu();
+                            default -> System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
+                        }
+                    }
+                    this.generalMenuOption = "";
                 }
-                case "pf" -> printFaculties();
                 case "q" -> {
                     System.out.println("| EXITING PROGRAM...                          |");
                     System.out.println("+---------------------------------------------+");
                 }
-                case "h" -> {
-                    System.out.println("| g - GENERAL OPERATIONS                      |");
-                    System.out.println("| f - FACULTY OPERATIONS                      |");
-                    System.out.println("| s - STUDENT OPERATIONS                      |");
-                    System.out.println("+---------------------------------------------+");
-                    System.out.println("| q - QUIT PROGRAM                            |");
-                    System.out.println("+---------------------------------------------+");
-                }
-                default -> {
-                    System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
-                }
+                case "h" -> helpStartMenu();
+                default -> System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
             }
         }
         this.scanner.close();
@@ -109,10 +140,10 @@ public class AppLoop {
         System.out.println("| INPUT FACULTY NAME:                         |");
         String facultyName = this.scanner.nextLine();
         System.out.println("+---------------------------------------------+");
-        System.out.println("INPUT FACULTY ABBREVIATION: ");
+        System.out.println("| INPUT FACULTY ABBREVIATION:                 |");
         String facultyAbbreviation = this.scanner.nextLine();
         System.out.println("+---------------------------------------------+");
-        System.out.println("CHOOSE FACULTY FIELD: ");
+        System.out.println("| CHOOSE FACULTY FIELD:                       |");
         for (StudyField studyField : StudyField.values()) {
             System.out.println(studyField.ordinal() + 1 + ". " + studyField);
         }
