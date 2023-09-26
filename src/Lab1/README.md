@@ -32,5 +32,5 @@
   * General operations
     * [x] create a new faculty
     * search what faculty a student belongs to by a unique identifier
-    * display University faculties
-    * display all faculties belonging to a field
+    * [x] display University faculties
+    * [x] display all faculties belonging to a field

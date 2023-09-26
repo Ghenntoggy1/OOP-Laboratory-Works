@@ -48,8 +48,30 @@ public class AppLoop {
         System.out.println("| dff - DISPLAY FACULTIES BELONGING TO A FIELD     |");
         System.out.println("| h - HELP MENU                                    |");
         System.out.println("+--------------------------------------------------+");
-        System.out.println("| q - QUIT MENU                                   |");
+        System.out.println("| q - QUIT MENU                                    |");
         System.out.println("+--------------------------------------------------+");
+    }
+
+    private void handleGeneralMenuOption() {
+        generalOperationsMenu();
+        while (!this.generalMenuOption.equals("q")) {
+            String generalMenuOption = takeUserInput();
+            String[] commandsList2 = generalMenuOption.split("/");
+            switch (commandsList2[0]) {
+                case "nf" -> handleFacultyCreate(commandsList2);
+                case "df" -> printFaculties();
+                case "q" -> {
+                    this.generalMenuOption = "q";
+                    System.out.println("| EXITING MENU...                             |");
+                    System.out.println("+---------------------------------------------+");
+                    choiceStartMenu();
+                }
+                case "dff" -> printFacultiesByField();
+                case "h" -> generalOperationsMenu();
+                default -> System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
+            }
+        }
+        this.generalMenuOption = "";
     }
 
     public void run() {
@@ -59,26 +81,8 @@ public class AppLoop {
             String[] commandsList = this.choice.split("/");
 
             switch (commandsList[0]) {
-                case "g" -> {
-                    generalOperationsMenu();
-                    while (!this.generalMenuOption.equals("q")) {
-                        String generalMenuOption = takeUserInput();
-                        String[] commandsList2 = generalMenuOption.split("/");
-                        switch (commandsList2[0]) {
-                            case "nf" -> handleFacultyCreate(commandsList2);
-                            case "df" -> printFaculties();
-                            case "q" -> {
-                                this.generalMenuOption = "q";
-                                System.out.println("| EXITING MENU...                             |");
-                                System.out.println("+---------------------------------------------+");
-                                choiceStartMenu();
-                            }
-                            case "h" -> generalOperationsMenu();
-                            default -> System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
-                        }
-                    }
-                    this.generalMenuOption = "";
-                }
+                case "g" -> handleGeneralMenuOption();
+                case "f" -> {}
                 case "q" -> {
                     System.out.println("| EXITING PROGRAM...                          |");
                     System.out.println("+---------------------------------------------+");
@@ -88,6 +92,17 @@ public class AppLoop {
             }
         }
         this.scanner.close();
+    }
+
+    private void printFacultiesByField() {
+        System.out.println("| INPUT STUDY FIELD:                          |");
+        for (StudyField studyField : StudyField.values()) {
+            System.out.println(studyField.ordinal() + 1 + ". " + studyField);
+        }
+        int indexInt = getFacultyFieldIndex();
+        StudyField facultyField = StudyField.values()[indexInt - 1];
+
+        printFaculties(facultyField);
     }
 
     private String takeUserInput() {
@@ -177,7 +192,12 @@ public class AppLoop {
     }
 
     private void printFaculties() {
-        System.out.print(university);
+        System.out.print(university.toString());
+        System.out.println("+---------------------------------------------+");
+    }
+
+    private void printFaculties(StudyField studyField) {
+        System.out.print(university.toString(studyField));
         System.out.println("+---------------------------------------------+");
     }
 }
