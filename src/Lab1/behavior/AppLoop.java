@@ -10,14 +10,12 @@ public class AppLoop {
     private University university;
     private Scanner scanner;
     private String choice;
-    private String generalMenuOption;
     // may use state for different menus
 
     public AppLoop() {
         this.university = new University();
         this.scanner = new Scanner(System.in);
         this.choice = "";
-        this.generalMenuOption = "";
     }
 
     private void startMenu() {
@@ -42,26 +40,28 @@ public class AppLoop {
     }
 
     private void generalOperationsMenu() {
-        System.out.println("| nf - CREATE A NEW FACULTY                        |");
-        System.out.println("| sf - SEARCH FACULTY A STUDENT BELONGS TO (BY ID) |");
-        System.out.println("| df - DISPLAY UNIVERSITY FACULTIES                |");
-        System.out.println("| dff - DISPLAY FACULTIES BELONGING TO A FIELD     |");
-        System.out.println("| h - HELP MENU                                    |");
-        System.out.println("+--------------------------------------------------+");
-        System.out.println("| q - QUIT MENU                                    |");
-        System.out.println("+--------------------------------------------------+");
+        System.out.println("| nf - CREATE A NEW FACULTY                                                                        |");
+        System.out.println("| nf/<facultyName>/<facultyAbbreviation/<studyField> - CREATE A NEW FACULTY (FAST COMMAND)         |");
+        System.out.println("| sf - SEARCH FACULTY A STUDENT BELONGS TO (BY EMAIL)                                              |");
+        System.out.println("| df - DISPLAY UNIVERSITY FACULTIES                                                                |");
+        System.out.println("| dff - DISPLAY FACULTIES BELONGING TO A FIELD                                                     |");
+        System.out.println("| h - HELP MENU                                                                                    |");
+        System.out.println("+--------------------------------------------------------------------------------------------------+");
+        System.out.println("| q - QUIT MENU                                                                                    |");
+        System.out.println("+--------------------------------------------------------------------------------------------------+");
     }
 
     private void handleGeneralMenuOption() {
         generalOperationsMenu();
-        while (!this.generalMenuOption.equals("q")) {
-            String generalMenuOption = takeUserInput();
+        String generalMenuOption = "";
+        while (!generalMenuOption.equals("q")) {
+            generalMenuOption = takeUserInput();
             String[] commandsList2 = generalMenuOption.split("/");
             switch (commandsList2[0]) {
                 case "nf" -> handleFacultyCreate(commandsList2);
                 case "df" -> printFaculties();
+                case "sf" -> System.out.println("WIP");  // future feature
                 case "q" -> {
-                    this.generalMenuOption = "q";
                     System.out.println("| EXITING MENU...                             |");
                     System.out.println("+---------------------------------------------+");
                     choiceStartMenu();
@@ -71,7 +71,6 @@ public class AppLoop {
                 default -> System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
             }
         }
-        this.generalMenuOption = "";
     }
 
     public void run() {
@@ -94,17 +93,6 @@ public class AppLoop {
         this.scanner.close();
     }
 
-    private void printFacultiesByField() {
-        System.out.println("| INPUT STUDY FIELD:                          |");
-        for (StudyField studyField : StudyField.values()) {
-            System.out.println(studyField.ordinal() + 1 + ". " + studyField);
-        }
-        int indexInt = getFacultyFieldIndex();
-        StudyField facultyField = StudyField.values()[indexInt - 1];
-
-        printFaculties(facultyField);
-    }
-
     private String takeUserInput() {
         System.out.println("| INPUT CHOICE:                               |");
         String sample = scanner.nextLine();
@@ -120,6 +108,8 @@ public class AppLoop {
             addFaculty();
         }
     }
+
+
 
     private int getFacultyFieldIndex() {
         int indexInt = 0;
@@ -199,5 +189,16 @@ public class AppLoop {
     private void printFaculties(StudyField studyField) {
         System.out.print(university.toString(studyField));
         System.out.println("+---------------------------------------------+");
+    }
+
+    private void printFacultiesByField() {
+        System.out.println("| INPUT STUDY FIELD:                          |");
+        for (StudyField studyField : StudyField.values()) {
+            System.out.println(studyField.ordinal() + 1 + ". " + studyField);
+        }
+        int indexInt = getFacultyFieldIndex();
+        StudyField facultyField = StudyField.values()[indexInt - 1];
+
+        printFaculties(facultyField);
     }
 }
