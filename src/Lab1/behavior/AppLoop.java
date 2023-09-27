@@ -66,7 +66,7 @@ public class AppLoop {
                     System.out.println("+---------------------------------------------+");
                     choiceStartMenu();
                 }
-                case "dff" -> printFacultiesByField();
+                case "dff" -> handleFacultyDisplay(commandsList2);
                 case "h" -> generalOperationsMenu();
                 default -> System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
             }
@@ -81,12 +81,13 @@ public class AppLoop {
 
             switch (commandsList[0]) {
                 case "g" -> handleGeneralMenuOption();
-                case "f" -> {}
+                case "f" -> System.out.println("WIP");  // future feature
                 case "q" -> {
                     System.out.println("| EXITING PROGRAM...                          |");
                     System.out.println("+---------------------------------------------+");
                 }
                 case "h" -> helpStartMenu();
+                case "s" -> System.out.println("WIP");  // future feature
                 default -> System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
             }
         }
@@ -109,7 +110,14 @@ public class AppLoop {
         }
     }
 
-
+    public void handleFacultyDisplay(String[] commandsList) {
+        if (commandsList.length == 2) {
+            printFacultiesByField(commandsList);
+        }
+        else {
+            printFacultiesByField();
+        }
+    }
 
     private int getFacultyFieldIndex() {
         int indexInt = 0;
@@ -199,6 +207,21 @@ public class AppLoop {
         int indexInt = getFacultyFieldIndex();
         StudyField facultyField = StudyField.values()[indexInt - 1];
 
+        printFaculties(facultyField);
+    }
+
+    private void printFacultiesByField(String[] commandsList) {
+        StudyField facultyField;
+        try {
+            facultyField = StudyField.valueOf(commandsList[1]);
+        } catch (IllegalArgumentException illegalArgumentException) {
+            System.out.println("| INVALID FACULTY FIELD! TYPE NUMBER FROM THE LIST: |");
+            for (StudyField studyField : StudyField.values()) {
+                System.out.println(studyField.ordinal() + 1 + ". " + studyField);
+            }
+            int indexInt = getFacultyFieldIndex();
+            facultyField = StudyField.values()[indexInt - 1];
+        }
         printFaculties(facultyField);
     }
 }
