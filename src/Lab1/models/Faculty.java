@@ -46,6 +46,10 @@ public class Faculty {
         this.studyField = studyField;
     }
 
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+
     @Override
     public String toString() {
         return name + " - " + abbreviation + " - " + studyField;
