@@ -45,6 +45,7 @@ public class AppLoop {
         System.out.println("| sf - SEARCH FACULTY A STUDENT BELONGS TO (BY EMAIL)                                              |");
         System.out.println("| df - DISPLAY UNIVERSITY FACULTIES                                                                |");
         System.out.println("| dff - DISPLAY FACULTIES BELONGING TO A FIELD                                                     |");
+        System.out.println("| dff/<studyField> - DISPLAY FACULTIES BELONGING TO A FIELD (FAST COMMAND)                         |");
         System.out.println("| h - HELP MENU                                                                                    |");
         System.out.println("+--------------------------------------------------------------------------------------------------+");
         System.out.println("| q - QUIT MENU                                                                                    |");
