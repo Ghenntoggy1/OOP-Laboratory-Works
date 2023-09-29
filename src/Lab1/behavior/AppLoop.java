@@ -10,7 +10,6 @@ public class AppLoop {
     private University university;
     private Scanner scanner;
     private String choice;
-    // may use state for different menus
 
     public AppLoop() {
         this.university = new University();
