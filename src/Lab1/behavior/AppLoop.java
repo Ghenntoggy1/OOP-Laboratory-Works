@@ -119,34 +119,7 @@ public class AppLoop {
         }
     }
 
-    private int getFacultyFieldIndex() {
-        int indexInt = 0;
-        boolean flag = true;
 
-        while (flag) {
-            try {
-                String index = this.scanner.nextLine();
-                indexInt = Integer.parseInt(index);
-
-                flag = false;
-                if (indexInt > StudyField.values().length || indexInt <= 0) {
-                    System.out.println("| INVALID CHOICE OF FACULTY FIELD! CHOOSE FROM BELOW (INDEX): |");
-                    for (StudyField studyField : StudyField.values()) {
-                        System.out.println(studyField.ordinal() + 1 + ". " + studyField);
-                    }
-                    flag = true;
-                }
-            } catch (NumberFormatException numberFormatException) {
-                System.out.println("| INVALID CHOICE OF FACULTY FIELD! CHOOSE FROM BELOW (INDEX): |");
-                for (StudyField studyField : StudyField.values()) {
-                    System.out.println(studyField.ordinal() + 1 + ". " + studyField);
-                }
-
-            }
-        }
-
-        return indexInt;
-    }
     private void addFaculty() {
         System.out.println("| INPUT FACULTY NAME:                         |");
         String facultyName = this.scanner.nextLine();
@@ -158,7 +131,7 @@ public class AppLoop {
         for (StudyField studyField : StudyField.values()) {
             System.out.println(studyField.ordinal() + 1 + ". " + studyField);
         }
-        int indexInt = getFacultyFieldIndex();
+        int indexInt = university.getFacultyFieldIndex(this.scanner);
         StudyField facultyField = StudyField.values()[indexInt - 1];
         System.out.println("+---------------------------------------------+");
         Faculty faculty = new Faculty(facultyName, facultyAbbreviation, facultyField);
@@ -177,7 +150,7 @@ public class AppLoop {
                 for (StudyField studyField : StudyField.values()) {
                     System.out.println(studyField.ordinal() + 1 + ". " + studyField);
                 }
-                int indexInt = getFacultyFieldIndex();
+                int indexInt = university.getFacultyFieldIndex(this.scanner);
                 facultyField = StudyField.values()[indexInt - 1];
                 arguments[3] = facultyField.toString();
             }
@@ -202,7 +175,7 @@ public class AppLoop {
         for (StudyField studyField : StudyField.values()) {
             System.out.println(studyField.ordinal() + 1 + ". " + studyField);
         }
-        int indexInt = getFacultyFieldIndex();
+        int indexInt = university.getFacultyFieldIndex(this.scanner);
         StudyField facultyField = StudyField.values()[indexInt - 1];
 
         printFaculties(facultyField);
@@ -217,7 +190,7 @@ public class AppLoop {
             for (StudyField studyField : StudyField.values()) {
                 System.out.println(studyField.ordinal() + 1 + ". " + studyField);
             }
-            int indexInt = getFacultyFieldIndex();
+            int indexInt = university.getFacultyFieldIndex(this.scanner);
             facultyField = StudyField.values()[indexInt - 1];
         }
         printFaculties(facultyField);
