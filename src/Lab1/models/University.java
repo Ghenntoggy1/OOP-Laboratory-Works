@@ -4,6 +4,7 @@ import jdk.javadoc.doclet.StandardDoclet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class University {
     private List<Faculty> facultyList;
@@ -35,5 +36,32 @@ public class University {
             }
         }
         return text.toString();
+    }
+
+    public int getFacultyFieldIndex(Scanner scanner) {
+        int indexInt = 0;
+        boolean flag = true;
+
+        while (flag) {
+            try {
+                String index = scanner.nextLine();
+                indexInt = Integer.parseInt(index);
+
+                flag = false;
+                if (indexInt > StudyField.values().length || indexInt <= 0) {
+                    System.out.println("| INVALID CHOICE OF FACULTY FIELD! CHOOSE FROM BELOW (INDEX): |");
+                    for (StudyField studyField : StudyField.values()) {
+                        System.out.println(studyField.ordinal() + 1 + ". " + studyField);
+                    }
+                    flag = true;
+                }
+            } catch (NumberFormatException numberFormatException) {
+                System.out.println("| INVALID CHOICE OF FACULTY FIELD! CHOOSE FROM BELOW (INDEX): |");
+                for (StudyField studyField : StudyField.values()) {
+                    System.out.println(studyField.ordinal() + 1 + ". " + studyField);
+                }
+            }
+        }
+        return indexInt;
     }
 }
