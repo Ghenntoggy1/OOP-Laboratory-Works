@@ -18,10 +18,10 @@ public class Handler {
     }
     void handleFacultyCreate(String[] commandsList) {
         if (commandsList.length == 4) {
-            addFaculty(commandsList);
+            handleAddFaculty(commandsList);
         }
         else {
-            addFaculty();
+            handleAddFaculty();
         }
     }
 
@@ -34,7 +34,49 @@ public class Handler {
         }
     }
 
-    private void addFaculty() {
+    private void handleGeneralMenuOption() {
+        printer.generalOperationsMenu();
+        String generalMenuOption = "";
+        while (!generalMenuOption.equals("q")) {
+            generalMenuOption = takeUserInput();
+            String[] commandsList2 = generalMenuOption.split("/");
+            switch (commandsList2[0]) {
+                case "nf" -> handleFacultyCreate(commandsList2);
+                case "df" -> printer.printFaculties();
+                case "sf" -> System.out.println("WIP");  // future feature
+                case "q" -> {
+                    System.out.println("| EXITING MENU...                             |");
+                    System.out.println("+---------------------------------------------+");
+                    printer.choiceStartMenu();
+                }
+                case "dff" -> handleFacultyDisplay(commandsList2);
+                case "h" -> printer.generalOperationsMenu();
+                default -> System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
+            }
+        }
+    }
+
+    void handleStartMenu() {
+        String startMenuOption = "";
+        while (!startMenuOption.equals("q")) {
+            startMenuOption = takeUserInput();
+            String[] commandsList = startMenuOption.split("/");
+
+            switch (commandsList[0]) {
+                case "g" -> handleGeneralMenuOption();
+                case "f" -> System.out.println("WIP");  // future feature
+                case "q" -> {
+                    System.out.println("| EXITING PROGRAM...                          |");
+                    System.out.println("+---------------------------------------------+");
+                }
+                case "h" -> printer.helpStartMenu();
+                case "s" -> System.out.println("WIP");  // future feature
+                default -> System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
+            }
+        }
+    }
+
+    private void handleAddFaculty() {
         System.out.println("| INPUT FACULTY NAME:                         |");
         String facultyName = this.scanner.nextLine();
         System.out.println("+---------------------------------------------+");
@@ -52,7 +94,7 @@ public class Handler {
         this.university.addFaculty(faculty);
     }
 
-    private void addFaculty(String[] arguments) {
+    private void handleAddFaculty(String[] arguments) {
         boolean flag = true;
         StudyField facultyField = null;
         while(flag) {
@@ -72,5 +114,12 @@ public class Handler {
 
         Faculty faculty = new Faculty(arguments[1], arguments[2], facultyField);
         this.university.addFaculty(faculty);
+    }
+
+    private String takeUserInput() {
+        System.out.println("| INPUT CHOICE:                               |");
+        String sample = scanner.nextLine();
+        System.out.println("+---------------------------------------------+");
+        return sample;
     }
 }
