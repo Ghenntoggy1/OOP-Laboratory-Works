@@ -38,6 +38,33 @@ public class University {
         return text.toString();
     }
 
+    public int getFacultyIndex(Scanner scanner) {
+        int indexInt = 0;
+        boolean flag = true;
+
+        while (flag) {
+            try {
+                String index = scanner.nextLine();
+                indexInt = Integer.parseInt(index);
+
+                flag = false;
+                if (indexInt > facultyList.size() || indexInt <= 0) {
+                    System.out.println("| INVALID CHOICE OF FACULTY! CHOOSE FROM BELOW (INDEX): |");
+                    for (Faculty faculty : facultyList) {
+                        System.out.println(facultyList.indexOf(faculty) + 1 + ". " + faculty);
+                    }
+                    flag = true;
+                }
+            } catch (NumberFormatException numberFormatException) {
+                System.out.println("| INVALID CHOICE OF FACULTY! CHOOSE FROM BELOW (INDEX): |");
+                for (Faculty faculty : facultyList) {
+                    System.out.println(facultyList.indexOf(faculty) + 1 + ". " + faculty);
+                }
+            }
+        }
+        return indexInt;
+    }
+
     public int getFacultyFieldIndex(Scanner scanner) {
         int indexInt = 0;
         boolean flag = true;
@@ -63,5 +90,9 @@ public class University {
             }
         }
         return indexInt;
+    }
+
+    public List<Faculty> getFacultyList() {
+        return facultyList;
     }
 }

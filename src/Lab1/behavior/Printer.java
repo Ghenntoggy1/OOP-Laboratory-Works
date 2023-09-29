@@ -37,7 +37,7 @@ public class Printer {
 
      void generalOperationsMenu() {
         System.out.println("| nf - CREATE A NEW FACULTY                                                                        |");
-        System.out.println("| nf/<facultyName>/<facultyAbbreviation/<studyField> - CREATE A NEW FACULTY (FAST COMMAND)         |");
+        System.out.println("| nf/<facultyName>/<facultyAbbreviation>/<studyField> - CREATE A NEW FACULTY (FAST COMMAND)        |");
         System.out.println("| sf - SEARCH FACULTY A STUDENT BELONGS TO (BY EMAIL)                                              |");
         System.out.println("| df - DISPLAY UNIVERSITY FACULTIES                                                                |");
         System.out.println("| dff - DISPLAY FACULTIES BELONGING TO A FIELD                                                     |");
@@ -82,5 +82,25 @@ public class Printer {
             facultyField = StudyField.values()[indexInt - 1];
         }
         printFaculties(facultyField);
+    }
+
+    void facultyOperationsMenu() {
+        System.out.println("| cs - CREATE AND ASSIGN A NEW STUDENT                                                                                             |");
+        System.out.println("| cs/<facultyName>/<firstName>/<lastName>/<email>/<enrollmentDate>/<dateOfBirth> - CREATE AND ASSIGN A NEW STUDENT (FAST COMMAND)  |");
+        System.out.println("| gs - GRADUATE STUDENT                                                                                                            |");
+        System.out.println("| des - DISPLAY ENROLLED STUDENTS                                                                                                  |");
+        System.out.println("| dgs - DISPLAY GRADUATED STUDENTS                                                                                                 |");
+        System.out.println("| csf - CHECK STUDENT                                                                                                              |");
+        System.out.println("| csf/<facultyName> - CHECK STUDENT (FAST COMMAND)                                                                                 |");
+        System.out.println("| h - HELP MENU                                                                                                                    |");
+        System.out.println("+----------------------------------------------------------------------------------------------------------------------------------+");
+        System.out.println("| q - QUIT MENU                                                                                                                    |");
+        System.out.println("+----------------------------------------------------------------------------------------------------------------------------------+");
+    }
+
+    void facultyHelpMenu() {
+        System.out.println("| EXITING MENU...                                                                                                    |");
+        System.out.println("+--------------------------------------------------------------------------------------------------------------------+");
+        choiceStartMenu();
     }
 }

@@ -66,4 +66,16 @@ public class Student {
     public void setIsEnrolled(boolean isEnrolled) {
         this.isEnrolled = isEnrolled;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", enrollmentDate=" + enrollmentDate +
+                ", dateOfBirth=" + dateOfBirth +
+                ", isEnrolled=" + isEnrolled +
+                '}';
+    }
 }
