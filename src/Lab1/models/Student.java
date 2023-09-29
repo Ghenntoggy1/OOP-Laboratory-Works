@@ -9,12 +9,14 @@ public class Student {
     private Date enrollmentDate;
     private Date dateOfBirth;
 
-    public Student(String firstName, String lastName, String email, Date enrollmentDate, Date dateOfBirth) {
+    private boolean isEnrolled;
+    public Student(String firstName, String lastName, String email, Date enrollmentDate, Date dateOfBirth, boolean isEnrolled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.enrollmentDate = enrollmentDate;
         this.dateOfBirth = dateOfBirth;
+        this.isEnrolled = isEnrolled;
     }
 
     public String getFirstName() {
@@ -55,5 +57,13 @@ public class Student {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public boolean isEnrolled() {
+        return this.isEnrolled;
+    }
+
+    public void setIsEnrolled(boolean isEnrolled) {
+        this.isEnrolled = isEnrolled;
     }
 }

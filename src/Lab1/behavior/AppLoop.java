@@ -148,8 +148,6 @@ public class AppLoop {
 
         return indexInt;
     }
-
-
     private void addFaculty() {
         System.out.println("| INPUT FACULTY NAME:                         |");
         String facultyName = this.scanner.nextLine();
