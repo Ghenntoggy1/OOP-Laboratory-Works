@@ -89,34 +89,67 @@ public class Handler {
             String[] commandsList = facultyMenuOption.split("/");
             switch (commandsList[0]) {
                 case "cs" -> handleStudentCreate(commandsList);
-                case "gs" -> printer.printFaculties();
-                case "des" -> System.out.println("WIP");  // future feature
-                case "dgs" -> {
-                    //handleFacultyDisplay(commandsList)
-                    List<Faculty> facultyList = this.university.getFacultyList();
-                    System.out.println("| CHOOSE FACULTY (INDEX):                |");
-                    for (Faculty faculty : facultyList) {
-                        System.out.println(facultyList.indexOf(faculty) + 1 + ". " + faculty);
-                    }
-                    int indexInt = this.university.getFacultyIndex(scanner);
-                    Faculty faculty = facultyList.get(indexInt - 1);
-                    List<Student> stlist = faculty.getStudents();
-                    for (int i = 0; i < stlist.size(); i++) {
-                        System.out.println("Student: " + faculty.getStudents().get(i).toString());
-                    }
+                case "gs" -> handleStudentGraduate();  // future feature
+                case "das" -> {
+                    Faculty facultyFound = getFaculty();
+                    printer.printAllStudentsInFaculty(facultyFound);
                 }
+                case "des" -> System.out.println("WIP");  // future feature
+                case "dgs" -> System.out.println("WIP");  // future feature
                 case "csf" -> System.out.println("WIP");  // future feature
-                case "q" -> printer.facultyHelpMenu();
-                case "h" -> printer.facultyOperationsMenu();
-                default -> System.out.println("| h - HELP                                                                                                           |");
+                case "h" -> printer.facultyHelpMenu();
+                case "q" -> {
+                    System.out.println("| EXITING MENU...                             |");
+                    System.out.println("+---------------------------------------------+");
+                    printer.choiceStartMenu();
+                }
+                default -> System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
             }
         }
+    }
+
+    private void handleStudentGraduate() {  // faculty exclusive
+        System.out.println("STUDENTS:");
+        for (Faculty faculty : this.university.getFacultyList()) {
+            for (Student student : faculty.getStudents()) {
+                System.out.println(student.toString());
+            }
+        }
+        boolean flag = true;
+        String input = this.scanner.nextLine();
+
+        while (flag) {
+            try {
+                int indexInt = Integer.parseInt(input);
+                flag = false;
+            } catch (NumberFormatException numberFormatException) {
+                System.out.println("| INCORRECT INDEX! TRY AGAIN: |");
+                input = this.scanner.nextLine();
+            }
+        }
+
+    }
+
+    Faculty getFaculty() {
+        List<Faculty> facultyList = this.university.getFacultyList();
+        System.out.println("| CHOOSE FACULTY (INDEX):                |");
+        for (Faculty faculty : facultyList) {
+            System.out.println(facultyList.indexOf(faculty) + 1 + ". " + faculty);
+        }
+        int indexInt = this.university.getFacultyIndex(scanner);
+        return facultyList.get(indexInt - 1);
     }
 
     void handleStudentCreate(String[] commandsList) {
         List<Faculty> facultyList = this.university.getFacultyList();
         if (commandsList.length == 7) {
-            //handleAddStudent(commandsList);
+            if (!facultyList.isEmpty()) {
+                handleAddStudent(commandsList);
+            }
+            else {
+                System.out.println("| NO FACULTIES FOUND! ADD FACULTIES!     |");
+            }
+
         }
         else {
             if (!facultyList.isEmpty()) {
@@ -147,11 +180,20 @@ public class Handler {
         Date enrollmentDate = handleDateInput();
         System.out.println("| INPUT DATE OF BIRTH (DD-MM-YYYY):      |");
         Date dateOfBirth = handleDateInput();
-        System.out.println("| ENROLLED OR GRADUATE (E/G):            |");
-        boolean isEnrolled = handleEnrollmentStatus();
 
-        Student student = new Student(firstName, lastName, email, enrollmentDate, dateOfBirth, isEnrolled);
+        Student student = new Student(firstName, lastName, email, enrollmentDate, dateOfBirth);
         Faculty faculty = facultyList.get(indexInt - 1);
+        faculty.addStudent(student);
+    }
+
+    private void handleAddStudent(String[] commandsList) {
+        Faculty faculty = this.university.getFacultyByName(scanner, commandsList[1]);
+        System.out.println("| ENROLLMENT DATE |");
+        Date enrollmentDate = handleDateInput(commandsList[5]);
+        System.out.println("| DATE OF BIRTHDAY |");
+        Date dateOfBirth = handleDateInput(commandsList[6]);
+
+        Student student = new Student(commandsList[2], commandsList[3], commandsList[4], enrollmentDate, dateOfBirth);
         faculty.addStudent(student);
     }
 
@@ -171,16 +213,48 @@ public class Handler {
                     isEnrolled = false;
                     flag = false;
                 }
-                default -> System.out.println("| INVALID INPUT! INPUT \"E\" OR \"G\"     ");
+                default -> {
+                    System.out.println("| INVALID INPUT! INPUT \"E\" OR \"G\"     ");
+                    enrollmentStatus = this.scanner.nextLine();
+                }
             }
         }
 
         return isEnrolled;
     }
 
+    private boolean handleEnrollmentStatus(String enrollmentStatus) {
+        boolean flag = true;
+
+        boolean isEnrolled = true;
+
+        while(flag) {
+            switch (enrollmentStatus) {
+                case "E", "e", "Enrolled" -> {
+                    flag = false;
+                }
+                case "G", "g", "Graduate"-> {
+                    isEnrolled = false;
+                    flag = false;
+                }
+                default -> System.out.println("| INVALID INPUT! INPUT \"E\" OR \"G\"     ");
+            }
+        }
+        return isEnrolled;
+    }
+
     private Date handleDateInput() {
         String dateInput = this.scanner.nextLine();
 
+        return getDate(dateInput);
+    }
+
+    private Date handleDateInput(String dateInput) {
+
+        return getDate(dateInput);
+    }
+
+    private Date getDate(String dateInput) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         dateFormat.setLenient(false);
 
@@ -192,7 +266,7 @@ public class Handler {
                 dateFormatted = dateFormat.parse(dateInput);
                 flag = false;
             } catch (ParseException e) {
-                System.out.println("| INVALID DATE! INPUT AGAIN:         |");
+                System.out.println("| INVALID DATE! INPUT AGAIN (DD-MM-YYYY):         |");
                 dateInput = this.scanner.nextLine();
             }
         }
@@ -217,12 +291,12 @@ public class Handler {
         this.university.addFaculty(faculty);
     }
 
-    private void handleAddFaculty(String[] arguments) {
+    private void handleAddFaculty(String[] commandsList) {
         boolean flag = true;
         StudyField facultyField = null;
         while(flag) {
             try {
-                facultyField = StudyField.valueOf(arguments[3]);
+                facultyField = StudyField.valueOf(commandsList[3]);
                 flag = false;
             } catch (IllegalArgumentException illegalArgumentException) {
                 System.out.println("| INVALID FACULTY FIELD! INPUT FROM THE LIST: |");
@@ -231,11 +305,11 @@ public class Handler {
                 }
                 int indexInt = university.getFacultyFieldIndex(this.scanner);
                 facultyField = StudyField.values()[indexInt - 1];
-                arguments[3] = facultyField.toString();
+                commandsList[3] = facultyField.toString();
             }
         }
 
-        Faculty faculty = new Faculty(arguments[1], arguments[2], facultyField);
+        Faculty faculty = new Faculty(commandsList[1], commandsList[2], facultyField);
         this.university.addFaculty(faculty);
     }
 

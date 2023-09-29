@@ -8,9 +8,12 @@ import java.util.Scanner;
 
 public class University {
     private List<Faculty> facultyList;
-
+    private List<Student> allStudents;
+    private List<Student> graduated;
     public University() {
         facultyList = new ArrayList<>();
+        allStudents = new ArrayList<>();
+        graduated = new ArrayList<>();
     }
 
     public void addFaculty(Faculty faculty) {
@@ -65,6 +68,31 @@ public class University {
         return indexInt;
     }
 
+    public Faculty getFacultyByName(Scanner scanner, String facultyName) {  //something wrong
+        boolean flag = true;
+
+        Faculty faculty = null;
+        while (flag) {
+            for (Faculty currFaculty : this.facultyList) {
+                if (currFaculty.getName().equals(facultyName)) {
+                    faculty = currFaculty;
+                    flag = false;
+                    break;
+                }
+            }
+            if (faculty == null) {
+                System.out.println("| INVALID CHOICE OF FACULTY! CHOOSE FROM BELOW (INDEX): |");
+                for (Faculty currFaculty2 : facultyList) {
+                    System.out.println(facultyList.indexOf(currFaculty2) + 1 + ". " + currFaculty2);
+                }
+                int index = getFacultyIndex(scanner);
+                faculty = facultyList.get(index - 1);
+                flag = false;
+            }
+        }
+        return faculty;
+    }
+
     public int getFacultyFieldIndex(Scanner scanner) {
         int indexInt = 0;
         boolean flag = true;
@@ -94,5 +122,21 @@ public class University {
 
     public List<Faculty> getFacultyList() {
         return facultyList;
+    }
+
+    public void setAllStudents(List<Student> allStudents) {
+        this.allStudents = allStudents;
+    }
+
+    public List<Student> getAllStudents() {
+        return allStudents;
+    }
+
+    public List<Student> getGraduated() {
+        return graduated;
+    }
+
+    public void setGraduated(List<Student> graduated) {
+        this.graduated = graduated;
     }
 }

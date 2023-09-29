@@ -10,13 +10,13 @@ public class Student {
     private Date dateOfBirth;
 
     private boolean isEnrolled;
-    public Student(String firstName, String lastName, String email, Date enrollmentDate, Date dateOfBirth, boolean isEnrolled) {
+    public Student(String firstName, String lastName, String email, Date enrollmentDate, Date dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.enrollmentDate = enrollmentDate;
         this.dateOfBirth = dateOfBirth;
-        this.isEnrolled = isEnrolled;
+        this.isEnrolled = true;
     }
 
     public String getFirstName() {
@@ -69,13 +69,13 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", enrollmentDate=" + enrollmentDate +
-                ", dateOfBirth=" + dateOfBirth +
-                ", isEnrolled=" + isEnrolled +
+        return "{" +
+                "First Name: '" + firstName + '\'' +
+                ", Last Name: '" + lastName + '\'' +
+                ", Email: '" + email + '\'' +
+                ", Enrollment Date: " + enrollmentDate +
+                ", Date of Birth: " + dateOfBirth +
+                ", Is Enrolled: " + isEnrolled +
                 '}';
     }
 }

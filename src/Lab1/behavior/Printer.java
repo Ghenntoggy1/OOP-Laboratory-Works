@@ -1,8 +1,11 @@
 package Lab1.behavior;
 
+import Lab1.models.Faculty;
+import Lab1.models.Student;
 import Lab1.models.StudyField;
 import Lab1.models.University;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Printer {
@@ -102,5 +105,12 @@ public class Printer {
         System.out.println("| EXITING MENU...                                                                                                    |");
         System.out.println("+--------------------------------------------------------------------------------------------------------------------+");
         choiceStartMenu();
+    }
+
+    public void printAllStudentsInFaculty(Faculty faculty) {
+        List<Student> stlist = faculty.getStudents();
+        for (int i = 0; i < stlist.size(); i++) {
+            System.out.println("Student: " + faculty.getStudents().get(i).toString());
+        }
     }
 }

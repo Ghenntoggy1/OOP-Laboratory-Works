@@ -26,17 +26,16 @@
       * create function to search information about a student
     * modify Student class
       * create unique id for every student
-      * create a field that will hold which faculty they belong
-      * create field that will store information if they graduated
+      * [x] create field that will store information if they graduated
     * modify Faculty class
-      * create function for adding a student
+      * [x] create function for adding a student
       * create function for graduating a student
       * create function for displaying graduates
       * create function for displaying enrolled students
       * create function for telling if a student belongs to a faculty
 * TASKS   
   * Faculty operations
-    * Create and assign a student to a faculty
+    * [x] Create and assign a student to a faculty
     * graduate a student from a faculty
     * display current enrolled students
     * display graduates
