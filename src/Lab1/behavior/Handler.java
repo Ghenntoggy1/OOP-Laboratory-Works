@@ -8,6 +8,7 @@ import Lab1.models.University;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Handler {
     private final Printer printer;
@@ -127,7 +128,7 @@ public class Handler {
                 case "dgs" -> {
                     Faculty facultyFound = this.university.getFaculty(this.scanner);
                     if (!facultyFound.getStudents().isEmpty()) {
-                        System.out.println("| FACULTY: " + facultyFound.toString());
+                        System.out.println("| FACULTY: " + facultyFound);
                         printer.printGraduatedStudentsInFaculty(facultyFound);
                     }
                     else {
@@ -216,23 +217,50 @@ public class Handler {
         System.out.println("+----------------------------------------+");
         System.out.println("| INPUT STUDENT EMAIL                    |");
         String email = this.scanner.nextLine();
+        while (!isValidEmail(email)) {
+            System.out.println("| INVALID EMAIL! INPUT CORRECT FORMAT    |");
+            email = this.scanner.nextLine();
+        }
         System.out.println("+----------------------------------------+");
-        System.out.println("| INPUT ENROLLMENT DATE (DD-MM-YYYY):    |");
-        Date enrollmentDate = handleDateInput();
         System.out.println("| INPUT DATE OF BIRTH (DD-MM-YYYY):      |");
         Date dateOfBirth = handleDateInput();
+        System.out.println("| INPUT ENROLLMENT DATE (DD-MM-YYYY):    |");
+        Date enrollmentDate = handleDateInput();
+
+        while (!isValidDates(dateOfBirth, enrollmentDate)) {
+            System.out.println("| INCORRECT DATE (DATE OF BIRTH AFTER ENROLLMENT DATE)                         |");
+            System.out.println("| INPUT DATE OF BIRTH (DD-MM-YYYY):                                            |");
+            dateOfBirth = handleDateInput();
+            System.out.println("| INPUT ENROLLMENT DATE (DD-MM-YYYY):                                          |");
+            enrollmentDate = handleDateInput();
+        }
 
         Student student = new Student(firstName, lastName, email, enrollmentDate, dateOfBirth);
         Faculty faculty = facultyList.get(indexInt - 1);
         faculty.addStudent(student);
     }
 
+    private boolean isValidDates(Date dateOfBirth, Date enrollmentDate) {
+        return !dateOfBirth.after(enrollmentDate);
+    }
+
     private void handleAddStudent(String[] commandsList) {
         Faculty faculty = this.university.getFacultyByName(scanner, commandsList[1]);
-        System.out.println("| ENROLLMENT DATE |");
         Date enrollmentDate = handleDateInput(commandsList[5]);
-        System.out.println("| DATE OF BIRTHDAY |");
         Date dateOfBirth = handleDateInput(commandsList[6]);
+
+        while (!isValidEmail(commandsList[4])) {
+            System.out.println("| INVALID EMAIL! INPUT CORRECT FORMAT                                          |");
+            commandsList[4] = this.scanner.nextLine();
+        }
+
+        while (!isValidDates(dateOfBirth, enrollmentDate)) {
+            System.out.println("| INCORRECT DATE (DATE OF BIRTH AFTER ENROLLMENT DATE)                         |");
+            System.out.println("| INPUT DATE OF BIRTH (DD-MM-YYYY):                                            |");
+            dateOfBirth = handleDateInput();
+            System.out.println("| INPUT ENROLLMENT DATE (DD-MM-YYYY):                                          |");
+            enrollmentDate = handleDateInput();
+        }
 
         Student student = new Student(commandsList[2], commandsList[3], commandsList[4], enrollmentDate, dateOfBirth);
         faculty.addStudent(student);
@@ -312,5 +340,17 @@ public class Handler {
         String sample = scanner.nextLine();
         System.out.println("+---------------------------------------------+");
         return sample;
+    }
+
+   private boolean patternMatches(String emailAddress, String regexPattern) {
+        return Pattern.compile(regexPattern).matcher(emailAddress).matches();
+    }
+
+    private boolean isValidEmail(String email) {
+        boolean isValid;
+        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        isValid = patternMatches(email, regexPattern);
+        return isValid;
     }
 }
