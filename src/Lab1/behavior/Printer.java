@@ -38,7 +38,7 @@ public class Printer {
         System.out.println("+---------------------------------------------+");
     }
 
-     void generalOperationsMenu() {
+    void generalOperationsOptions() {
         System.out.println("| nf - CREATE A NEW FACULTY                                                                        |");
         System.out.println("| nf/<facultyName>/<facultyAbbreviation>/<studyField> - CREATE A NEW FACULTY (FAST COMMAND)        |");
         System.out.println("| sf - SEARCH FACULTY A STUDENT BELONGS TO (BY EMAIL)                                              |");
@@ -50,7 +50,17 @@ public class Printer {
         System.out.println("| q - QUIT MENU                                                                                    |");
         System.out.println("+--------------------------------------------------------------------------------------------------+");
     }
-    
+
+     void generalOperationsMenu() {
+        System.out.println("| GENERAL OPERATIONS:                                                                              |");
+        System.out.println("+--------------------------------------------------------------------------------------------------+");
+        generalOperationsOptions();
+    }
+
+    void helpGeneralMenu() {
+        generalOperationsOptions();
+    }
+
      void printFaculties() {
         System.out.print(university.toString());
         System.out.println("+---------------------------------------------+");
@@ -86,11 +96,11 @@ public class Printer {
         }
         printFaculties(facultyField);
     }
-
-    void facultyOperationsMenu() {
+    void facultyOperationsOptions() {
         System.out.println("| cs - CREATE AND ASSIGN A NEW STUDENT                                                                                             |");
         System.out.println("| cs/<facultyName>/<firstName>/<lastName>/<email>/<enrollmentDate>/<dateOfBirth> - CREATE AND ASSIGN A NEW STUDENT (FAST COMMAND)  |");
         System.out.println("| gs - GRADUATE STUDENT                                                                                                            |");
+        System.out.println("| das - DISPLAY ALL STUDENTS                                                                                                       |");
         System.out.println("| des - DISPLAY ENROLLED STUDENTS                                                                                                  |");
         System.out.println("| dgs - DISPLAY GRADUATED STUDENTS                                                                                                 |");
         System.out.println("| csf - CHECK STUDENT                                                                                                              |");
@@ -101,16 +111,38 @@ public class Printer {
         System.out.println("+----------------------------------------------------------------------------------------------------------------------------------+");
     }
 
+    void facultyOperationsMenu() {
+        System.out.println("| FACULTY OPERATIONS:                                                                                                              |");
+        System.out.println("+----------------------------------------------------------------------------------------------------------------------------------+");
+        facultyOperationsOptions();
+    }
+
     void facultyHelpMenu() {
-        System.out.println("| EXITING MENU...                                                                                                    |");
-        System.out.println("+--------------------------------------------------------------------------------------------------------------------+");
-        choiceStartMenu();
+        facultyOperationsOptions();
     }
 
     public void printAllStudentsInFaculty(Faculty faculty) {
         List<Student> stlist = faculty.getStudents();
         for (int i = 0; i < stlist.size(); i++) {
             System.out.println("Student: " + faculty.getStudents().get(i).toString());
+        }
+    }
+
+    public void printEnrolledStudentsInFaculty(Faculty faculty) {
+        List<Student> stlist = faculty.getStudents();
+        for (Student student : stlist) {
+            if (student.getIsEnrolled()) {
+                System.out.println("Student: " + student);
+            }
+        }
+    }
+
+    public void printGraduatedStudentsInFaculty(Faculty faculty) {
+        List<Student> stlist = faculty.getStudents();
+        for (Student student : stlist) {
+            if (!student.getIsEnrolled()) {
+                System.out.println("Student: " + student);
+            }
         }
     }
 }

@@ -59,7 +59,7 @@ public class Student {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public boolean isEnrolled() {
+    public boolean getIsEnrolled() {
         return this.isEnrolled;
     }
 
@@ -69,13 +69,10 @@ public class Student {
 
     @Override
     public String toString() {
-        return "{" +
-                "First Name: '" + firstName + '\'' +
+        return "First Name: '" + firstName + '\'' +
                 ", Last Name: '" + lastName + '\'' +
                 ", Email: '" + email + '\'' +
                 ", Enrollment Date: " + enrollmentDate +
-                ", Date of Birth: " + dateOfBirth +
-                ", Is Enrolled: " + isEnrolled +
-                '}';
+                ", Date of Birth: " + dateOfBirth;
     }
 }

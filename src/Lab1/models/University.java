@@ -41,6 +41,16 @@ public class University {
         return text.toString();
     }
 
+    public Faculty getFaculty(Scanner scanner) {
+        List<Faculty> facultyList = this.getFacultyList();
+        System.out.println("| CHOOSE FACULTY (INDEX):                |");
+        for (Faculty faculty : facultyList) {
+            System.out.println(facultyList.indexOf(faculty) + 1 + ". " + faculty);
+        }
+        int indexInt = this.getFacultyIndex(scanner);
+        return facultyList.get(indexInt - 1);
+    }
+
     public int getFacultyIndex(Scanner scanner) {
         int indexInt = 0;
         boolean flag = true;
