@@ -38,20 +38,26 @@ public class Handler {
     }
 
     void handleStartMenu() {
+        //this.activeMenu.printer.printMenu
+        //        this.activeMenu.printer.printChoices
+
         String startMenuOption = "";
         while (!startMenuOption.equals("q")) {
             startMenuOption = takeUserInput();
             String[] commandsList = startMenuOption.split("/");
 
+        //    this.activeMenu.handle(commandList[0])
             switch (commandsList[0]) {
-                case "g" -> handleGeneralMenuOption();
+                case "g" -> {
+        //            this.activeMenu = generalMenu
+                    handleGeneralMenuOption();
+                }
                 case "f" -> handleFacultyMenuOption();  // future feature
                 case "q" -> {
                     System.out.println("| EXITING PROGRAM...                          |");
                     System.out.println("+---------------------------------------------+");
                 }
                 case "h" -> printer.helpStartMenu();
-                case "s" -> System.out.println("WIP");  // future feature
                 default -> System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
             }
         }
@@ -135,7 +141,15 @@ public class Handler {
                         System.out.println("| NO STUDENTS FOUND!                          |");
                     }
                 }
-                case "csf" -> System.out.println("WIP");  // future feature
+                case "csf" -> {
+                    Faculty facultyFound = this.university.getFaculty(this.scanner);
+                    if (!facultyFound.getStudents().isEmpty()) {
+                        System.out.println("| FACULTY: " + facultyFound);
+                        handleStudentBelong(facultyFound);
+                    } else {
+                        System.out.println("| NO STUDENTS FOUND!                          |");
+                    }
+                }
                 case "h" -> printer.facultyHelpMenu();
                 case "q" -> {
                     System.out.println("| EXITING MENU...                             |");
@@ -144,6 +158,75 @@ public class Handler {
                 }
                 default -> System.out.println("| INVALID CHOICE! TRY AGAIN:        |");
             }
+        }
+    }
+
+    private int idConversion(String id) {
+        boolean flag = true;
+        Integer idConverted = null;
+        while (flag) {
+            try {
+                idConverted = Integer.parseInt(id);
+                flag = false;
+            } catch (NumberFormatException numberFormatException) {
+                System.out.println("| INVALID ID! INPUT AGAIN:            |");
+                id = this.scanner.nextLine();
+            }
+        }
+        return idConverted;
+    }
+
+    private void handleStudentBelong(Faculty facultyFound) {
+        System.out.println("| CHOOSE SEARCH TYPE:                         |");
+        System.out.println("| id - SEARCH BY ID                           |");
+        System.out.println("| em - SEARCH BY EMAIL                        |");
+        boolean flag = true;
+        while (flag) {
+            String choice = scanner.nextLine();
+            switch (choice) {
+                case "id" -> {
+                    handleStudentBelongId(facultyFound);
+                    flag = false;
+                }
+                case "em" -> {
+                    handleStudentBelongMail(facultyFound);
+                    flag = false;
+                }
+                default -> System.out.println("| INVALID CHOICE! CHOOSE CORRECTLY:           |");
+            }
+        }
+    }
+
+    private void handleStudentBelongId(Faculty facultyFound) {
+        System.out.println("| INPUT ID OF THE STUDENT:                    |");
+        String idString = scanner.nextLine();
+        int id = idConversion(idString);
+        List<Student> studentList = facultyFound.getStudents();
+        boolean flag = false;
+        for (Student student : studentList) {
+            if (student.getId() == id) {
+                System.out.println(student);
+                flag = true;
+            }
+        }
+        if (flag) {
+            System.out.println("STUDENT WITH ID " + id + " NOT FOUND!");
+        }
+    }
+
+    private void handleStudentBelongMail(Faculty facultyFound) {
+        System.out.println("| INPUT EMAIL OF THE STUDENT:                 |");
+        String email = scanner.nextLine();
+        List<Student> studentList = facultyFound.getStudents();
+        boolean flag = false;
+        for (Student student : studentList) {
+            if (student.getEmail().equals(email)) {
+                System.out.println(student);
+                flag = true;
+            }
+        }
+        if (flag) {
+            System.out.println("| STUDENT WITH EMAIL " + email + " NOT FOUND! |");
         }
     }
 
@@ -217,7 +300,7 @@ public class Handler {
         System.out.println("+----------------------------------------+");
         System.out.println("| INPUT STUDENT EMAIL                    |");
         String email = this.scanner.nextLine();
-        while (!isValidEmail(email)) {
+        while (isValidEmail(email)) {
             System.out.println("| INVALID EMAIL! INPUT CORRECT FORMAT    |");
             email = this.scanner.nextLine();
         }
@@ -227,7 +310,7 @@ public class Handler {
         System.out.println("| INPUT ENROLLMENT DATE (DD-MM-YYYY):    |");
         Date enrollmentDate = handleDateInput();
 
-        while (!isValidDates(dateOfBirth, enrollmentDate)) {
+        while (isValidDates(dateOfBirth, enrollmentDate)) {
             System.out.println("| INCORRECT DATE (DATE OF BIRTH AFTER ENROLLMENT DATE)                         |");
             System.out.println("| INPUT DATE OF BIRTH (DD-MM-YYYY):                                            |");
             dateOfBirth = handleDateInput();
@@ -241,7 +324,7 @@ public class Handler {
     }
 
     private boolean isValidDates(Date dateOfBirth, Date enrollmentDate) {
-        return !dateOfBirth.after(enrollmentDate);
+        return dateOfBirth.after(enrollmentDate);
     }
 
     private void handleAddStudent(String[] commandsList) {
@@ -249,12 +332,12 @@ public class Handler {
         Date enrollmentDate = handleDateInput(commandsList[5]);
         Date dateOfBirth = handleDateInput(commandsList[6]);
 
-        while (!isValidEmail(commandsList[4])) {
+        while (isValidEmail(commandsList[4])) {
             System.out.println("| INVALID EMAIL! INPUT CORRECT FORMAT                                          |");
             commandsList[4] = this.scanner.nextLine();
         }
 
-        while (!isValidDates(dateOfBirth, enrollmentDate)) {
+        while (isValidDates(dateOfBirth, enrollmentDate)) {
             System.out.println("| INCORRECT DATE (DATE OF BIRTH AFTER ENROLLMENT DATE)                         |");
             System.out.println("| INPUT DATE OF BIRTH (DD-MM-YYYY):                                            |");
             dateOfBirth = handleDateInput();
@@ -351,6 +434,6 @@ public class Handler {
         String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
         isValid = patternMatches(email, regexPattern);
-        return isValid;
+        return !isValid;
     }
 }

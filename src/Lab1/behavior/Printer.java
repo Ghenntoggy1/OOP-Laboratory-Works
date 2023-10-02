@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Printer {
+    // TODO implement the concept of Abstraction, and create MenuPrinter, HelpPrinter, GeneralPrinter
+    // printMenu
+    // printChoices
     private University university;
     private Scanner scanner;
 
@@ -31,17 +34,17 @@ public class Printer {
      void choiceStartMenu() {
         System.out.println("| g - GENERAL OPERATIONS                      |");
         System.out.println("| f - FACULTY OPERATIONS                      |");
-        System.out.println("| s - STUDENT OPERATIONS                      |");
         System.out.println("| h - HELP                                    |");
         System.out.println("+---------------------------------------------+");
         System.out.println("| q - QUIT PROGRAM                            |");
         System.out.println("+---------------------------------------------+");
     }
 
+    // TODO CONSISTENT NAMING
     void generalOperationsOptions() {
         System.out.println("| nf - CREATE A NEW FACULTY                                                                        |");
         System.out.println("| nf/<facultyName>/<facultyAbbreviation>/<studyField> - CREATE A NEW FACULTY (FAST COMMAND)        |");
-        System.out.println("| sf - SEARCH FACULTY A STUDENT BELONGS TO (BY EMAIL)                                              |");
+        System.out.println("| sf - SEARCH FACULTY A STUDENT BELONGS TO                                                         |");
         System.out.println("| df - DISPLAY UNIVERSITY FACULTIES                                                                |");
         System.out.println("| dff - DISPLAY FACULTIES BELONGING TO A FIELD                                                     |");
         System.out.println("| dff/<studyField> - DISPLAY FACULTIES BELONGING TO A FIELD (FAST COMMAND)                         |");
@@ -104,7 +107,6 @@ public class Printer {
         System.out.println("| des - DISPLAY ENROLLED STUDENTS                                                                                                  |");
         System.out.println("| dgs - DISPLAY GRADUATED STUDENTS                                                                                                 |");
         System.out.println("| csf - CHECK STUDENT                                                                                                              |");
-        System.out.println("| csf/<facultyName> - CHECK STUDENT (FAST COMMAND)                                                                                 |");
         System.out.println("| h - HELP MENU                                                                                                                    |");
         System.out.println("+----------------------------------------------------------------------------------------------------------------------------------+");
         System.out.println("| q - QUIT MENU                                                                                                                    |");

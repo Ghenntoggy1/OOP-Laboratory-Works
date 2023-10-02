@@ -22,6 +22,8 @@ public class AppLoop {
     public void run() {
         printer.startMenu();
         handler.handleStartMenu();
+
+        // vTODO injtergartte wjile loop here
         this.scanner.close();
     }
 }
