@@ -1,24 +1,140 @@
-package Lab1.behavior;
+package Lab1.Menus;
 
+import Lab1.behavior.AppLoop;
+import Lab1.behavior.Printer;
+import Lab1.interfaces.Menu;
 import Lab1.models.Faculty;
 import Lab1.models.Student;
-import Lab1.models.StudyField;
 import Lab1.models.University;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class Handler {
-    private final Printer printer;
-    private final Scanner scanner;
-    private final University university;
-    public Handler(Printer printer, Scanner scanner, University university) {
-        this.printer = printer;
+public class FacultyMenu implements Menu {
+    private Scanner scanner;
+    private University university;
+    private Printer printer;
+    private AppLoop appLoop;
+
+    public FacultyMenu(Scanner scanner, University university, Printer printer, AppLoop appLoop) {
         this.scanner = scanner;
         this.university = university;
+        this.printer = printer;
+        this.appLoop = appLoop;
     }
+
+    @Override
+    public void printMenu() {
+        printGreetings();
+        printChoices();
+    }
+    
+    @Override
+    public void printGreetings() {
+        System.out.println("| FACULTY OPERATIONS:                                                                                                              |");
+        System.out.println("+--------------------------------------------------------------------------------------------------+");
+    }
+
+    @Override
+    public void printChoices() {
+        System.out.println("| cs - CREATE AND ASSIGN A NEW STUDENT                                                                                             |");
+        System.out.println("| cs/<facultyName>/<firstName>/<lastName>/<email>/<enrollmentDate>/<dateOfBirth> - CREATE AND ASSIGN A NEW STUDENT (FAST COMMAND)  |");
+        System.out.println("| gs - GRADUATE STUDENT                                                                                                            |");
+        System.out.println("| das - DISPLAY ALL STUDENTS                                                                                                       |");
+        System.out.println("| des - DISPLAY ENROLLED STUDENTS                                                                                                  |");
+        System.out.println("| dgs - DISPLAY GRADUATED STUDENTS                                                                                                 |");
+        System.out.println("| csf - CHECK STUDENT                                                                                                              |");
+        System.out.println("| h - HELP MENU                                                                                                                    |");
+        System.out.println("+----------------------------------------------------------------------------------------------------------------------------------+");
+        System.out.println("| q - QUIT MENU                                                                                                                    |");
+        System.out.println("+----------------------------------------------------------------------------------------------------------------------------------+");
+    }
+
+    @Override
+    public void printHelp() {
+        System.out.println("| COMMAND LIST:                                                                                    |");
+        printChoices();
+    }
+
+    @Override
+    public void printQuit() {
+        System.out.println("| EXITING MENU...                                                                                                                  |");
+        System.out.println("+--------------------------------------------------------------------------------------------------+");
+    }
+
+    @Override
+    public void printInvalid() {
+        System.out.println("| INVALID CHOICE! TRY AGAIN:                                                                                                       |");
+    }
+
+    @Override
+    public String takeUserInput() {
+        System.out.println("| INPUT CHOICE:                                                                                                                    |");
+        String sample = scanner.nextLine();
+        System.out.println("+--------------------------------------------------------------------------------------------------+");
+        return sample;
+    }
+
+    @Override
+    public void handleInput() {
+        String input = takeUserInput();
+        String[] commandsList = input.split("/");
+        switch (commandsList[0]) {
+            case "cs" -> handleStudentCreate(commandsList);
+            case "gs" -> handleStudentGraduate();
+            case "das" -> {
+                Faculty facultyFound = this.university.getFaculty(this.scanner);
+                if (!facultyFound.getStudents().isEmpty()) {
+                    System.out.println("| FACULTY: " + facultyFound);
+                    printer.printAllStudentsInFaculty(facultyFound);
+                }
+                else {
+                    System.out.println("| NO STUDENTS FOUND!                                                          |");
+                }
+            }
+            case "des" -> {
+                Faculty facultyFound = this.university.getFaculty(this.scanner);
+                if (!facultyFound.getStudents().isEmpty()) {
+                    System.out.println("| FACULTY: " + facultyFound);
+                    printer.printEnrolledStudentsInFaculty(facultyFound);
+                }
+                else {
+                    System.out.println("| NO STUDENTS FOUND!                                                          |");
+                }
+            }
+            case "dgs" -> {
+                Faculty facultyFound = this.university.getFaculty(this.scanner);
+                if (!facultyFound.getStudents().isEmpty()) {
+                    System.out.println("| FACULTY: " + facultyFound);
+                    printer.printGraduatedStudentsInFaculty(facultyFound);
+                }
+                else {
+                    System.out.println("| NO STUDENTS FOUND!                                                          |");
+                }
+            }
+            case "csf" -> {
+                Faculty facultyFound = this.university.getFaculty(this.scanner);
+                if (!facultyFound.getStudents().isEmpty()) {
+                    System.out.println("| FACULTY: " + facultyFound);
+                    handleStudentBelong(facultyFound);
+                } else {
+                    System.out.println("| NO STUDENTS FOUND!                                                          |");
+                }
+            }
+            case "h" -> printHelp();
+            case "q" -> {
+                printQuit();
+                appLoop.activeMenu = new StartMenu(scanner, university, printer, appLoop);
+            }
+            default -> printInvalid();
+        }
+
+    }
+
     private int idConversion(String id) {
         boolean flag = true;
         Integer idConverted = null;
@@ -236,54 +352,7 @@ public class Handler {
         return dateFormatted;
     }
 
-    private void handleAddFaculty() {
-        System.out.println("| INPUT FACULTY NAME:                         |");
-        String facultyName = this.scanner.nextLine();
-        System.out.println("+---------------------------------------------+");
-        System.out.println("| INPUT FACULTY ABBREVIATION:                 |");
-        String facultyAbbreviation = this.scanner.nextLine();
-        System.out.println("+---------------------------------------------+");
-        System.out.println("| CHOOSE FACULTY FIELD:                       |");
-        for (StudyField studyField : StudyField.values()) {
-            System.out.println(studyField.ordinal() + 1 + ". " + studyField);
-        }
-        int indexInt = university.getFacultyFieldIndex(this.scanner);
-        StudyField facultyField = StudyField.values()[indexInt - 1];
-        System.out.println("+---------------------------------------------+");
-        Faculty faculty = new Faculty(facultyName, facultyAbbreviation, facultyField);
-        this.university.addFaculty(faculty);
-    }
-
-    private void handleAddFaculty(String[] commandsList) {
-        boolean flag = true;
-        StudyField facultyField = null;
-        while(flag) {
-            try {
-                facultyField = StudyField.valueOf(commandsList[3]);
-                flag = false;
-            } catch (IllegalArgumentException illegalArgumentException) {
-                System.out.println("| INVALID FACULTY FIELD! INPUT FROM THE LIST: |");
-                for (StudyField studyField : StudyField.values()) {
-                    System.out.println(studyField.ordinal() + 1 + ". " + studyField);
-                }
-                int indexInt = university.getFacultyFieldIndex(this.scanner);
-                facultyField = StudyField.values()[indexInt - 1];
-                commandsList[3] = facultyField.toString();
-            }
-        }
-
-        Faculty faculty = new Faculty(commandsList[1], commandsList[2], facultyField);
-        this.university.addFaculty(faculty);
-    }
-
-    private String takeUserInput() {
-        System.out.println("| INPUT CHOICE:                               |");
-        String sample = scanner.nextLine();
-        System.out.println("+---------------------------------------------+");
-        return sample;
-    }
-
-   private boolean patternMatches(String emailAddress, String regexPattern) {
+    private boolean patternMatches(String emailAddress, String regexPattern) {
         return Pattern.compile(regexPattern).matcher(emailAddress).matches();
     }
 
