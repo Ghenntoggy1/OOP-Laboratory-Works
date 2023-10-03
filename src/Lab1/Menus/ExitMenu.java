@@ -1,8 +1,6 @@
 package Lab1.Menus;
 
-import Lab1.FileManager.FileManager;
 import Lab1.interfaces.Menu;
-import Lab1.models.University;
 
 public class ExitMenu implements Menu {
     @Override

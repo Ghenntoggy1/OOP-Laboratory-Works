@@ -1,5 +1,6 @@
 package Lab1.Menus;
 
+import Lab1.Managers.FileManager;
 import Lab1.behavior.AppLoop;
 import Lab1.behavior.Printer;
 import Lab1.interfaces.Menu;
@@ -13,11 +14,13 @@ public class StartMenu implements Menu {
     private University university;
     private Printer printer;
     private boolean flag = true;
+    private FileManager fileManager;
     public StartMenu(Scanner scanner, University university, Printer printer, AppLoop appLoop) {
         this.scanner = scanner;
         this.university = university;
         this.printer = printer;
         this.appLoop = appLoop;
+        this.fileManager = appLoop.getFileManager();
     }
 
     public void printMenu() {
@@ -39,6 +42,7 @@ public class StartMenu implements Menu {
         System.out.println("| g - GENERAL OPERATIONS                      |");
         System.out.println("| f - FACULTY OPERATIONS                      |");
         System.out.println("| h - HELP                                    |");
+        System.out.println("| r - RESET DATABASES                         |");
         System.out.println("+---------------------------------------------+");
         System.out.println("| q - QUIT PROGRAM                            |");
         System.out.println("+---------------------------------------------+");
@@ -78,6 +82,7 @@ public class StartMenu implements Menu {
                 appLoop.setActiveMenu(new ExitMenu());
             }
             case "h" -> printHelp();
+            case "r" -> appLoop.getFileManager().resetDatabases();
             default -> printInvalid();
         }
     }

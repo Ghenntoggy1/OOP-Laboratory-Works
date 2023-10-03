@@ -1,4 +1,4 @@
-package Lab1.FileManager;
+package Lab1.Managers;
 
 import Lab1.behavior.Handler;
 import Lab1.models.Faculty;
@@ -15,14 +15,15 @@ public class FileManager {
     private static final String UNIVERSITY_FILE = PATH + "university.txt";
     private static final String FACULTY_FILE = PATH + "faculty.txt";
     private static final String STUDENT_FILE = PATH + "student.txt";
-    private static Handler handler;
+    private Handler handler;
+    private University university;
 
-    public FileManager(Handler handler) {
+    public FileManager(Handler handler, University university) {
         this.handler = handler;
+        this.university = university;
     }
 
-    public static University loadUniversityData() {
-        University university = new University();
+    public University loadUniversityData() {
         try (BufferedReader facultiesReader = new BufferedReader(new FileReader(FACULTY_FILE))) {
             String line;
             while ((line = facultiesReader.readLine()) != null) {
@@ -40,8 +41,8 @@ public class FileManager {
                         String firstName = studentData[0].trim();
                         String lastName = studentData[1].trim();
                         String email = studentData[2].trim();
-                        Date enrollmentDate = handler.handleDateInput(studentData[3].trim());
-                        Date birthDate = handler.handleDateInput(studentData[4].trim());
+                        Date enrollmentDate = handler.handleDateReading(studentData[3].trim());
+                        Date birthDate = handler.handleDateReading(studentData[4].trim());
                         boolean isGraduated = Boolean.parseBoolean(studentData[5].trim());
                         Student student = new Student(firstName, lastName, email, enrollmentDate, birthDate);
                         student.setIsEnrolled(isGraduated);
@@ -58,21 +59,40 @@ public class FileManager {
         return university;
     }
 
-    public static void saveUniversityData(University university) {
+    public void saveUniversityData(University university) {
         try {
             FileWriter facultiesFile = new FileWriter(FACULTY_FILE);
             for (Faculty faculty : university.getFacultyList()) {
-                facultiesFile
-                        .write(faculty.getName() + "," + faculty.getAbbreviation() + "," + faculty.getStudyField() + "\n");
+                facultiesFile.write(faculty.getName() + "," + faculty.getAbbreviation() + "," + faculty.getStudyField() + "\n");
                 FileWriter studentsFile = new FileWriter(PATH + faculty.getAbbreviation() + ".txt");
                 for (Student student : faculty.getStudents()) {
-                    studentsFile
-                            .write(student.getFirstName() + "," + student.getLastName() + "," + student.getEmail() + ","
+                    studentsFile.write(student.getFirstName() + "," + student.getLastName() + "," + student.getEmail() + ","
                                     + student.getEnrollmentDate() + "," + student.getDateOfBirth() + "," + student.isEnrolled() + "\n");
                 }
                 studentsFile.close();
             }
             facultiesFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void resetDatabases() {
+        File dataDirectory = new File(PATH);
+        if (dataDirectory.exists() && dataDirectory.isDirectory()) {
+            File[] files = dataDirectory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile() && file.getName().endsWith(".txt")) {
+                        file.delete();
+                    }
+                }
+            }
+        }
+
+        try {
+            FileWriter facultyFile = new FileWriter(FACULTY_FILE);
+            facultyFile.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

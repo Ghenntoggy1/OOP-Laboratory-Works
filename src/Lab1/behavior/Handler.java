@@ -129,4 +129,16 @@ public class Handler {
         isValid = patternMatches(email, regexPattern);
         return !isValid;
     }
+
+    public Date handleDateReading(String dateRead) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+        Date date = null;
+        try {
+            // Parse the original date string
+            date = inputFormat.parse(dateRead);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
 }
