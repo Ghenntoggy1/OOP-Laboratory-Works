@@ -1,7 +1,5 @@
 package Lab1.models;
 
-import jdk.javadoc.doclet.StandardDoclet;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

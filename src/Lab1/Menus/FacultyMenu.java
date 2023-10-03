@@ -1,6 +1,7 @@
 package Lab1.Menus;
 
 import Lab1.behavior.AppLoop;
+import Lab1.behavior.Handler;
 import Lab1.behavior.Printer;
 import Lab1.interfaces.Menu;
 import Lab1.models.Faculty;
@@ -19,18 +20,24 @@ public class FacultyMenu implements Menu {
     private University university;
     private Printer printer;
     private AppLoop appLoop;
+    private Handler handler;
+    private boolean flag = true;
 
     public FacultyMenu(Scanner scanner, University university, Printer printer, AppLoop appLoop) {
         this.scanner = scanner;
         this.university = university;
         this.printer = printer;
         this.appLoop = appLoop;
+        this.handler = appLoop.getHandler();
     }
 
     @Override
     public void printMenu() {
-        printGreetings();
-        printChoices();
+        if (flag) {
+            printGreetings();
+            printChoices();
+        }
+        flag = true;
     }
     
     @Override
@@ -56,6 +63,7 @@ public class FacultyMenu implements Menu {
 
     @Override
     public void printHelp() {
+        flag = false;
         System.out.println("| COMMAND LIST:                                                                                    |");
         printChoices();
     }
@@ -81,159 +89,132 @@ public class FacultyMenu implements Menu {
 
     @Override
     public void handleInput() {
-        String input = takeUserInput();
-        String[] commandsList = input.split("/");
-        switch (commandsList[0]) {
-            case "cs" -> handleStudentCreate(commandsList);
-            case "gs" -> handleStudentGraduate();
-            case "das" -> {
-                Faculty facultyFound = this.university.getFaculty(this.scanner);
-                if (!facultyFound.getStudents().isEmpty()) {
-                    System.out.println("| FACULTY: " + facultyFound);
-                    printer.printAllStudentsInFaculty(facultyFound);
-                }
-                else {
-                    System.out.println("| NO STUDENTS FOUND!                                                          |");
-                }
-            }
-            case "des" -> {
-                Faculty facultyFound = this.university.getFaculty(this.scanner);
-                if (!facultyFound.getStudents().isEmpty()) {
-                    System.out.println("| FACULTY: " + facultyFound);
-                    printer.printEnrolledStudentsInFaculty(facultyFound);
-                }
-                else {
-                    System.out.println("| NO STUDENTS FOUND!                                                          |");
-                }
-            }
-            case "dgs" -> {
-                Faculty facultyFound = this.university.getFaculty(this.scanner);
-                if (!facultyFound.getStudents().isEmpty()) {
-                    System.out.println("| FACULTY: " + facultyFound);
-                    printer.printGraduatedStudentsInFaculty(facultyFound);
-                }
-                else {
-                    System.out.println("| NO STUDENTS FOUND!                                                          |");
-                }
-            }
-            case "csf" -> {
-                Faculty facultyFound = this.university.getFaculty(this.scanner);
-                if (!facultyFound.getStudents().isEmpty()) {
-                    System.out.println("| FACULTY: " + facultyFound);
-                    handleStudentBelong(facultyFound);
-                } else {
-                    System.out.println("| NO STUDENTS FOUND!                                                          |");
-                }
-            }
-            case "h" -> printHelp();
-            case "q" -> {
-                printQuit();
-                appLoop.activeMenu = new StartMenu(scanner, university, printer, appLoop);
-            }
-            default -> printInvalid();
-        }
-
-    }
-
-    private int idConversion(String id) {
         boolean flag = true;
-        Integer idConverted = null;
-        while (flag) {
-            try {
-                idConverted = Integer.parseInt(id);
-                flag = false;
-            } catch (NumberFormatException numberFormatException) {
-                System.out.println("| INVALID ID! INPUT AGAIN:            |");
-                id = this.scanner.nextLine();
-            }
-        }
-        return idConverted;
-    }
-
-    private void handleStudentBelong(Faculty facultyFound) {
-        System.out.println("| CHOOSE SEARCH TYPE:                         |");
-        System.out.println("| id - SEARCH BY ID                           |");
-        System.out.println("| em - SEARCH BY EMAIL                        |");
-        boolean flag = true;
-        while (flag) {
-            String choice = scanner.nextLine();
-            switch (choice) {
-                case "id" -> {
-                    handleStudentBelongId(facultyFound);
+        while(flag) {
+            String input = takeUserInput();
+            String[] commandsList = input.split("/");
+            switch (commandsList[0]) {
+                case "cs" -> handleStudentCreate(commandsList);
+                case "gs" -> handleStudentGraduate();
+                case "das" -> handleDisplayAllStudents();
+                case "des" -> handleDisplayEnrolledStudents();
+                case "dgs" -> handleDisplayGraduatedStudents();
+                case "csf" -> handleCheckStudent();
+                case "h" -> printHelp();
+                case "q" -> {
+                    printQuit();
+                    appLoop.setActiveMenu(new StartMenu(scanner, university, printer, appLoop));
                     flag = false;
                 }
-                case "em" -> {
-                    handleStudentBelongMail(facultyFound);
-                    flag = false;
-                }
-                default -> System.out.println("| INVALID CHOICE! CHOOSE CORRECTLY:           |");
+                default -> printInvalid();
+            }
+        }
+
+    }
+
+    private void handleCheckStudent() {
+        flag = false;
+
+        if (this.university.getFacultyList().isEmpty()) {
+            System.out.println("| NO FACULTIES FOUND!                                                         |");
+        }
+        else {
+            Faculty facultyFound = this.university.getFaculty(this.scanner);
+            if (!facultyFound.getStudents().isEmpty()) {
+                System.out.println("| FACULTY: " + facultyFound);
+                handler.handleStudentBelong(facultyFound);
+            } else {
+                System.out.println("| NO STUDENTS FOUND!                                                          |");
             }
         }
     }
 
-    private void handleStudentBelongId(Faculty facultyFound) {
-        System.out.println("| INPUT ID OF THE STUDENT:                    |");
-        String idString = scanner.nextLine();
-        int id = idConversion(idString);
-        List<Student> studentList = facultyFound.getStudents();
-        boolean flag = false;
-        for (Student student : studentList) {
-            if (student.getId() == id) {
-                System.out.println(student);
-                flag = true;
-            }
+    private void handleDisplayAllStudents() {
+        flag = false;
+
+        if (this.university.getFacultyList().isEmpty()) {
+            System.out.println("| NO FACULTIES FOUND!                                                         |");
         }
-        if (flag) {
-            System.out.println("STUDENT WITH ID " + id + " NOT FOUND!");
+        else {
+            Faculty facultyFound = this.university.getFaculty(this.scanner);
+            if (!facultyFound.getStudents().isEmpty()) {
+                System.out.println("| FACULTY: " + facultyFound);
+                printer.printAllStudentsInFaculty(facultyFound);
+            } else {
+                System.out.println("| NO STUDENTS FOUND!                                                          |");
+            }
         }
     }
 
-    private void handleStudentBelongMail(Faculty facultyFound) {
-        System.out.println("| INPUT EMAIL OF THE STUDENT:                 |");
-        String email = scanner.nextLine();
-        List<Student> studentList = facultyFound.getStudents();
-        boolean flag = false;
-        for (Student student : studentList) {
-            if (student.getEmail().equals(email)) {
-                System.out.println(student);
-                flag = true;
+    private void handleDisplayEnrolledStudents() {
+        flag = false;
+
+        if (this.university.getFacultyList().isEmpty()) {
+            System.out.println("| NO FACULTIES FOUND!                                                         |");
+        }
+        else {
+            Faculty facultyFound = this.university.getFaculty(this.scanner);
+            if (!facultyFound.getStudents().isEmpty()) {
+                System.out.println("| FACULTY: " + facultyFound);
+                printer.printEnrolledStudentsInFaculty(facultyFound);
+            } else {
+                System.out.println("| NO STUDENTS FOUND!                                                          |");
             }
         }
-        if (flag) {
-            System.out.println("| STUDENT WITH EMAIL " + email + " NOT FOUND! |");
+    }
+
+    private void handleDisplayGraduatedStudents() {
+        flag = false;
+
+        if (this.university.getFacultyList().isEmpty()) {
+            System.out.println("| NO FACULTIES FOUND!                                                         |");
+        }
+        else {
+            Faculty facultyFound = this.university.getFaculty(this.scanner);
+            if (!facultyFound.getStudents().isEmpty()) {
+                System.out.println("| FACULTY: " + facultyFound);
+                printer.printGraduatedStudentsInFaculty(facultyFound);
+            } else {
+                System.out.println("| NO STUDENTS FOUND!                                                          |");
+            }
         }
     }
 
     private void handleStudentGraduate() {
-        Faculty faculty = this.university.getFaculty(this.scanner);
+        flag = false;
 
-        List<Student> studentsList = faculty.getStudents();
-        if (!studentsList.isEmpty()) {
-            System.out.println("| CHOOSE STUDENT YOU WANT TO GRADUATE (INDEX): |");
-            System.out.println("| STUDENTS:                                    |");
-            for (int i = 0; i < studentsList.size(); i++) {
-                System.out.println((i + 1) + ". " + studentsList.get(i).toString());
-            }
-            String choice = scanner.nextLine();
-
-            boolean flag = true;
-            Integer index = null;
-
-            while (flag) {
-                try {
-                    index = Integer.parseInt(choice);
-                    flag = false;
-                } catch (NumberFormatException numberFormatException) {
-                    System.out.println("| INVALID INPUT! INPUT AGAIN (INDEX):         |");
-                    choice = this.scanner.nextLine();
-                }
-            }
-            Student graduatedStudent = studentsList.get(index - 1);
-            graduatedStudent.setIsEnrolled(false);
-            System.out.println("| SUCCESS!                                    |");
+        if (this.university.getFacultyList().isEmpty()) {
+            System.out.println("| NO FACULTIES FOUND!                                                         |");
         }
         else {
-            System.out.println("NO STUDENTS FOUND!");
+            Faculty faculty = this.university.getFaculty(this.scanner);
+            List<Student> studentsList = faculty.getStudents();
+            if (!studentsList.isEmpty()) {
+                System.out.println("| CHOOSE STUDENT YOU WANT TO GRADUATE (INDEX): |");
+                System.out.println("| STUDENTS:                                    |");
+                for (int i = 0; i < studentsList.size(); i++) {
+                    System.out.println((i + 1) + ". " + studentsList.get(i).toString());
+                }
+                String choice = scanner.nextLine();
+
+                boolean flag = true;
+                Integer index = null;
+
+                while (flag) {
+                    try {
+                        index = Integer.parseInt(choice);
+                        flag = false;
+                    } catch (NumberFormatException numberFormatException) {
+                        System.out.println("| INVALID INPUT! INPUT AGAIN (INDEX):         |");
+                        choice = this.scanner.nextLine();
+                    }
+                }
+                Student graduatedStudent = studentsList.get(index - 1);
+                graduatedStudent.setIsEnrolled(false);
+                System.out.println("| SUCCESS!                                    |");
+            } else {
+                System.out.println("NO STUDENTS FOUND!");
+            }
         }
     }
 
@@ -274,22 +255,22 @@ public class FacultyMenu implements Menu {
         System.out.println("+----------------------------------------+");
         System.out.println("| INPUT STUDENT EMAIL                    |");
         String email = this.scanner.nextLine();
-        while (isValidEmail(email)) {
+        while (handler.isValidEmail(email)) {
             System.out.println("| INVALID EMAIL! INPUT CORRECT FORMAT    |");
             email = this.scanner.nextLine();
         }
         System.out.println("+----------------------------------------+");
         System.out.println("| INPUT DATE OF BIRTH (DD-MM-YYYY):      |");
-        Date dateOfBirth = handleDateInput();
+        Date dateOfBirth = handler.handleDateInput();
         System.out.println("| INPUT ENROLLMENT DATE (DD-MM-YYYY):    |");
-        Date enrollmentDate = handleDateInput();
+        Date enrollmentDate = handler.handleDateInput();
 
-        while (isValidDates(dateOfBirth, enrollmentDate)) {
+        while (handler.isValidDates(dateOfBirth, enrollmentDate)) {
             System.out.println("| INCORRECT DATE (DATE OF BIRTH AFTER ENROLLMENT DATE)                         |");
             System.out.println("| INPUT DATE OF BIRTH (DD-MM-YYYY):                                            |");
-            dateOfBirth = handleDateInput();
+            dateOfBirth = handler.handleDateInput();
             System.out.println("| INPUT ENROLLMENT DATE (DD-MM-YYYY):                                          |");
-            enrollmentDate = handleDateInput();
+            enrollmentDate = handler.handleDateInput();
         }
 
         Student student = new Student(firstName, lastName, email, enrollmentDate, dateOfBirth);
@@ -297,70 +278,25 @@ public class FacultyMenu implements Menu {
         faculty.addStudent(student);
     }
 
-    private boolean isValidDates(Date dateOfBirth, Date enrollmentDate) {
-        return dateOfBirth.after(enrollmentDate);
-    }
-
     private void handleAddStudent(String[] commandsList) {
         Faculty faculty = this.university.getFacultyByName(scanner, commandsList[1]);
-        Date enrollmentDate = handleDateInput(commandsList[5]);
-        Date dateOfBirth = handleDateInput(commandsList[6]);
+        Date enrollmentDate = handler.handleDateInput(commandsList[5]);
+        Date dateOfBirth = handler.handleDateInput(commandsList[6]);
 
-        while (isValidEmail(commandsList[4])) {
+        while (handler.isValidEmail(commandsList[4])) {
             System.out.println("| INVALID EMAIL! INPUT CORRECT FORMAT                                          |");
             commandsList[4] = this.scanner.nextLine();
         }
 
-        while (isValidDates(dateOfBirth, enrollmentDate)) {
+        while (handler.isValidDates(dateOfBirth, enrollmentDate)) {
             System.out.println("| INCORRECT DATE (DATE OF BIRTH AFTER ENROLLMENT DATE)                         |");
             System.out.println("| INPUT DATE OF BIRTH (DD-MM-YYYY):                                            |");
-            dateOfBirth = handleDateInput();
+            dateOfBirth =  handler.handleDateInput();
             System.out.println("| INPUT ENROLLMENT DATE (DD-MM-YYYY):                                          |");
-            enrollmentDate = handleDateInput();
+            enrollmentDate = handler.handleDateInput();
         }
 
         Student student = new Student(commandsList[2], commandsList[3], commandsList[4], enrollmentDate, dateOfBirth);
         faculty.addStudent(student);
-    }
-
-    private Date handleDateInput() {
-        String dateInput = this.scanner.nextLine();
-
-        return getDate(dateInput);
-    }
-
-    private Date handleDateInput(String dateInput) {
-        return getDate(dateInput);
-    }
-
-    private Date getDate(String dateInput) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        dateFormat.setLenient(false);
-
-        boolean flag = true;
-        Date dateFormatted = null;
-
-        while (flag) {
-            try {
-                dateFormatted = dateFormat.parse(dateInput);
-                flag = false;
-            } catch (ParseException e) {
-                System.out.println("| INVALID DATE! INPUT AGAIN (DD-MM-YYYY):         |");
-                dateInput = this.scanner.nextLine();
-            }
-        }
-        return dateFormatted;
-    }
-
-    private boolean patternMatches(String emailAddress, String regexPattern) {
-        return Pattern.compile(regexPattern).matcher(emailAddress).matches();
-    }
-
-    private boolean isValidEmail(String email) {
-        boolean isValid;
-        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-        isValid = patternMatches(email, regexPattern);
-        return !isValid;
     }
 }

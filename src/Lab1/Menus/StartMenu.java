@@ -12,7 +12,7 @@ public class StartMenu implements Menu {
     private Scanner scanner;
     private University university;
     private Printer printer;
-
+    private boolean flag = true;
     public StartMenu(Scanner scanner, University university, Printer printer, AppLoop appLoop) {
         this.scanner = scanner;
         this.university = university;
@@ -21,18 +21,21 @@ public class StartMenu implements Menu {
     }
 
     public void printMenu() {
-        printGreetings();
-        printChoices();
+        if (flag) {
+            printGreetings();
+            printChoices();
+        }
+        flag = true;
     }
 
     public void printGreetings() {
         System.out.println("+---------------------------------------------+");
         System.out.println("| WELCOME TO TUM's STUDENT MANAGEMENT SYSTEM! |");
+        System.out.println("| WHAT DO YOU WANT TO DO?                     |");
         System.out.println("+---------------------------------------------+");
     }
     @Override
     public void printChoices() {
-        System.out.println("| WHAT DO YOU WANT TO DO?                     |");
         System.out.println("| g - GENERAL OPERATIONS                      |");
         System.out.println("| f - FACULTY OPERATIONS                      |");
         System.out.println("| h - HELP                                    |");
@@ -42,6 +45,7 @@ public class StartMenu implements Menu {
     }
     @Override
     public void printHelp() {
+        flag = false;
         System.out.println("| COMMANDS LIST                               |");
         printChoices();
     }
@@ -67,11 +71,11 @@ public class StartMenu implements Menu {
         String[] commandsList = input.split("/");
 
         switch (commandsList[0]) {
-            case "g" -> appLoop.activeMenu = new GeneralMenu(scanner, university, printer, appLoop);
-            case "f" -> appLoop.activeMenu = new FacultyMenu(scanner, university, printer, appLoop);
+            case "g" -> appLoop.setActiveMenu(new GeneralMenu(scanner, university, printer, appLoop));
+            case "f" -> appLoop.setActiveMenu(new FacultyMenu(scanner, university, printer, appLoop));
             case "q" -> {
                 printQuit();
-                appLoop.activeMenu = new ExitMenu();
+                appLoop.setActiveMenu(new ExitMenu());
             }
             case "h" -> printHelp();
             default -> printInvalid();

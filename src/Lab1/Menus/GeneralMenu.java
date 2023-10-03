@@ -14,6 +14,7 @@ public class GeneralMenu implements Menu {
     private University university;
     private Printer printer;
     private AppLoop appLoop;
+    private boolean flag = true;
     
     public GeneralMenu(Scanner scanner, University university, Printer printer, AppLoop appLoop) {
         this.scanner = scanner;
@@ -32,8 +33,11 @@ public class GeneralMenu implements Menu {
 
     @Override
     public void printMenu() {
-        printGreetings();
-        printChoices();
+        if (flag) {
+            printGreetings();
+            printChoices();
+        }
+        flag = true;
     }
 
     @Override
@@ -58,6 +62,7 @@ public class GeneralMenu implements Menu {
 
     @Override
     public void printHelp() {
+        flag = false;
         System.out.println("| COMMAND LIST:                                                                                    |");
         printChoices();
     }
@@ -83,6 +88,7 @@ public class GeneralMenu implements Menu {
                 System.out.println("| SUCCESS!                                                                                         |");
             }
             case "df" -> {
+                flag = false;
                 if (!this.university.getFacultyList().isEmpty()) {
                     printer.printFaculties();
                 }
@@ -91,6 +97,7 @@ public class GeneralMenu implements Menu {
                 }
             }
             case "dff" -> {
+                flag = false;
                 if (!this.university.getFacultyList().isEmpty()) {
                     handleFacultyDisplay(commandsList2);
                 }
@@ -102,7 +109,7 @@ public class GeneralMenu implements Menu {
             case "h" -> printHelp();
             case "q" -> {
                 printQuit();
-                appLoop.activeMenu = new StartMenu(scanner, university, printer, appLoop);
+                appLoop.setActiveMenu(new StartMenu(scanner, university, printer, appLoop));
             }
             default -> printInvalid();
         }
