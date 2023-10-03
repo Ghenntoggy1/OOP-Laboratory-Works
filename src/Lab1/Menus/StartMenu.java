@@ -40,6 +40,8 @@ public class StartMenu implements Menu {
     public void printChoices() {
         System.out.println("| g - GENERAL OPERATIONS                      |");
         System.out.println("| f - FACULTY OPERATIONS                      |");
+        System.out.println("| bes - BATCH ENROLLMENT OPERATIONS STUDENTS  |");
+        System.out.println("| bgs - BATCH GRADUATION OPERATIONS STUDENTS  |");
         System.out.println("| h - HELP                                    |");
         System.out.println("+---------------------------------------------+");
         System.out.println("| q - QUIT PROGRAM                            |");
@@ -65,6 +67,7 @@ public class StartMenu implements Menu {
     @Override
     public void printInvalid() {
         System.out.println("| INVALID CHOICE! TRY AGAIN:                  |");
+        flag = false;
     }
     @Override
     public void handleInput() {
@@ -79,7 +82,14 @@ public class StartMenu implements Menu {
                 appLoop.setActiveMenu(new ExitMenu());
             }
             case "h" -> printHelp();
-            case "bes" -> appLoop.getBatchManager().batchEnrollStudents();
+            case "bes" -> {
+                flag = false;
+                appLoop.getBatchManager().batchEnrollStudents();
+            }
+            case "bgs" -> {
+                flag = false;
+                appLoop.getBatchManager().batchGraduation();
+            }
             default -> printInvalid();
         }
     }
