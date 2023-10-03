@@ -5,6 +5,7 @@ import Lab1.behavior.Printer;
 import Lab1.interfaces.Menu;
 import Lab1.models.University;
 
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class StartMenu implements Menu {
@@ -78,6 +79,7 @@ public class StartMenu implements Menu {
                 appLoop.setActiveMenu(new ExitMenu());
             }
             case "h" -> printHelp();
+            case "bes" -> appLoop.getBatchManager().batchEnrollStudents();
             default -> printInvalid();
         }
     }

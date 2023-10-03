@@ -73,7 +73,7 @@ public class University {
         return indexInt;
     }
 
-    public Faculty getFacultyByName(Scanner scanner, String facultyName) {  //something wrong
+    public Faculty getFacultyByName(Scanner scanner, String facultyName) {
         boolean flag = true;
 
         Faculty faculty = null;
@@ -127,5 +127,24 @@ public class University {
 
     public List<Faculty> getFacultyList() {
         return facultyList;
+    }
+
+    public Faculty getFacultyByAbbreviation(Scanner scanner, String abbreviation) {
+        boolean flag = true;
+
+        Faculty faculty = null;
+        while (flag) {
+            for (Faculty currFaculty : this.facultyList) {
+                if (currFaculty.getAbbreviation().equals(abbreviation)) {
+                    faculty = currFaculty;
+                    flag = false;
+                    break;
+                }
+            }
+            if (faculty == null) {
+                break;
+            }
+        }
+        return faculty;
     }
 }

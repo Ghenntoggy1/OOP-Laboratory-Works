@@ -1,5 +1,6 @@
 package Lab1.behavior;
 
+import Lab1.Managers.BatchManager;
 import Lab1.Managers.FileManager;
 import Lab1.Menus.ExitMenu;
 import Lab1.Menus.StartMenu;
@@ -15,6 +16,7 @@ public class AppLoop {
     private Menu activeMenu;
     private Handler handler;
     private FileManager fileManager;
+    private BatchManager batchManager;
 
     public AppLoop() {
         this.scanner = new Scanner(System.in);
@@ -23,6 +25,7 @@ public class AppLoop {
         this.activeMenu = new StartMenu(this.scanner, this.university, this.printer, this);
         this.handler = new Handler(this.scanner);
         this.fileManager = new FileManager(this.handler, this.university);
+        this.batchManager = new BatchManager(this.handler, this.university, this.scanner);
     }
 
     public void run() {
@@ -75,5 +78,9 @@ public class AppLoop {
 
     public FileManager getFileManager() {
         return this.fileManager;
+    }
+
+    public BatchManager getBatchManager() {
+        return this.batchManager;
     }
 }

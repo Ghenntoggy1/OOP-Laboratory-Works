@@ -83,7 +83,8 @@ public class FileManager {
             File[] files = dataDirectory.listFiles();
             if (files != null) {
                 for (File file : files) {
-                    if (file.isFile() && file.getName().endsWith(".txt")) {
+                    if (file.isFile() && file.getName().endsWith(".txt") && !file.getName().equals("batchEnrollment.txt")
+                            && !file.getName().equals("batchGraduation.txt")) {
                         file.delete();
                     }
                 }
