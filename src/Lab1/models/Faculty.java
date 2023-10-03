@@ -1,11 +1,12 @@
 package Lab1.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Faculty {
     private String name;
     private String abbreviation;
-    private List<Student> students;
+    private List<Student> students = new ArrayList<>();
     private StudyField studyField;
 
     public Faculty(String name, String abbreviation, StudyField studyField) {

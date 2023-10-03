@@ -1,16 +1,17 @@
 package Lab1.models;
 
-import jdk.javadoc.doclet.StandardDoclet;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class University {
     private List<Faculty> facultyList;
-
+    private List<Student> allStudents;
+    private List<Student> graduated;
     public University() {
         facultyList = new ArrayList<>();
+        allStudents = new ArrayList<>();
+        graduated = new ArrayList<>();
     }
 
     public void addFaculty(Faculty faculty) {
@@ -36,6 +37,68 @@ public class University {
             }
         }
         return text.toString();
+    }
+
+    public Faculty getFaculty(Scanner scanner) {
+        List<Faculty> facultyList = this.getFacultyList();
+        System.out.println("| CHOOSE FACULTY (INDEX):                |");
+        for (Faculty faculty : facultyList) {
+            System.out.println(facultyList.indexOf(faculty) + 1 + ". " + faculty);
+        }
+        int indexInt = this.getFacultyIndex(scanner);
+        return facultyList.get(indexInt - 1);
+    }
+
+    public int getFacultyIndex(Scanner scanner) {
+        int indexInt = 0;
+        boolean flag = true;
+
+        while (flag) {
+            try {
+                String index = scanner.nextLine();
+                indexInt = Integer.parseInt(index);
+
+                flag = false;
+                if (indexInt > facultyList.size() || indexInt <= 0) {
+                    System.out.println("| INVALID CHOICE OF FACULTY! CHOOSE FROM BELOW (INDEX): |");
+                    for (Faculty faculty : facultyList) {
+                        System.out.println(facultyList.indexOf(faculty) + 1 + ". " + faculty);
+                    }
+                    flag = true;
+                }
+            } catch (NumberFormatException numberFormatException) {
+                System.out.println("| INVALID CHOICE OF FACULTY! CHOOSE FROM BELOW (INDEX): |");
+                for (Faculty faculty : facultyList) {
+                    System.out.println(facultyList.indexOf(faculty) + 1 + ". " + faculty);
+                }
+            }
+        }
+        return indexInt;
+    }
+
+    public Faculty getFacultyByName(Scanner scanner, String facultyName) {  //something wrong
+        boolean flag = true;
+
+        Faculty faculty = null;
+        while (flag) {
+            for (Faculty currFaculty : this.facultyList) {
+                if (currFaculty.getName().equals(facultyName)) {
+                    faculty = currFaculty;
+                    flag = false;
+                    break;
+                }
+            }
+            if (faculty == null) {
+                System.out.println("| INVALID CHOICE OF FACULTY! CHOOSE FROM BELOW (INDEX): |");
+                for (Faculty currFaculty2 : facultyList) {
+                    System.out.println(facultyList.indexOf(currFaculty2) + 1 + ". " + currFaculty2);
+                }
+                int index = getFacultyIndex(scanner);
+                faculty = facultyList.get(index - 1);
+                flag = false;
+            }
+        }
+        return faculty;
     }
 
     public int getFacultyFieldIndex(Scanner scanner) {
@@ -64,4 +127,25 @@ public class University {
         }
         return indexInt;
     }
+
+    public List<Faculty> getFacultyList() {
+        return facultyList;
+    }
+
+    public void setAllStudents(List<Student> allStudents) {
+        this.allStudents = allStudents;
+    }
+
+    public List<Student> getAllStudents() {
+        return allStudents;
+    }
+
+    public List<Student> getGraduated() {
+        return graduated;
+    }
+
+    public void setGraduated(List<Student> graduated) {
+        this.graduated = graduated;
+    }
+
 }
