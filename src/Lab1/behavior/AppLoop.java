@@ -39,7 +39,29 @@ public class AppLoop {
             activeMenu.printMenu();
             activeMenu.handleInput();
         }
-        fileManager.saveUniversityData(university);
+
+        System.out.println("+------------------------------------+");
+        System.out.println("| DO YOU WANT TO SAVE OR RESET DATA? |");
+        System.out.println("| 1. SAVE                            |");
+        System.out.println("| 2. RESET                           |");
+        System.out.println("+------------------------------------+");
+        System.out.println("| INPUT CHOICE:                      |");
+        boolean flag = true;
+        while (flag) {
+            String input = scanner.nextLine();
+            switch (input) {
+                case "1", "S", "s" -> {
+                    fileManager.saveUniversityData(university);
+                    flag = false;
+                }
+                case "2", "R", "r" -> {
+                    fileManager.resetDatabases();
+                    flag = false;
+                }
+                default -> System.out.println("| INVALID CHOICE! TRY AGAIN:         |");
+            }
+        }
+        this.activeMenu.printQuit();
         this.scanner.close();
     }
 

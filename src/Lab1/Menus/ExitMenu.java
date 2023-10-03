@@ -9,9 +9,7 @@ public class ExitMenu implements Menu {
     }
 
     @Override
-    public String takeUserInput() {
-        return null;
-    }
+    public String takeUserInput() { return null; }
 
     @Override
     public void printMenu() {
@@ -30,7 +28,8 @@ public class ExitMenu implements Menu {
 
     @Override
     public void printQuit() {
-
+        System.out.println("| EXITING PROGRAM...                 |");
+        System.out.println("+------------------------------------+");
     }
 
     @Override

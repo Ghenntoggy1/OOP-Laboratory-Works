@@ -134,7 +134,6 @@ public class Handler {
         SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
         Date date = null;
         try {
-            // Parse the original date string
             date = inputFormat.parse(dateRead);
         } catch (ParseException e) {
             e.printStackTrace();
