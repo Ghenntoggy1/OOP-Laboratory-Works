@@ -144,7 +144,7 @@ public class GeneralMenu implements Menu {
         for (StudyField studyField : StudyField.values()) {
             System.out.println(studyField.ordinal() + 1 + ". " + studyField);
         }
-        int indexInt = university.getFacultyFieldIndex(this.scanner);
+        int indexInt = this.university.getFacultyFieldIndex(this.scanner);
         StudyField facultyField = StudyField.values()[indexInt - 1];
         System.out.println("+---------------------------------------------------------------------------------------------------+");
         Faculty faculty = new Faculty(facultyName, facultyAbbreviation, facultyField);

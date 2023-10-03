@@ -10,8 +10,8 @@ public class Student {
     private Date dateOfBirth;
     private int id;
     private static int nextId = 1;
-
     private boolean isEnrolled;
+
     public Student(String firstName, String lastName, String email, Date enrollmentDate, Date dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,7 +20,6 @@ public class Student {
         this.dateOfBirth = dateOfBirth;
         this.isEnrolled = true;
         this.id = nextId++;
-
     }
 
     public boolean getIsEnrolled() {
@@ -51,5 +50,25 @@ public class Student {
                 ", Email: '" + email + '\'' +
                 ", Enrollment Date: " + enrollmentDate +
                 ", Date of Birth: " + dateOfBirth;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Date getEnrollmentDate() {
+        return enrollmentDate;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public boolean isEnrolled() {
+        return isEnrolled;
     }
 }

@@ -147,4 +147,5 @@ public class University {
     public void setGraduated(List<Student> graduated) {
         this.graduated = graduated;
     }
+
 }
