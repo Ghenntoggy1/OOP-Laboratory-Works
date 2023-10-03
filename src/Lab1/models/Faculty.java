@@ -19,16 +19,8 @@ public class Faculty {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getAbbreviation() {
         return abbreviation;
-    }
-
-    public void setAbbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
     }
 
     public List<Student> getStudents() {
@@ -41,10 +33,6 @@ public class Faculty {
 
     public StudyField getStudyField() {
         return studyField;
-    }
-
-    public void setStudyField(StudyField studyField) {
-        this.studyField = studyField;
     }
 
     public void addStudent(Student student) {

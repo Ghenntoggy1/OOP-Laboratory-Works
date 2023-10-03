@@ -6,12 +6,9 @@ import java.util.Scanner;
 
 public class University {
     private List<Faculty> facultyList;
-    private List<Student> allStudents;
-    private List<Student> graduated;
+
     public University() {
         facultyList = new ArrayList<>();
-        allStudents = new ArrayList<>();
-        graduated = new ArrayList<>();
     }
 
     public void addFaculty(Faculty faculty) {
@@ -76,7 +73,7 @@ public class University {
         return indexInt;
     }
 
-    public Faculty getFacultyByName(Scanner scanner, String facultyName) {  //something wrong
+    public Faculty getFacultyByName(Scanner scanner, String facultyName) {
         boolean flag = true;
 
         Faculty faculty = null;
@@ -132,20 +129,22 @@ public class University {
         return facultyList;
     }
 
-    public void setAllStudents(List<Student> allStudents) {
-        this.allStudents = allStudents;
-    }
+    public Faculty getFacultyByAbbreviation(Scanner scanner, String abbreviation) {
+        boolean flag = true;
 
-    public List<Student> getAllStudents() {
-        return allStudents;
+        Faculty faculty = null;
+        while (flag) {
+            for (Faculty currFaculty : this.facultyList) {
+                if (currFaculty.getAbbreviation().equals(abbreviation)) {
+                    faculty = currFaculty;
+                    flag = false;
+                    break;
+                }
+            }
+            if (faculty == null) {
+                break;
+            }
+        }
+        return faculty;
     }
-
-    public List<Student> getGraduated() {
-        return graduated;
-    }
-
-    public void setGraduated(List<Student> graduated) {
-        this.graduated = graduated;
-    }
-
 }

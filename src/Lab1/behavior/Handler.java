@@ -52,6 +52,116 @@ public class Handler {
         }
     }
 
+    public void handleStudentBelongGeneral(University university, String[] commandsList) {
+        boolean flag = true;
+
+        while (flag) {
+            String choice = commandsList[1];
+            switch (choice) {
+                case "id" -> {
+                    boolean isFound = false;
+                    int id = idConversion(commandsList[2]);
+                    for (Faculty faculty : university.getFacultyList()) {
+                        if (!faculty.getStudents().isEmpty()) {
+                            for (Student student : faculty.getStudents()) {
+                                if (student.getId() == id) {
+                                    System.out.println("STUDENT: " + student + "\nBELONGS TO: " + faculty);
+                                    isFound = true;
+                                }
+                            }
+                        }
+                        else {
+                            System.out.println("| NO STUDENTS FOUND!                                                                               |");
+                        }
+                    }
+                    if (!isFound) {
+                        System.out.println("| NO STUDENT WITH ID: " + id + " HAS BEEN FOUND!                                                       |");
+                    }
+                    flag = false;
+                }
+                case "em" -> {
+                    boolean isFound = false;
+                    String email = commandsList[2];
+                    while (isValidEmail(email)) {
+                        System.out.println("| INVALID EMAIL! INPUT CORRECT FORMAT    |");
+                        email = this.scanner.nextLine();
+                    }
+                    for (Faculty faculty : university.getFacultyList()) {
+                        if (!faculty.getStudents().isEmpty()) {
+                            for (Student student : faculty.getStudents()) {
+                                if (student.getEmail().equals(email)) {
+                                    System.out.println("STUDENT: " + student + "\nBELONGS TO: " + faculty);
+                                    isFound = true;
+                                }
+                            }
+                        }
+                        else {
+                            System.out.println("| NO STUDENTS FOUND!                                                                               |");
+                        }
+                    }
+                    if (!isFound) {
+                        System.out.println("| NO STUDENT WITH EMAIL: " + email + " HAS BEEN FOUND!                                                 |");
+                    }
+                    flag = false;
+                }
+                default -> System.out.println("| INVALID CHOICE! CHOOSE CORRECTLY:           |");
+            }
+        }
+    }
+
+    public void handleStudentBelongGeneral(University university) {
+        boolean flag = true;
+
+        while (flag) {
+            System.out.println("| CHOOSE SEARCH TYPE:                         |");
+            System.out.println("| id - SEARCH BY ID                           |");
+            System.out.println("| em - SEARCH BY EMAIL                        |");
+            String choice = scanner.nextLine();
+            switch (choice) {
+                case "id" -> {
+                    System.out.println("| INPUT ID OF THE STUDENT:                    |");
+                    String idString = scanner.nextLine();
+                    int id = idConversion(idString);
+                    for (Faculty faculty : university.getFacultyList()) {
+                        if (!faculty.getStudents().isEmpty()) {
+                            for (Student student : faculty.getStudents()) {
+                                if (student.getId() == id) {
+                                    System.out.println("STUDENT: " + student + "\nBELONGS TO: " + faculty);
+                                }
+                            }
+                        }
+                        else {
+                            System.out.println("| NO STUDENTS FOUND!                                                                               |");
+                        }
+                    }
+                    flag = false;
+                }
+                case "em" -> {
+                    System.out.println("| INPUT EMAIL OF THE STUDENT:                 |");
+                    String email = this.scanner.nextLine();
+                    while (isValidEmail(email)) {
+                        System.out.println("| INVALID EMAIL! INPUT CORRECT FORMAT    |");
+                        email = this.scanner.nextLine();
+                    }
+                    for (Faculty faculty : university.getFacultyList()) {
+                        if (!faculty.getStudents().isEmpty()) {
+                            for (Student student : faculty.getStudents()) {
+                                if (student.getEmail().equals(email)) {
+                                    System.out.println("STUDENT: " + student + "\nBELONGS TO: " + faculty);
+                                }
+                            }
+                        }
+                        else {
+                            System.out.println("| NO STUDENTS FOUND!                                                                               |");
+                        }
+                    }
+                    flag = false;
+                }
+                default -> System.out.println("| INVALID CHOICE! CHOOSE CORRECTLY:           |");
+            }
+        }
+    }
+
     private void handleStudentBelongId(Faculty facultyFound) {
         System.out.println("| INPUT ID OF THE STUDENT:                    |");
         String idString = scanner.nextLine();
@@ -134,7 +244,6 @@ public class Handler {
         SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
         Date date = null;
         try {
-            // Parse the original date string
             date = inputFormat.parse(dateRead);
         } catch (ParseException e) {
             e.printStackTrace();
