@@ -1,9 +1,11 @@
 package Lab1.Menus;
 
 import Lab1.behavior.AppLoop;
+import Lab1.behavior.Handler;
 import Lab1.behavior.Printer;
 import Lab1.interfaces.Menu;
 import Lab1.models.Faculty;
+import Lab1.models.Student;
 import Lab1.models.StudyField;
 import Lab1.models.University;
 
@@ -15,12 +17,14 @@ public class GeneralMenu implements Menu {
     private Printer printer;
     private AppLoop appLoop;
     private boolean flag = true;
-    
+    private Handler handler;
+
     public GeneralMenu(Scanner scanner, University university, Printer printer, AppLoop appLoop) {
         this.scanner = scanner;
         this.university = university;
         this.printer = printer;
         this.appLoop = appLoop;
+        this.handler = appLoop.getHandler();
     }
 
     @Override
@@ -51,6 +55,8 @@ public class GeneralMenu implements Menu {
         System.out.println("| nf - CREATE A NEW FACULTY                                                                        |");
         System.out.println("| nf/<facultyName>/<facultyAbbreviation>/<studyField> - CREATE A NEW FACULTY (FAST COMMAND)        |");
         System.out.println("| sf - SEARCH FACULTY A STUDENT BELONGS TO                                                         |");
+        System.out.println("| sf/id/<idValue> - SEARCH FACULTY A STUDENT BELONGS TO BY ID (FAST COMMAND)                       |");
+        System.out.println("| sf/em/<email> - SEARCH FACULTY A STUDENT BELONGS TO BY EMAIL (FAST COMMAND)                      |");
         System.out.println("| df - DISPLAY UNIVERSITY FACULTIES                                                                |");
         System.out.println("| dff - DISPLAY FACULTIES BELONGING TO A FIELD                                                     |");
         System.out.println("| dff/<studyField> - DISPLAY FACULTIES BELONGING TO A FIELD (FAST COMMAND)                         |");
@@ -81,10 +87,10 @@ public class GeneralMenu implements Menu {
     @Override
     public void handleInput() {
         String input = takeUserInput();
-        String[] commandsList2 = input.split("/");
-        switch (commandsList2[0]) {
+        String[] commandsList = input.split("/");
+        switch (commandsList[0]) {
             case "nf" -> {
-                handleFacultyCreate(commandsList2);
+                handleFacultyCreate(commandsList);
                 System.out.println("| SUCCESS!                                                                                         |");
             }
             case "df" -> {
@@ -99,19 +105,48 @@ public class GeneralMenu implements Menu {
             case "dff" -> {
                 flag = false;
                 if (!this.university.getFacultyList().isEmpty()) {
-                    handleFacultyDisplay(commandsList2);
+                    handleFacultyDisplay(commandsList);
                 }
                 else {
                     System.out.println("| FACULTIES NOT FOUND!                                                                             |");
                 }
             }
-            case "sf" -> System.out.println("WIP");  // future feature
+            case "sf" -> handleStudentSearchOption(commandsList);
             case "h" -> printHelp();
             case "q" -> {
                 printQuit();
                 appLoop.setActiveMenu(new StartMenu(scanner, university, printer, appLoop));
             }
             default -> printInvalid();
+        }
+    }
+
+    private void handleStudentSearch(String[] commandsList) {
+        flag = false;
+        if (this.university.getFacultyList().isEmpty()) {
+            System.out.println("| NO FACULTIES FOUND!                                                                              |");
+        }
+        else {
+            handler.handleStudentBelongGeneral(this.university, commandsList);
+        }
+    }
+
+    private void handleStudentSearch() {
+        flag = false;
+        if (this.university.getFacultyList().isEmpty()) {
+            System.out.println("| NO FACULTIES FOUND!                                                                              |");
+        }
+        else {
+            handler.handleStudentBelongGeneral(this.university);
+        }
+    }
+
+    private void handleStudentSearchOption(String[] commandsList) {
+        if (commandsList.length == 3) {
+            handleStudentSearch(commandsList);
+        }
+        else {
+            handleStudentSearch();
         }
     }
 

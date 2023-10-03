@@ -1,0 +1,2 @@
+Calculatoare,clc,SOFTWARE_ENGINEERING
+Microelectronica,mcr,SOFTWARE_ENGINEERING

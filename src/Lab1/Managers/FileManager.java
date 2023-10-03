@@ -12,9 +12,7 @@ import java.util.Date;
 
 public class FileManager {
     private static final String PATH = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab1\\DataBases\\";
-    private static final String UNIVERSITY_FILE = PATH + "university.txt";
     private static final String FACULTY_FILE = PATH + "faculty.txt";
-    private static final String STUDENT_FILE = PATH + "student.txt";
     private Handler handler;
     private University university;
 
@@ -38,14 +36,16 @@ public class FileManager {
                     String studentLine;
                     while ((studentLine = studentsReader.readLine()) != null) {
                         String[] studentData = studentLine.split(",");
-                        String firstName = studentData[0].trim();
-                        String lastName = studentData[1].trim();
-                        String email = studentData[2].trim();
-                        Date enrollmentDate = handler.handleDateReading(studentData[3].trim());
-                        Date birthDate = handler.handleDateReading(studentData[4].trim());
-                        boolean isGraduated = Boolean.parseBoolean(studentData[5].trim());
+                        int studentId = Integer.parseInt(studentData[0].trim());
+                        String firstName = studentData[1].trim();
+                        String lastName = studentData[2].trim();
+                        String email = studentData[3].trim();
+                        Date enrollmentDate = handler.handleDateReading(studentData[4].trim());
+                        Date birthDate = handler.handleDateReading(studentData[5].trim());
+                        boolean isGraduated = Boolean.parseBoolean(studentData[6].trim());
                         Student student = new Student(firstName, lastName, email, enrollmentDate, birthDate);
                         student.setIsEnrolled(isGraduated);
+                        student.setId(studentId);
                         students.add(student);
                     }
                 }
@@ -66,7 +66,7 @@ public class FileManager {
                 facultiesFile.write(faculty.getName() + "," + faculty.getAbbreviation() + "," + faculty.getStudyField() + "\n");
                 FileWriter studentsFile = new FileWriter(PATH + faculty.getAbbreviation() + ".txt");
                 for (Student student : faculty.getStudents()) {
-                    studentsFile.write(student.getFirstName() + "," + student.getLastName() + "," + student.getEmail() + ","
+                    studentsFile.write(student.getId() + ", " + student.getFirstName() + "," + student.getLastName() + "," + student.getEmail() + ","
                                     + student.getEnrollmentDate() + "," + student.getDateOfBirth() + "," + student.isEnrolled() + "\n");
                 }
                 studentsFile.close();
