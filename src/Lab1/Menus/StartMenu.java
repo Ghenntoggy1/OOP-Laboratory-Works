@@ -79,16 +79,18 @@ public class StartMenu implements Menu {
             case "f" -> appLoop.setActiveMenu(new FacultyMenu(scanner, university, printer, appLoop));
             case "q" -> {
                 printQuit();
-                appLoop.setActiveMenu(new ExitMenu());
+                appLoop.setActiveMenu(new ExitMenu(scanner, university, printer, appLoop));
             }
             case "h" -> printHelp();
             case "bes" -> {
                 flag = false;
                 appLoop.getBatchManager().batchEnrollStudents();
+                appLoop.getLogger().saveBatchEnrollment();
             }
             case "bgs" -> {
                 flag = false;
                 appLoop.getBatchManager().batchGraduation();
+                appLoop.getLogger().saveBatchGraduation();
             }
             default -> printInvalid();
         }

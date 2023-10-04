@@ -1,3 +1,0 @@
-Calculatoare,clc,SOFTWARE_ENGINEERING
-Animale,anm,VETERINARY_MEDICINE
-Microelectronica,mcr,SOFTWARE_ENGINEERING

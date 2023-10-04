@@ -73,13 +73,13 @@ public class University {
         return indexInt;
     }
 
-    public Faculty getFacultyByName(Scanner scanner, String facultyName) {
+    public Faculty getFacultyByName(Scanner scanner, String facultyAbbrev) {
         boolean flag = true;
 
         Faculty faculty = null;
         while (flag) {
             for (Faculty currFaculty : this.facultyList) {
-                if (currFaculty.getName().equals(facultyName)) {
+                if (currFaculty.getAbbreviation().equals(facultyAbbrev)) {
                     faculty = currFaculty;
                     flag = false;
                     break;

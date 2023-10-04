@@ -1,3 +1,5 @@
-John,Doe,johndoe@example.com,01-01-2023,15-05-2000,false,clc
+John,Doe,johndoe@example.com,01-01-2023,15-05-2000,true,clc
 Alice,Smith,alicesmith@example.com,15-02-2023,20-04-2001,true,anm
 Bob,Johnson,bobjohnson@example.com,10-03-2023,12-07-2002,false,mcr
+John,Alex,alex@gmail.com,10-02-2022,02-02-2004,true,art
+Gusev,Roman,roman@mail.ru,29-05-2021,01-02-2004,true,gh

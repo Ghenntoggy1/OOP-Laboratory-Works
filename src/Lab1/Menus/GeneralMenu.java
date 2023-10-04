@@ -1,11 +1,11 @@
 package Lab1.Menus;
 
+import Lab1.Managers.Logger;
 import Lab1.behavior.AppLoop;
 import Lab1.behavior.Handler;
 import Lab1.behavior.Printer;
 import Lab1.interfaces.Menu;
 import Lab1.models.Faculty;
-import Lab1.models.Student;
 import Lab1.models.StudyField;
 import Lab1.models.University;
 
@@ -18,6 +18,7 @@ public class GeneralMenu implements Menu {
     private AppLoop appLoop;
     private boolean flag = true;
     private Handler handler;
+    private Logger logger;
 
     public GeneralMenu(Scanner scanner, University university, Printer printer, AppLoop appLoop) {
         this.scanner = scanner;
@@ -25,6 +26,7 @@ public class GeneralMenu implements Menu {
         this.printer = printer;
         this.appLoop = appLoop;
         this.handler = appLoop.getHandler();
+        this.logger = appLoop.getLogger();
     }
 
     @Override
@@ -184,6 +186,7 @@ public class GeneralMenu implements Menu {
         System.out.println("+---------------------------------------------------------------------------------------------------+");
         Faculty faculty = new Faculty(facultyName, facultyAbbreviation, facultyField);
         this.university.addFaculty(faculty);
+        logger.saveCreateFaculty(faculty);
     }
 
     private void handleAddFaculty(String[] commandsList) {
@@ -206,5 +209,6 @@ public class GeneralMenu implements Menu {
 
         Faculty faculty = new Faculty(commandsList[1], commandsList[2], facultyField);
         this.university.addFaculty(faculty);
+        logger.saveCreateFaculty(faculty);
     }
 }

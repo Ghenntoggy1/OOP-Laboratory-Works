@@ -2,7 +2,6 @@ package Lab1.behavior;
 
 import Lab1.models.Faculty;
 import Lab1.models.Student;
-import Lab1.models.StudyField;
 import Lab1.models.University;
 
 import java.text.ParseException;
@@ -70,9 +69,6 @@ public class Handler {
                                 }
                             }
                         }
-                        else {
-                            System.out.println("| NO STUDENTS FOUND!                                                                               |");
-                        }
                     }
                     if (!isFound) {
                         System.out.println("| NO STUDENT WITH ID: " + id + " HAS BEEN FOUND!                                                       |");
@@ -94,9 +90,6 @@ public class Handler {
                                     isFound = true;
                                 }
                             }
-                        }
-                        else {
-                            System.out.println("| NO STUDENTS FOUND!                                                                               |");
                         }
                     }
                     if (!isFound) {

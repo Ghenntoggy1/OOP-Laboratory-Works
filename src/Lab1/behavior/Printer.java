@@ -11,10 +11,12 @@ import java.util.Scanner;
 public class Printer {
     private University university;
     private Scanner scanner;
+
     public Printer(University university, Scanner scanner) {
         this.university = university;
         this.scanner = scanner;
     }
+
     public void printFaculties() {
         System.out.print(university.toString());
         System.out.println("+---------------------------------------------+");

@@ -11,22 +11,22 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.HashSet;
 
 public class BatchManager {
     private Handler handler;
     private University university;
     private Scanner scanner;
+    private Logger logger;
 
     private static final String PATH = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab1\\DataBases\\";
     private static final String BATCH_ENROLLMENT_FILE_PATH = PATH + "batchEnrollment.txt";
     private static final String BATCH_GRADUATION_FILE_PATH = PATH + "batchGraduation.txt";
 
-    public BatchManager(Handler handler, University university, Scanner scanner) {
+    public BatchManager(Handler handler, University university, Scanner scanner, Logger logger) {
         this.handler = handler;
         this.university = university;
         this.scanner = scanner;
+        this.logger = logger;
     }
 
     public void batchEnrollStudents() {
@@ -57,6 +57,7 @@ public class BatchManager {
                             boolean isDuplicate = false;
                             for (Student existingStudent : faculty.getStudents()) {
                                 if (existingStudent.getEmail().equalsIgnoreCase(email)) {
+                                    logger.saveAddStudentDuplicate();
                                     System.out.println("| FOR STUDENT: " + firstName + " " + lastName + " ALREADY ENROLLED IN THIS FACULTY! |");
                                     isDuplicate = true;
                                     break;
@@ -64,9 +65,11 @@ public class BatchManager {
                             }
                             if (!isDuplicate) {
                                 faculty.addStudent(student);
+                                logger.saveAddStudent(student);
                                 System.out.println("| FOR STUDENT: " + firstName + " " + lastName + " FACULTY FOUND! + " + faculty.getAbbreviation() + " |");
                             }
                         } else {
+                            logger.saveFacultyForStudent();
                             System.out.println("| FOR STUDENT: " + firstName + " " + lastName + " FACULTY NOT FOUND! |");
                         }
                     }
@@ -76,6 +79,7 @@ public class BatchManager {
             }
         }
         else {
+            logger.saveBatchFail(1);
             System.out.println("| BATCH FAILED! NO FACULTIES FOUND!           |");
         }
     }
@@ -87,8 +91,12 @@ public class BatchManager {
                 while ((line = graduationReader.readLine()) != null) {
                     try {
                         int studentId = Integer.parseInt(line.trim());
-                        performGraduation(studentId);
-                        System.out.println("| STUDENT WITH ID: " + studentId + " IS GRADUATED |");
+                        if (performGraduation(studentId)) {
+                            System.out.println("| STUDENT WITH ID: " + studentId + " IS GRADUATED |");
+                        }
+                        else {
+                            System.out.println("| STUDENT WITH ID: " + studentId + " NOT FOUND    |");
+                        }
                     } catch (NumberFormatException e) {
                         System.out.println("| INVALID ID IN BATCH FILE! " + line + " |");
                     }
@@ -98,20 +106,22 @@ public class BatchManager {
             }
         }
         else {
+            logger.saveBatchFail(2);
             System.out.println("| BATCH FAILED! NO FACULTIES FOUND!           |");
         }
     }
 
-    private void performGraduation(int studentId) {
+    private boolean performGraduation(int studentId) {
         for (Faculty faculty : university.getFacultyList()) {
             List<Student> students = faculty.getStudents();
             for (Student student : students) {
                 if (student.getId() == studentId) {
                     student.setIsEnrolled(false);
-                    return;
+                    logger.saveGraduateStudent(student);
+                    return true;
                 }
             }
         }
-        System.out.println("| STUDENT WITH ID: " + studentId + " NOT FOUND! |");
+        return false;
     }
 }

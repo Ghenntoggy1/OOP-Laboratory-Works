@@ -1,5 +1,6 @@
 package Lab1.Menus;
 
+import Lab1.Managers.Logger;
 import Lab1.behavior.AppLoop;
 import Lab1.behavior.Handler;
 import Lab1.behavior.Printer;
@@ -22,6 +23,7 @@ public class FacultyMenu implements Menu {
     private AppLoop appLoop;
     private Handler handler;
     private boolean flag = true;
+    private Logger logger;
 
     public FacultyMenu(Scanner scanner, University university, Printer printer, AppLoop appLoop) {
         this.scanner = scanner;
@@ -29,6 +31,7 @@ public class FacultyMenu implements Menu {
         this.printer = printer;
         this.appLoop = appLoop;
         this.handler = appLoop.getHandler();
+        this.logger = appLoop.getLogger();
     }
 
     @Override
@@ -42,48 +45,48 @@ public class FacultyMenu implements Menu {
     
     @Override
     public void printGreetings() {
-        System.out.println("| FACULTY OPERATIONS:                                                                                                              |");
-        System.out.println("+--------------------------------------------------------------------------------------------------+");
+        System.out.println("| FACULTY OPERATIONS:                                                                                                                      |");
+        System.out.println("+------------------------------------------------------------------------------------------------------------------------------------------+");
     }
 
     @Override
     public void printChoices() {
-        System.out.println("| cs - CREATE AND ASSIGN A NEW STUDENT                                                                                             |");
-        System.out.println("| cs/<facultyName>/<firstName>/<lastName>/<email>/<enrollmentDate>/<dateOfBirth> - CREATE AND ASSIGN A NEW STUDENT (FAST COMMAND)  |");
-        System.out.println("| gs - GRADUATE STUDENT                                                                                                            |");
-        System.out.println("| das - DISPLAY ALL STUDENTS                                                                                                       |");
-        System.out.println("| des - DISPLAY ENROLLED STUDENTS                                                                                                  |");
-        System.out.println("| dgs - DISPLAY GRADUATED STUDENTS                                                                                                 |");
-        System.out.println("| csf - CHECK STUDENT                                                                                                              |");
-        System.out.println("| h - HELP MENU                                                                                                                    |");
-        System.out.println("+----------------------------------------------------------------------------------------------------------------------------------+");
-        System.out.println("| q - QUIT MENU                                                                                                                    |");
-        System.out.println("+----------------------------------------------------------------------------------------------------------------------------------+");
+        System.out.println("| cs - CREATE AND ASSIGN A NEW STUDENT                                                                                                     |");
+        System.out.println("| cs/<facultyAbbreviation>/<firstName>/<lastName>/<email>/<enrollmentDate>/<dateOfBirth> - CREATE AND ASSIGN A NEW STUDENT (FAST COMMAND)  |");
+        System.out.println("| gs - GRADUATE STUDENT                                                                                                                    |");
+        System.out.println("| das - DISPLAY ALL STUDENTS                                                                                                               |");
+        System.out.println("| des - DISPLAY ENROLLED STUDENTS                                                                                                          |");
+        System.out.println("| dgs - DISPLAY GRADUATED STUDENTS                                                                                                         |");
+        System.out.println("| csf - CHECK STUDENT                                                                                                                      |");
+        System.out.println("| h - HELP MENU                                                                                                                            |");
+        System.out.println("+------------------------------------------------------------------------------------------------------------------------------------------+");
+        System.out.println("| q - QUIT MENU                                                                                                                            |");
+        System.out.println("+------------------------------------------------------------------------------------------------------------------------------------------+");
     }
 
     @Override
     public void printHelp() {
         flag = false;
-        System.out.println("| COMMAND LIST:                                                                                    |");
+        System.out.println("| COMMAND LIST:                                                                                                                            |");
         printChoices();
     }
 
     @Override
     public void printQuit() {
-        System.out.println("| EXITING MENU...                                                                                                                  |");
-        System.out.println("+--------------------------------------------------------------------------------------------------+");
+        System.out.println("| EXITING MENU...                                                                                                                          |");
+        System.out.println("+------------------------------------------------------------------------------------------------------------------------------------------+");
     }
 
     @Override
     public void printInvalid() {
-        System.out.println("| INVALID CHOICE! TRY AGAIN:                                                                                                       |");
+        System.out.println("| INVALID CHOICE! TRY AGAIN:                                                                                                               |");
     }
 
     @Override
     public String takeUserInput() {
-        System.out.println("| INPUT CHOICE:                                                                                                                    |");
+        System.out.println("| INPUT CHOICE:                                                                                                                            |");
         String sample = scanner.nextLine();
-        System.out.println("+--------------------------------------------------------------------------------------------------+");
+        System.out.println("+------------------------------------------------------------------------------------------------------------------------------------------+");
         return sample;
     }
 
@@ -116,7 +119,7 @@ public class FacultyMenu implements Menu {
         flag = false;
 
         if (this.university.getFacultyList().isEmpty()) {
-            System.out.println("| NO FACULTIES FOUND!                                                         |");
+            System.out.println("| NO FACULTIES FOUND!                                                                 |");
         }
         else {
             Faculty facultyFound = this.university.getFaculty(this.scanner);
@@ -124,7 +127,7 @@ public class FacultyMenu implements Menu {
                 System.out.println("| FACULTY: " + facultyFound);
                 handler.handleStudentBelong(facultyFound);
             } else {
-                System.out.println("| NO STUDENTS FOUND!                                                          |");
+                System.out.println("| NO STUDENTS FOUND!                                                                  |");
             }
         }
     }
@@ -133,7 +136,7 @@ public class FacultyMenu implements Menu {
         flag = false;
 
         if (this.university.getFacultyList().isEmpty()) {
-            System.out.println("| NO FACULTIES FOUND!                                                         |");
+            System.out.println("| NO FACULTIES FOUND!                                                                 |");
         }
         else {
             Faculty facultyFound = this.university.getFaculty(this.scanner);
@@ -141,7 +144,7 @@ public class FacultyMenu implements Menu {
                 System.out.println("| FACULTY: " + facultyFound);
                 printer.printAllStudentsInFaculty(facultyFound);
             } else {
-                System.out.println("| NO STUDENTS FOUND!                                                          |");
+                System.out.println("| NO STUDENTS FOUND!                                                                  |");
             }
         }
     }
@@ -150,7 +153,7 @@ public class FacultyMenu implements Menu {
         flag = false;
 
         if (this.university.getFacultyList().isEmpty()) {
-            System.out.println("| NO FACULTIES FOUND!                                                         |");
+            System.out.println("| NO FACULTIES FOUND!                                                                 |");
         }
         else {
             Faculty facultyFound = this.university.getFaculty(this.scanner);
@@ -158,7 +161,7 @@ public class FacultyMenu implements Menu {
                 System.out.println("| FACULTY: " + facultyFound);
                 printer.printEnrolledStudentsInFaculty(facultyFound);
             } else {
-                System.out.println("| NO STUDENTS FOUND!                                                          |");
+                System.out.println("| NO STUDENTS FOUND!                                                                  |");
             }
         }
     }
@@ -167,7 +170,7 @@ public class FacultyMenu implements Menu {
         flag = false;
 
         if (this.university.getFacultyList().isEmpty()) {
-            System.out.println("| NO FACULTIES FOUND!                                                         |");
+            System.out.println("| NO FACULTIES FOUND!                                                                 |");
         }
         else {
             Faculty facultyFound = this.university.getFaculty(this.scanner);
@@ -175,7 +178,7 @@ public class FacultyMenu implements Menu {
                 System.out.println("| FACULTY: " + facultyFound);
                 printer.printGraduatedStudentsInFaculty(facultyFound);
             } else {
-                System.out.println("| NO STUDENTS FOUND!                                                          |");
+                System.out.println("| NO STUDENTS FOUND!                                                                  |");
             }
         }
     }
@@ -184,7 +187,7 @@ public class FacultyMenu implements Menu {
         flag = false;
 
         if (this.university.getFacultyList().isEmpty()) {
-            System.out.println("| NO FACULTIES FOUND!                                                         |");
+            System.out.println("| NO FACULTIES FOUND!                                                                 |");
         }
         else {
             Faculty faculty = this.university.getFaculty(this.scanner);
@@ -211,6 +214,7 @@ public class FacultyMenu implements Menu {
                 }
                 Student graduatedStudent = studentsList.get(index - 1);
                 graduatedStudent.setIsEnrolled(false);
+                logger.saveGraduateStudent(graduatedStudent);
                 System.out.println("| SUCCESS!                                    |");
             } else {
                 System.out.println("NO STUDENTS FOUND!");
@@ -236,7 +240,7 @@ public class FacultyMenu implements Menu {
                 System.out.println("| SUCCESS!                                    |");
             }
             else {
-                System.out.println("| NO FACULTIES FOUND! ADD FACULTIES!     |");
+                System.out.println("| NO FACULTIES FOUND! ADD FACULTIES!          |");
             }
         }
     }
@@ -276,10 +280,11 @@ public class FacultyMenu implements Menu {
         Student student = new Student(firstName, lastName, email, enrollmentDate, dateOfBirth);
         Faculty faculty = facultyList.get(indexInt - 1);
         faculty.addStudent(student);
+        logger.saveAddStudent(student);
     }
 
     private void handleAddStudent(String[] commandsList) {
-        Faculty faculty = this.university.getFacultyByName(scanner, commandsList[1]);
+        Faculty faculty = this.university.getFacultyByAbbreviation(scanner, commandsList[1]);
         Date enrollmentDate = handler.handleDateInput(commandsList[5]);
         Date dateOfBirth = handler.handleDateInput(commandsList[6]);
 
@@ -298,5 +303,6 @@ public class FacultyMenu implements Menu {
 
         Student student = new Student(commandsList[2], commandsList[3], commandsList[4], enrollmentDate, dateOfBirth);
         faculty.addStudent(student);
+        logger.saveAddStudent(student);
     }
 }
