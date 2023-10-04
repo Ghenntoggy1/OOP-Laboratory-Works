@@ -1,1 +1,1 @@
-2023/10/04 14:52:08  :  USER_LOGGED  :  ghenntoggy  :  LOG_OPERATION  :  reset_logs  :  emptied logs file
+2023/10/04 20:46:16  :  USER_LOGGED  :  Ghenntoggy  :  LOG_OPERATION  :  reset_logs  :  emptied logs file
