@@ -1,1 +1,28 @@
-2023/10/04 20:46:16  :  USER_LOGGED  :  Ghenntoggy  :  LOG_OPERATION  :  reset_logs  :  emptied logs file
+2023/10/09 13:42:42  :  USER_LOGGED  :  ghenntoggy  :  LOG_OPERATION  :  reset_logs  :  emptied logs file
+2023/10/09 13:43:03  :  USER_LOGGED  :  ghenntoggy  :  INITIATION  : entry  :  app initialized
+2023/10/09 13:43:23  :  USER_LOGGED  :  ghenntoggy  :  GENERAL_OPERATION  : created_faculty  :  Calculatoare - clc - SOFTWARE_ENGINEERING
+2023/10/09 13:43:32  :  USER_LOGGED  :  ghenntoggy  :  FACULTY_OPERATION  : created_student  :  ID: 1, First Name: 'John', Last Name: 'Doe', Email: 'johndoe@example.com', Enrollment Date: Sun Jan 01 00:00:00 EET 2023, Date of Birth: Mon May 15 00:00:00 EEST 2000
+2023/10/09 13:43:32  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  faculty not found for student
+2023/10/09 13:43:32  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  faculty not found for student
+2023/10/09 13:43:32  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  faculty not found for student
+2023/10/09 13:43:32  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  faculty not found for student
+2023/10/09 13:43:32  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  loaded available students for enrollment
+2023/10/09 13:44:15  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  student duplicate detected
+2023/10/09 13:44:15  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  faculty not found for student
+2023/10/09 13:44:15  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  faculty not found for student
+2023/10/09 13:44:15  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  faculty not found for student
+2023/10/09 13:44:15  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  faculty not found for student
+2023/10/09 13:44:15  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  loaded available students for enrollment
+2023/10/09 13:44:28  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  faculty not found for student
+2023/10/09 13:44:28  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  faculty not found for student
+2023/10/09 13:44:28  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  loaded available students for enrollment
+2023/10/09 13:44:39  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  faculty not found for student
+2023/10/09 13:44:39  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  faculty not found for student
+2023/10/09 13:44:39  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  loaded available students for enrollment
+2023/10/09 13:44:44  :  USER_LOGGED  :  ghenntoggy  :  FACULTY_OPERATION  : created_student  :  ID: 15, First Name: 'Alice', Last Name: 'Smith', Email: 'alicesmith2@example.com', Enrollment Date: Wed Feb 15 00:00:00 EET 2023, Date of Birth: Fri Apr 20 00:00:00 EEST 2001
+2023/10/09 13:44:44  :  USER_LOGGED  :  ghenntoggy  :  FACULTY_OPERATION  : created_student  :  ID: 16, First Name: 'Bob', Last Name: 'Johnson', Email: 'bobjohnson2@example.com', Enrollment Date: Fri Mar 10 00:00:00 EET 2023, Date of Birth: Fri Jul 12 00:00:00 EEST 2002
+2023/10/09 13:44:44  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  loaded available students for enrollment
+2023/10/09 13:45:18  :  USER_LOGGED  :  ghenntoggy  :  FACULTY_OPERATION  : graduated_student  :  ID: 15, First Name: 'Alice', Last Name: 'Smith', Email: 'alicesmith2@example.com', Enrollment Date: Wed Feb 15 00:00:00 EET 2023, Date of Birth: Fri Apr 20 00:00:00 EEST 2001
+2023/10/09 13:45:18  :  USER_LOGGED  :  ghenntoggy  :  FACULTY_OPERATION  : graduated_student  :  ID: 16, First Name: 'Bob', Last Name: 'Johnson', Email: 'bobjohnson2@example.com', Enrollment Date: Fri Mar 10 00:00:00 EET 2023, Date of Birth: Fri Jul 12 00:00:00 EEST 2002
+2023/10/09 13:45:18  :  USER_LOGGED  :  ghenntoggy  :  BATCH_OPERATION  : load_data  :  loaded available students for graduation
+2023/10/09 13:45:40  :  USER_LOGGED  :  ghenntoggy  :  DATABASE_OPERATION  : save_data  :  saved current state of university
