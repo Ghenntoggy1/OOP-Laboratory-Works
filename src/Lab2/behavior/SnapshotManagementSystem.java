@@ -6,9 +6,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class SnapshotManagementSystem {
     private final String directoryPath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\files\\";
@@ -60,6 +58,21 @@ public class SnapshotManagementSystem {
             }
         } catch (IOException e) {
             System.out.println("LOADING STATE FROM PREVIOUS SNAPSHOT FAILED!");
+        }
+    }
+
+    public void loadStateFromCurrSnapshot() {
+        currSnapshot.clear();
+        File filesPackage = new File(directoryPath);
+        if (filesPackage.exists() && filesPackage.isDirectory()) {
+            File[] files = filesPackage.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    String fileName = file.getName();
+                    Long lastModificationDate = file.lastModified();
+                    GeneralFile newFile = GeneralFile.generateNewFile(directoryPath, fileName, lastModificationDate);
+                }
+            }
         }
     }
 
