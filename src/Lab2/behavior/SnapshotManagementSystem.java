@@ -55,6 +55,7 @@ public class SnapshotManagementSystem {
                 }
                 GeneralFile newFile = GeneralFile.generateNewFile(directoryPath, fileName, lastModificationDate);
                 prevSnapshot.put(fileName, newFile);
+                System.out.println("LOADING STATE FROM PREVIOUS SNAPSHOT SUCCEED!");
             }
         } catch (IOException e) {
             System.out.println("LOADING STATE FROM PREVIOUS SNAPSHOT FAILED!");
@@ -71,9 +72,22 @@ public class SnapshotManagementSystem {
                     String fileName = file.getName();
                     Long lastModificationDate = file.lastModified();
                     GeneralFile newFile = GeneralFile.generateNewFile(directoryPath, fileName, lastModificationDate);
+                    currSnapshot.put(fileName, newFile);
+                    System.out.println("LOADING STATE FROM CURRENT SNAPSHOT SUCCEED!");
                 }
             }
+            else {
+                System.out.println("NO FILES FOUND IN DIRECTORY: " + filesPackage.getAbsolutePath());
+            }
         }
+        else {
+            System.out.println("NON EXISTING DIRECTORY!");
+        }
+    }
+
+    public void loadStateFromSnapshots() {
+        loadStateFromPrevSnapshot();
+        loadStateFromCurrSnapshot();
     }
 
     public void commit() {
