@@ -23,26 +23,17 @@ public class SnapshotManagementSystem {
     }
 
     public void saveNewSnapshotDate() {
-//        try (FileWriter fileWriter = new FileWriter(snapshotFilePath); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-//            bufferedWriter.write(lastSnapshotDate.toString());
-//            bufferedWriter.newLine();
-//            for (String fileName : prevSnapshot.keySet()) {
-//                File newFileFromPrevFile = new File(directoryPath + fileName);
-//                bufferedWriter.write(newFileFromPrevFile.getName() + " - " + newFileFromPrevFile.lastModified());
-//                bufferedWriter.newLine();
-//            }
-//            System.out.println("SNAPSHOT SAVE SUCCEED");
-//        } catch (IOException e) {
-//            System.out.println("SNAPSHOT SAVE FAILED!");
-//        }
-        try (PrintWriter printWriter = new PrintWriter(snapshotFilePath)) {
-            printWriter.println(lastSnapshotDate);
+        try (FileWriter fileWriter = new FileWriter(snapshotFilePath); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+            bufferedWriter.write(lastSnapshotDate.toString());
+            bufferedWriter.newLine();
             for (String fileName : prevSnapshot.keySet()) {
-                File file = new File(directoryPath + fileName);
-                printWriter.println(fileName + " - " + file.lastModified());
+                File newFileFromPrevFile = new File(directoryPath + fileName);
+                bufferedWriter.write(newFileFromPrevFile.getName() + " - " + newFileFromPrevFile.lastModified());
+                bufferedWriter.newLine();
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            System.out.println("SNAPSHOT SAVE SUCCEED");
+        } catch (IOException e) {
+            System.out.println("SNAPSHOT SAVE FAILED!");
         }
     }
 
@@ -51,7 +42,6 @@ public class SnapshotManagementSystem {
             List<String> linesFromFile = Files.readAllLines(Paths.get(this.snapshotFilePath));
             setLastSnapshotDate(Long.parseLong(linesFromFile.get(0)));
             this.lastSnapshotDate = Long.parseLong(linesFromFile.get(0));
-            System.out.println("Last snapshot: " + this.lastSnapshotDate);
             this.prevSnapshot.clear();
             for (String line : linesFromFile) {
                 if (linesFromFile.get(0).equals(line)) {
@@ -88,7 +78,6 @@ public class SnapshotManagementSystem {
                     GeneralFile newFile = GeneralFile.generateNewFile(this.directoryPath, fileName, lastModificationDate);
                     this.currSnapshot.put(fileName, newFile);
                 }
-                System.out.println("LOADING STATE FROM CURRENT SNAPSHOT SUCCEED!");
             }
             else {
                 System.out.println("NO FILES FOUND IN DIRECTORY: " + filesPackage.getAbsolutePath());
@@ -109,6 +98,7 @@ public class SnapshotManagementSystem {
     public void status() {
         loadStateFromPrevSnapshot();
         loadStateFromCurrSnapshot();
+        System.out.println("LOADING STATE FROM CURRENT SNAPSHOT SUCCEED!");
         System.out.println("LAST SNAPSHOT WAS AT: " + new Timestamp(getLastSnapshotDate()) + " : ID: " + getLastSnapshotDate());
         HashMap<String, GeneralFile> currSnapshotFiles = getCurrSnapshot();
         HashMap<String, GeneralFile> prevSnapshotFiles = getPrevSnapshot();
@@ -122,6 +112,14 @@ public class SnapshotManagementSystem {
             else {
                 System.out.println(fileName + " - No Changes");
             }
+        }
+    }
+
+    public void informationAboutFile(String fileName) {
+        loadStateFromCurrSnapshot();
+        if (getCurrSnapshot().containsKey(fileName)) {
+            String information = getCurrSnapshot().get(fileName).toString();
+            System.out.println("INFORMATION ABOUT " + fileName + ":\n" + information);
         }
     }
 

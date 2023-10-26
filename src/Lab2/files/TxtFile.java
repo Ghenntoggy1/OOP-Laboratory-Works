@@ -10,28 +10,17 @@ public class TxtFile extends GeneralFile {
 
     public TxtFile(String directoryPath, String fileName, Long lastModificationDate) {
         super(directoryPath, fileName, lastModificationDate);
-    }
-
-    private void findLineCount() {
-        File file = new File(this.fullPath);
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            while (bufferedReader.readLine() != null) {
-                this.lineCount++;
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("CAN'T READ FILE!");
-        } catch (IOException e) {
-            System.out.println("CAN'T READ LINE!");
-        }
+        this.lineCount = findLineCount(fullPath, 0);
+        findWordCount();
+        findCharacterCount();
     }
 
     private void findCharacterCount() {
         File file = new File(this.fullPath);
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            while (bufferedReader.readLine() != null) {
-                String line = bufferedReader.readLine();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
                 this.characterCount += line.length();
             }
         } catch (FileNotFoundException e) {
@@ -45,9 +34,9 @@ public class TxtFile extends GeneralFile {
         File file = new File(this.fullPath);
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            while (bufferedReader.readLine() != null) {
-                String line = bufferedReader.readLine();
-                String[] wordsInLine = line.split("\\w+");
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] wordsInLine = line.split("\\s+");
                 this.wordCount += wordsInLine.length;
             }
         } catch (FileNotFoundException e) {

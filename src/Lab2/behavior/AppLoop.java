@@ -35,7 +35,7 @@ public class AppLoop {
                 case "i", "info" -> {
                     if (commandsList.length > 1) {
                         String fileName = commandsList[1];
-
+                        snapshotManagementSystem.informationAboutFile(fileName);
                     } else {
                         System.out.println("WRONG INPUT!");
                     }
