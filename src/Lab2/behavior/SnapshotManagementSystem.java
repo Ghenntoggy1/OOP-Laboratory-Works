@@ -5,11 +5,12 @@ import Lab2.files.GeneralFile;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class SnapshotManagementSystem {
-    private final String directoryPath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\files\\";
-    private final String snapshotFilePath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\snapshot\\" + "snapshot.txt";
+    private String directoryPath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\filesExample\\";
+    private String snapshotFilePath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\snapshot\\" + "snapshot.txt";
     private Long lastSnapshotDate;
     private HashMap<String, GeneralFile> currSnapshot;
     private HashMap<String, GeneralFile> knownSnapshot;
@@ -40,8 +41,13 @@ public class SnapshotManagementSystem {
         try {
             List<String> linesFromFile = Files.readAllLines(Paths.get(snapshotFilePath));
             setLastSnapshotDate(Long.parseLong(linesFromFile.get(0)));
+            lastSnapshotDate = Long.parseLong(linesFromFile.get(0));
+            System.out.println("Last snapshot: " + lastSnapshotDate);
             prevSnapshot.clear();
             for (String line : linesFromFile) {
+                if (linesFromFile.get(0).equals(line)) {
+                    continue;
+                }
                 String[] file_lastModificationDate = line.split(" - ");
                 String fileName = file_lastModificationDate[0];
                 File file = new File(directoryPath + fileName);
@@ -72,8 +78,8 @@ public class SnapshotManagementSystem {
                     Long lastModificationDate = file.lastModified();
                     GeneralFile newFile = GeneralFile.generateNewFile(directoryPath, fileName, lastModificationDate);
                     currSnapshot.put(fileName, newFile);
-                    System.out.println("LOADING STATE FROM CURRENT SNAPSHOT SUCCEED!");
                 }
+                System.out.println("LOADING STATE FROM CURRENT SNAPSHOT SUCCEED!");
             }
             else {
                 System.out.println("NO FILES FOUND IN DIRECTORY: " + filesPackage.getAbsolutePath());
@@ -84,15 +90,30 @@ public class SnapshotManagementSystem {
         }
     }
 
-    public void loadStateFromSnapshots() {
-        loadStateFromPrevSnapshot();
-        loadStateFromCurrSnapshot();
-    }
-
     public void commit() {
         setPrevSnapshot(new HashMap<>(getCurrSnapshot()));
         setLastSnapshotDate(System.currentTimeMillis());
         saveNewSnapshotDate();
+
+        System.out.println("SNAPSHOT GOT UPDATED AT: " + new Timestamp(getLastSnapshotDate()) + " : ID: " + getLastSnapshotDate());
+    }
+
+    public void status() {
+        loadStateFromPrevSnapshot();
+        loadStateFromCurrSnapshot();
+        System.out.println("LAST SNAPSHOT WAS AT: " + new Timestamp(getLastSnapshotDate()) + " : ID: " + getLastSnapshotDate());
+        HashMap<String, GeneralFile> currSnapshotFiles = getCurrSnapshot();
+        HashMap<String, GeneralFile> prevSnapshotFiles = getPrevSnapshot();
+        for (String fileName : currSnapshotFiles.keySet()) {
+            GeneralFile currFileInstance = currSnapshotFiles.get(fileName);
+            GeneralFile prevFileInstance = prevSnapshotFiles.get(fileName);
+            if (!currFileInstance.getLastModificationDate().equals(prevFileInstance.getLastModificationDate())) {
+                System.out.println(fileName + " - Changed");
+            }
+            else {
+                System.out.println(fileName + " - No Changes");
+            }
+        }
     }
 
     public Long getLastSnapshotDate() {

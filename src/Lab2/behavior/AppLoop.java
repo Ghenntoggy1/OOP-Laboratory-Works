@@ -26,7 +26,7 @@ public class AppLoop {
                     snapshotManagementSystem.commit();
                     System.out.println(new Timestamp(snapshotManagementSystem.getLastSnapshotDate()).toString() + ' ' + snapshotManagementSystem.getLastSnapshotDate());
                 }
-                case "s", "status" -> System.out.println("Status WIP");
+                case "s", "status" -> snapshotManagementSystem.status();
                 case "h", "help" -> mainMenu.printHelp();
                 case "q", "quit" -> {
                     mainMenu.printExit();
