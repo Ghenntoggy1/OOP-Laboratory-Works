@@ -16,8 +16,7 @@ public class PngJpgFile extends GeneralFile{
             BufferedImage bufferedImage = ImageIO.read(file);
             this.height = bufferedImage.getHeight();
             this.width = bufferedImage.getWidth();
-        } catch (IOException e) {
-            System.out.println("CAN'T READ IMAGE!");
+        } catch (IOException ignored) {
         }
     }
 

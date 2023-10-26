@@ -23,10 +23,7 @@ public class TxtFile extends GeneralFile {
             while ((line = bufferedReader.readLine()) != null) {
                 this.characterCount += line.length();
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("CAN'T READ FILE!");
-        } catch (IOException e) {
-            System.out.println("CAN'T READ LINE!");
+        } catch (IOException ignored) {
         }
     }
 
@@ -39,10 +36,7 @@ public class TxtFile extends GeneralFile {
                 String[] wordsInLine = line.split("\\s+");
                 this.wordCount += wordsInLine.length;
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("CAN'T READ FILE!");
-        } catch (IOException e) {
-            System.out.println("CAN'T READ LINE!");
+        } catch (IOException ignored) {
         }
     }
 

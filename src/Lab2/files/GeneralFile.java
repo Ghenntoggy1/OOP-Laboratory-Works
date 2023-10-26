@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class GeneralFile {
@@ -45,10 +44,7 @@ public class GeneralFile {
             while (bufferedReader.readLine() != null) {
                 lineCount++;
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("CAN'T READ FILE!");
-        } catch (IOException e) {
-            System.out.println("CAN'T READ LINE!");
+        } catch (IOException ignored) {
         }
         return lineCount;
     }
@@ -70,8 +66,7 @@ public class GeneralFile {
         try {
             BasicFileAttributes metaData = Files.readAttributes(filePath, BasicFileAttributes.class);
             this.creationDate = metaData.creationTime().toMillis();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException ignored) {
         }
     }
 
@@ -104,9 +99,9 @@ public class GeneralFile {
 
     @Override
     public String toString() {
-        return "File Name = '" + this.fileName + "' \n" +
-                "Extension = '." + this.extensionType + "' \n" +
-                "Last Modification Date = " + new Timestamp(this.lastModificationDate) + " \n" +
-                "Creation Date = " + new Timestamp(this.creationDate);
+        return "File Name: '" + this.fileName + "' \n" +
+                "Extension: '." + this.extensionType + "' \n" +
+                "Last Modification Date: " + new Timestamp(this.lastModificationDate) + " \n" +
+                "Creation Date: " + new Timestamp(this.creationDate);
     }
 }

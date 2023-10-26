@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.*;
 
+import static Lab2.files.GeneralFile.generateNewFile;
+
 public class SnapshotManagementSystem {
     private String directoryPath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\filesExample\\";
     private String snapshotFilePath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\snapshot\\" + "snapshot.txt";
@@ -58,7 +60,7 @@ public class SnapshotManagementSystem {
                 else {
                     lastModificationDate = Long.valueOf(0);
                 }
-                GeneralFile newFile = GeneralFile.generateNewFile(this.directoryPath, fileName, lastModificationDate);
+                GeneralFile newFile = generateNewFile(this.directoryPath, fileName, lastModificationDate);
                 this.prevSnapshot.put(fileName, newFile);
             }
             System.out.println("LOADING STATE FROM PREVIOUS SNAPSHOT SUCCEED!");
@@ -66,6 +68,8 @@ public class SnapshotManagementSystem {
             System.out.println("LOADING STATE FROM PREVIOUS SNAPSHOT FAILED!");
         }
     }
+
+
 
     public void loadStateFromCurrSnapshot() {
         this.currSnapshot.clear();
@@ -76,7 +80,7 @@ public class SnapshotManagementSystem {
                 for (File file : files) {
                     String fileName = file.getName();
                     Long lastModificationDate = file.lastModified();
-                    GeneralFile newFile = GeneralFile.generateNewFile(this.directoryPath, fileName, lastModificationDate);
+                    GeneralFile newFile = generateNewFile(this.directoryPath, fileName, lastModificationDate);
                     this.currSnapshot.put(fileName, newFile);
                 }
             }
@@ -104,16 +108,25 @@ public class SnapshotManagementSystem {
         HashMap<String, GeneralFile> currSnapshotFiles = getCurrSnapshot();
         HashMap<String, GeneralFile> prevSnapshotFiles = getPrevSnapshot();
         System.out.println("COMPARING STATES FROM SNAPSHOTS...");
+        for (String fileName : prevSnapshotFiles.keySet()) {
+            if (!currSnapshotFiles.containsKey(fileName)) {
+                System.out.println(fileName + " - Deleted");
+            }
+        }
         for (String fileName : currSnapshotFiles.keySet()) {
             GeneralFile currFileInstance = currSnapshotFiles.get(fileName);
             GeneralFile prevFileInstance = prevSnapshotFiles.get(fileName);
-            if (!currFileInstance.getLastModificationDate().equals(prevFileInstance.getLastModificationDate())) {
+            if (!this.prevSnapshot.containsKey(fileName)) {
+                System.out.println(fileName + " - New File");
+            }
+            else if (!currFileInstance.getLastModificationDate().equals(prevFileInstance.getLastModificationDate())) {
                 System.out.println(fileName + " - Changed");
             }
             else {
                 System.out.println(fileName + " - No Changes");
             }
         }
+
     }
 
     public void informationAboutFile(String fileName) {

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sympy as sp
 import math
-class amam:
+
 class Function:
     def __init__(self):
         self.x = sp.symbols('x')

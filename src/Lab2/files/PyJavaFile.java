@@ -32,10 +32,7 @@ public class PyJavaFile extends GeneralFile{
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("CAN'T READ FILE!");
-        } catch (IOException e) {
-            System.out.println("CAN'T READ LINE!");
+        } catch (IOException ignored) {
         }
     }
     private void findMethodCount() {
@@ -55,10 +52,7 @@ public class PyJavaFile extends GeneralFile{
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("CAN'T READ FILE!");
-        } catch (IOException e) {
-            System.out.println("CAN'T READ LINE!");
+        } catch (IOException ignored) {
         }
     }
 
