@@ -14,10 +14,26 @@ public class GeneralFile {
     protected Long lastModificationDate;
     protected Long creationDate;
 
-    public GeneralFile(String directoryPath, String fileFullName) {
+    public GeneralFile(String directoryPath, String fileFullName, Long lastModificationDate) {
         this.directoryPath = directoryPath;
-        this.fileName = fileFullName.split("\\.")[0];
+        this.fileName = fileFullName;
         this.extensionType = fileFullName.split("\\.")[1];
+        this.lastModificationDate = lastModificationDate;
+    }
+
+    public static GeneralFile generateNewFile(String newDirectoryPath, String newFileName, Long newLastModificationDate) {
+        String newExtension = getExtensionTypeFromFilename(newFileName);
+        if (newExtension.equals("txt")) {
+            return generateNewTxtFile(newDirectoryPath, newFileName, newLastModificationDate);
+        }
+//        else if (newExtension.equals("py")) {
+//            return new
+//        }
+        return null;
+    }
+
+    private static TxtFile generateNewTxtFile(String newDirectoryPath, String newFileName, Long newLastModificationDate) {
+        return new TxtFile(newDirectoryPath, newFileName, newLastModificationDate);
     }
 
     public void setCreationDate() {
@@ -46,6 +62,15 @@ public class GeneralFile {
 
     public Long getLastModificationDate() {
         return this.lastModificationDate;
+    }
+
+    public String getExtensionType() {
+        return this.extensionType;
+    }
+
+    public static String getExtensionTypeFromFilename(String fileName) {
+        String[] fileNameSplit = fileName.split("\\.");
+        return fileNameSplit[1];
     }
 
     @Override

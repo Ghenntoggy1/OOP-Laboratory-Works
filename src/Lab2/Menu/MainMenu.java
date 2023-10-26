@@ -16,36 +16,6 @@ public class MainMenu {
         return sample;
     }
 
-    public void handleInput() {
-        while(true) {
-            String input = takeUserInput();
-            String[] commandsList = input.split(" ");
-            if (commandsList[0].equals("q") || commandsList[0].equals("quit")) {
-                break;
-            }
-            switch (commandsList[0]) {
-                case "c", "commit" -> System.out.println("Commit WIP");
-                case "s", "status" -> System.out.println("Status WIP");
-                case "h", "help" -> printHelp();
-                default -> {
-                    if (commandsList[0].equals("i") || commandsList[0].equals("info")) {
-                        if (commandsList.length > 1) {
-                            String fileName = commandsList[1];
-                            System.out.println(fileName);
-                            System.out.println("Info WIP");
-                        }
-                        else {
-                            System.out.println("WRONG INPUT!");
-                        }
-                    }
-                    else {
-                        System.out.println("INVALID COMMAND!");
-                    }
-                }
-            }
-        }
-    }
-
     public void printChoices() {
         System.out.println("commit - COMMIT");
         System.out.println("info <filename> - DISPLAY INFORMATION ABOUT <filename>");
