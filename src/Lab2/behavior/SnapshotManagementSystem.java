@@ -24,10 +24,10 @@ public class SnapshotManagementSystem {
 
     public void saveNewSnapshotDate() {
         try (FileWriter fileWriter = new FileWriter(snapshotFilePath); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-            bufferedWriter.write(lastSnapshotDate.toString());
+            bufferedWriter.write("Snapshot at: " + new Timestamp(this.lastSnapshotDate) + ": ID: " + this.lastSnapshotDate);
             bufferedWriter.newLine();
-            for (String fileName : prevSnapshot.keySet()) {
-                File newFileFromPrevFile = new File(directoryPath + fileName);
+            for (String fileName : this.prevSnapshot.keySet()) {
+                File newFileFromPrevFile = new File(this.directoryPath + fileName);
                 bufferedWriter.write(newFileFromPrevFile.getName() + " - " + newFileFromPrevFile.lastModified());
                 bufferedWriter.newLine();
             }
@@ -40,8 +40,9 @@ public class SnapshotManagementSystem {
     public void loadStateFromPrevSnapshot() {
         try {
             List<String> linesFromFile = Files.readAllLines(Paths.get(this.snapshotFilePath));
-            setLastSnapshotDate(Long.parseLong(linesFromFile.get(0)));
-            this.lastSnapshotDate = Long.parseLong(linesFromFile.get(0));
+            String snapshotLong = linesFromFile.get(0).substring(linesFromFile.get(0).lastIndexOf(":") + 2);
+            setLastSnapshotDate(Long.parseLong(snapshotLong));
+            this.lastSnapshotDate = Long.parseLong(snapshotLong);
             this.prevSnapshot.clear();
             for (String line : linesFromFile) {
                 if (linesFromFile.get(0).equals(line)) {
@@ -58,7 +59,7 @@ public class SnapshotManagementSystem {
                     lastModificationDate = Long.valueOf(0);
                 }
                 GeneralFile newFile = GeneralFile.generateNewFile(this.directoryPath, fileName, lastModificationDate);
-                prevSnapshot.put(fileName, newFile);
+                this.prevSnapshot.put(fileName, newFile);
             }
             System.out.println("LOADING STATE FROM PREVIOUS SNAPSHOT SUCCEED!");
         } catch (IOException e) {
