@@ -17,9 +17,11 @@ public class MainMenu {
     }
 
     public void printChoices() {
-        System.out.println("commit - COMMIT");
-        System.out.println("info <filename> - DISPLAY INFORMATION ABOUT <filename>");
-        System.out.println("status - DISPLAY CHANGES");
+        System.out.println("commit, c - COMMIT");
+        System.out.println("info <filename>, i <filename> - DISPLAY INFORMATION ABOUT <filename>");
+        System.out.println("status, s - DISPLAY CHANGES");
+        System.out.println("help, h - CHOICES");
+        System.out.println("quit, q - EXIT PROGRAM");
     }
 
     public void printMenu() {

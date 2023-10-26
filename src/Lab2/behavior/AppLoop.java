@@ -2,6 +2,7 @@ package Lab2.behavior;
 
 import Lab2.Menu.MainMenu;
 
+import java.sql.Timestamp;
 import java.util.Scanner;
 
 public class AppLoop {
@@ -16,33 +17,31 @@ public class AppLoop {
     public void run() {
         mainMenu.printMenu();
         mainMenu.printChoices();
-        while(true) {
+        boolean flag = true;
+        while(flag) {
             String input = mainMenu.takeUserInput();
             String[] commandsList = input.split(" ");
-            if (commandsList[0].equals("q") || commandsList[0].equals("quit")) {
-                mainMenu.printExit();
-                break;
-            }
             switch (commandsList[0]) {
                 case "c", "commit" -> {
                     snapshotManagementSystem.commit();
-                    System.out.println(snapshotManagementSystem.getLastSnapshotDate());
+                    System.out.println(new Timestamp(snapshotManagementSystem.getLastSnapshotDate()).toString() + ' ' + snapshotManagementSystem.getLastSnapshotDate());
                 }
                 case "s", "status" -> System.out.println("Status WIP");
                 case "h", "help" -> mainMenu.printHelp();
-                default -> {
-                    if (commandsList[0].equals("i") || commandsList[0].equals("info")) {
-                        if (commandsList.length > 1) {
-                            String fileName = commandsList[1];
-                            System.out.println(fileName);
-                            System.out.println("Info WIP");
-                        } else {
-                            System.out.println("WRONG INPUT!");
-                        }
+                case "q", "quit" -> {
+                    mainMenu.printExit();
+                    flag = false;
+                }
+                case "i", "info" -> {
+                    if (commandsList.length > 1) {
+                        String fileName = commandsList[1];
+                        System.out.println(fileName);
+                        System.out.println("Info WIP");
                     } else {
-                        System.out.println("INVALID COMMAND!");
+                        System.out.println("WRONG INPUT!");
                     }
                 }
+                default -> System.out.println("INVALID COMMAND!");
             }
         }
         scanner.close();
