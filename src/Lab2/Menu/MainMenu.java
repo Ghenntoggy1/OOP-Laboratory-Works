@@ -1,9 +1,17 @@
 package Lab2.Menu;
 
+import Lab1.Menus.ExitMenu;
+import Lab1.Menus.FacultyMenu;
+import Lab1.Menus.GeneralMenu;
+
 import java.util.Scanner;
 
 public class MainMenu {
-    Scanner scanner = new Scanner(System.in);
+    Scanner scanner;
+
+    public MainMenu(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     public String takeUserInput() {
         System.out.println("INPUT CHOICE:");
@@ -13,8 +21,32 @@ public class MainMenu {
     }
 
     public void handleInput() {
-        String input = takeUserInput();
-        String[] commandsList = input.split("/");
+        while(true) {
+            String input = takeUserInput();
+            String[] commandsList = input.split(" ");
+            if (commandsList[0].equals("q") || commandsList[0].equals("quit")) {
+                break;
+            }
+            switch (commandsList[0]) {
+                case "c", "commit" -> System.out.println("Commit WIP");
+                case "s", "status" -> System.out.println("Status WIP");
+                case "h", "help" -> printHelp();
+                default -> {
+                    if (commandsList[0].equals("i") || commandsList[0].equals("info")) {
+                        if (commandsList.length > 1) {
+                            String fileName = commandsList[1];
+                            System.out.println(fileName);
+                        }
+                        else {
+                            System.out.println("WRONG INPUT!");
+                        }
+                    }
+                    else {
+                        System.out.println("INVALID COMMAND!");
+                    }
+                }
+            }
+        }
     }
 
     public void printChoices() {
@@ -31,5 +63,9 @@ public class MainMenu {
     public void printHelp() {
         System.out.println("CHOICES");
         printChoices();
+    }
+
+    public void printExit() {
+        System.out.println("EXITTING PROGRAM...");
     }
 }

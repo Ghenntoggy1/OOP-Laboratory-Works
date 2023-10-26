@@ -1,6 +1,6 @@
 package Lab2;
 
-import Lab1.behavior.AppLoop;
+import Lab2.behavior.AppLoop;
 
 public class MyGit {
     public static void main(String[] args) {
