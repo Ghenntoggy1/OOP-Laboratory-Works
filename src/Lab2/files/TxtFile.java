@@ -1,6 +1,6 @@
 package Lab2.files;
 
-public class TxtFile extends File {
+public class TxtFile extends GeneralFile {
     public TxtFile(String directoryPath, String fileName) {
         super(directoryPath, fileName);
     }

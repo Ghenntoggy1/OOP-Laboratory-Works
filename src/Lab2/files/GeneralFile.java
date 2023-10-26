@@ -7,14 +7,14 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.concurrent.TimeUnit;
 
-public class File {
+public class GeneralFile {
     protected String directoryPath;
     protected String fileName;
     protected String extensionType;
     protected Long lastModificationDate;
     protected Long creationDate;
 
-    public File(String directoryPath, String fileFullName) {
+    public GeneralFile(String directoryPath, String fileFullName) {
         this.directoryPath = directoryPath;
         this.fileName = fileFullName.split("\\.")[0];
         this.extensionType = fileFullName.split("\\.")[1];

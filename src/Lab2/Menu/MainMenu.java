@@ -1,9 +1,5 @@
 package Lab2.Menu;
 
-import Lab1.Menus.ExitMenu;
-import Lab1.Menus.FacultyMenu;
-import Lab1.Menus.GeneralMenu;
-
 import java.util.Scanner;
 
 public class MainMenu {
@@ -36,6 +32,7 @@ public class MainMenu {
                         if (commandsList.length > 1) {
                             String fileName = commandsList[1];
                             System.out.println(fileName);
+                            System.out.println("Info WIP");
                         }
                         else {
                             System.out.println("WRONG INPUT!");
