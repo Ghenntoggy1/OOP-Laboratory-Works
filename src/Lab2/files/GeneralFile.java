@@ -27,14 +27,18 @@ public class GeneralFile {
         if (newExtension.equals("txt")) {
             return generateNewTxtFile(newDirectoryPath, newFileName, newLastModificationDate);
         }
-//        else if (newExtension.equals("py")) {
-//            return new
-//        }
+        else if (newExtension.equals("jpg") || newExtension.equals("png")) {
+            return generateNewPngJpgFile(newDirectoryPath, newFileName, newLastModificationDate);
+        }
         return null;
     }
 
     private static TxtFile generateNewTxtFile(String newDirectoryPath, String newFileName, Long newLastModificationDate) {
         return new TxtFile(newDirectoryPath, newFileName, newLastModificationDate);
+    }
+
+    private static PngJpgFile generateNewPngJpgFile(String newDirectoryPath, String newFileName, Long newLastModificationDate) {
+        return new PngJpgFile(newDirectoryPath, newFileName, newLastModificationDate);
     }
 
     public void setCreationDate() {
@@ -77,7 +81,7 @@ public class GeneralFile {
     @Override
     public String toString() {
         return "File Name = '" + fileName + "' \n" +
-                "Extension = '" + extensionType + "' \n" +
+                "Extension = '." + extensionType + "' \n" +
                 "Last Modification Date = " + lastModificationDate + "' \n" +
                 "Creation Date = " + creationDate;
     }

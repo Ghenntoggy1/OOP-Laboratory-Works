@@ -23,8 +23,8 @@ public class AppLoop {
             String[] commandsList = input.split(" ");
             switch (commandsList[0]) {
                 case "c", "commit" -> {
+                    snapshotManagementSystem.loadStateFromCurrSnapshot();
                     snapshotManagementSystem.commit();
-                    System.out.println(new Timestamp(snapshotManagementSystem.getLastSnapshotDate()).toString() + ' ' + snapshotManagementSystem.getLastSnapshotDate());
                 }
                 case "s", "status" -> snapshotManagementSystem.status();
                 case "h", "help" -> mainMenu.printHelp();
@@ -35,8 +35,7 @@ public class AppLoop {
                 case "i", "info" -> {
                     if (commandsList.length > 1) {
                         String fileName = commandsList[1];
-                        System.out.println(fileName);
-                        System.out.println("Info WIP");
+
                     } else {
                         System.out.println("WRONG INPUT!");
                     }

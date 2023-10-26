@@ -18,39 +18,48 @@ public class SnapshotManagementSystem {
 
     public SnapshotManagementSystem() {
         this.currSnapshot = new HashMap<>();
-        this.prevSnapshot = new HashMap<>();
+        this.prevSnapshot = new HashMap<>(this.currSnapshot);
         this.knownSnapshot = new HashMap<>(this.currSnapshot);
     }
 
     public void saveNewSnapshotDate() {
-        try (FileWriter fileWriter = new FileWriter(snapshotFilePath); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-            bufferedWriter.write(lastSnapshotDate.toString());
-            bufferedWriter.newLine();
+//        try (FileWriter fileWriter = new FileWriter(snapshotFilePath); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+//            bufferedWriter.write(lastSnapshotDate.toString());
+//            bufferedWriter.newLine();
+//            for (String fileName : prevSnapshot.keySet()) {
+//                File newFileFromPrevFile = new File(directoryPath + fileName);
+//                bufferedWriter.write(newFileFromPrevFile.getName() + " - " + newFileFromPrevFile.lastModified());
+//                bufferedWriter.newLine();
+//            }
+//            System.out.println("SNAPSHOT SAVE SUCCEED");
+//        } catch (IOException e) {
+//            System.out.println("SNAPSHOT SAVE FAILED!");
+//        }
+        try (PrintWriter printWriter = new PrintWriter(snapshotFilePath)) {
+            printWriter.println(lastSnapshotDate);
             for (String fileName : prevSnapshot.keySet()) {
-                File newFileFromPrevFile = new File(directoryPath + fileName);
-                bufferedWriter.write(newFileFromPrevFile.getName() + " - " + newFileFromPrevFile.lastModified());
-                bufferedWriter.newLine();
+                File file = new File(directoryPath + fileName);
+                printWriter.println(fileName + " - " + file.lastModified());
             }
-            System.out.println("SNAPSHOT SAVE SUCCEED");
-        } catch (IOException e) {
-            System.out.println("SNAPSHOT SAVE FAILED!");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public void loadStateFromPrevSnapshot() {
         try {
-            List<String> linesFromFile = Files.readAllLines(Paths.get(snapshotFilePath));
+            List<String> linesFromFile = Files.readAllLines(Paths.get(this.snapshotFilePath));
             setLastSnapshotDate(Long.parseLong(linesFromFile.get(0)));
-            lastSnapshotDate = Long.parseLong(linesFromFile.get(0));
-            System.out.println("Last snapshot: " + lastSnapshotDate);
-            prevSnapshot.clear();
+            this.lastSnapshotDate = Long.parseLong(linesFromFile.get(0));
+            System.out.println("Last snapshot: " + this.lastSnapshotDate);
+            this.prevSnapshot.clear();
             for (String line : linesFromFile) {
                 if (linesFromFile.get(0).equals(line)) {
                     continue;
                 }
                 String[] file_lastModificationDate = line.split(" - ");
                 String fileName = file_lastModificationDate[0];
-                File file = new File(directoryPath + fileName);
+                File file = new File(this.directoryPath + fileName);
                 Long lastModificationDate;
                 if (file.exists()) {
                     lastModificationDate = Long.parseLong(file_lastModificationDate[1]);
@@ -58,26 +67,26 @@ public class SnapshotManagementSystem {
                 else {
                     lastModificationDate = Long.valueOf(0);
                 }
-                GeneralFile newFile = GeneralFile.generateNewFile(directoryPath, fileName, lastModificationDate);
+                GeneralFile newFile = GeneralFile.generateNewFile(this.directoryPath, fileName, lastModificationDate);
                 prevSnapshot.put(fileName, newFile);
-                System.out.println("LOADING STATE FROM PREVIOUS SNAPSHOT SUCCEED!");
             }
+            System.out.println("LOADING STATE FROM PREVIOUS SNAPSHOT SUCCEED!");
         } catch (IOException e) {
             System.out.println("LOADING STATE FROM PREVIOUS SNAPSHOT FAILED!");
         }
     }
 
     public void loadStateFromCurrSnapshot() {
-        currSnapshot.clear();
-        File filesPackage = new File(directoryPath);
+        this.currSnapshot.clear();
+        File filesPackage = new File(this.directoryPath);
         if (filesPackage.exists() && filesPackage.isDirectory()) {
             File[] files = filesPackage.listFiles();
             if (files != null) {
                 for (File file : files) {
                     String fileName = file.getName();
                     Long lastModificationDate = file.lastModified();
-                    GeneralFile newFile = GeneralFile.generateNewFile(directoryPath, fileName, lastModificationDate);
-                    currSnapshot.put(fileName, newFile);
+                    GeneralFile newFile = GeneralFile.generateNewFile(this.directoryPath, fileName, lastModificationDate);
+                    this.currSnapshot.put(fileName, newFile);
                 }
                 System.out.println("LOADING STATE FROM CURRENT SNAPSHOT SUCCEED!");
             }
@@ -94,7 +103,6 @@ public class SnapshotManagementSystem {
         setPrevSnapshot(new HashMap<>(getCurrSnapshot()));
         setLastSnapshotDate(System.currentTimeMillis());
         saveNewSnapshotDate();
-
         System.out.println("SNAPSHOT GOT UPDATED AT: " + new Timestamp(getLastSnapshotDate()) + " : ID: " + getLastSnapshotDate());
     }
 
@@ -104,6 +112,7 @@ public class SnapshotManagementSystem {
         System.out.println("LAST SNAPSHOT WAS AT: " + new Timestamp(getLastSnapshotDate()) + " : ID: " + getLastSnapshotDate());
         HashMap<String, GeneralFile> currSnapshotFiles = getCurrSnapshot();
         HashMap<String, GeneralFile> prevSnapshotFiles = getPrevSnapshot();
+        System.out.println("COMPARING STATES FROM SNAPSHOTS...");
         for (String fileName : currSnapshotFiles.keySet()) {
             GeneralFile currFileInstance = currSnapshotFiles.get(fileName);
             GeneralFile prevFileInstance = prevSnapshotFiles.get(fileName);
