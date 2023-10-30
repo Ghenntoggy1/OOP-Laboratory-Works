@@ -14,6 +14,7 @@ public class GeneralFile {
     protected String extensionType;
     protected Long lastModificationDate;
     protected Long creationDate;
+    protected Long size;
 
     public GeneralFile(String directoryPath, String fileFullName, Long lastModificationDate) {
         this.directoryPath = directoryPath;
@@ -21,6 +22,7 @@ public class GeneralFile {
         this.extensionType = fileFullName.split("\\.")[1];
         this.lastModificationDate = lastModificationDate;
         setCreationDate();
+        setSizeFile();
     }
 
     public int findLineCount(String fullPath, int lineCount) {
@@ -41,6 +43,17 @@ public class GeneralFile {
             BasicFileAttributes metaData = Files.readAttributes(filePath, BasicFileAttributes.class);
             this.creationDate = metaData.creationTime().toMillis();
         } catch (IOException ignored) {
+        }
+    }
+
+    private void setSizeFile() {
+        Path filePath = Paths.get(directoryPath, fileName);
+        BasicFileAttributes metaData;
+        try {
+            metaData = Files.readAttributes(filePath, BasicFileAttributes.class);
+            this.size = metaData.size();
+        } catch (IOException e) {
+            System.out.println("COULDN'T READ FILE SIZE!");
         }
     }
 
@@ -71,6 +84,7 @@ public class GeneralFile {
         return "File Name: '" + this.fileName + "' \n" +
                 "Extension: '." + this.extensionType + "' \n" +
                 "Last Modification Date: " + new Timestamp(this.lastModificationDate) + " \n" +
-                "Creation Date: " + new Timestamp(this.creationDate);
+                "Creation Date: " + new Timestamp(this.creationDate) + "\n" +
+                "Size: " + this.size + " bytes";
     }
 }

@@ -135,6 +135,9 @@ public class SnapshotManagementSystem {
             String information = getCurrSnapshot().get(fileName).toString();
             System.out.println("INFORMATION ABOUT " + fileName + ":\n" + information);
         }
+        else {
+            System.out.println("FILE NOT AVAILABLE!");
+        }
     }
 
     public Long getLastSnapshotDate() {
