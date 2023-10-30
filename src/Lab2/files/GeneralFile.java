@@ -23,20 +23,6 @@ public class GeneralFile {
         setCreationDate();
     }
 
-    public static GeneralFile generateNewFile(String newDirectoryPath, String newFileName, Long newLastModificationDate) {
-        String newExtension = getExtensionTypeFromFilename(newFileName);
-        if (newExtension.equals("txt")) {
-            return generateNewTxtFile(newDirectoryPath, newFileName, newLastModificationDate);
-        }
-        else if (newExtension.equals("jpg") || newExtension.equals("png")) {
-            return generateNewPngJpgFile(newDirectoryPath, newFileName, newLastModificationDate);
-        }
-        else if (newExtension.equals("py") || newExtension.equals("java")) {
-            return generateNewPyJavaFile(newDirectoryPath, newFileName, newLastModificationDate);
-        }
-        return null;
-    }
-
     public int findLineCount(String fullPath, int lineCount) {
         File file = new File(fullPath);
         try {
@@ -47,18 +33,6 @@ public class GeneralFile {
         } catch (IOException ignored) {
         }
         return lineCount;
-    }
-
-    private static TxtFile generateNewTxtFile(String newDirectoryPath, String newFileName, Long newLastModificationDate) {
-        return new TxtFile(newDirectoryPath, newFileName, newLastModificationDate);
-    }
-
-    private static PngJpgFile generateNewPngJpgFile(String newDirectoryPath, String newFileName, Long newLastModificationDate) {
-        return new PngJpgFile(newDirectoryPath, newFileName, newLastModificationDate);
-    }
-
-    private static PyJavaFile generateNewPyJavaFile(String newDirectoryPath, String newFileName, Long newLastModificationData) {
-        return new PyJavaFile(newDirectoryPath, newFileName, newLastModificationData);
     }
 
     public void setCreationDate() {
@@ -90,11 +64,6 @@ public class GeneralFile {
 
     public String getExtensionType() {
         return this.extensionType;
-    }
-
-    public static String getExtensionTypeFromFilename(String fileName) {
-        String[] fileNameSplit = fileName.split("\\.");
-        return fileNameSplit[1];
     }
 
     @Override

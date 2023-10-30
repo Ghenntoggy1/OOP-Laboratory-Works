@@ -8,8 +8,6 @@ import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.*;
 
-import static Lab2.files.GeneralFile.generateNewFile;
-
 public class SnapshotManagementSystem {
     private String directoryPath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\filesExample\\";
     private String snapshotFilePath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\snapshot\\" + "snapshot.txt";
@@ -17,11 +15,13 @@ public class SnapshotManagementSystem {
     private HashMap<String, GeneralFile> currSnapshot;
     private HashMap<String, GeneralFile> knownSnapshot;
     private HashMap<String, GeneralFile> prevSnapshot;
+    private FilesGenerator filesGenerator;
 
     public SnapshotManagementSystem() {
         this.currSnapshot = new HashMap<>();
         this.prevSnapshot = new HashMap<>(this.currSnapshot);
         this.knownSnapshot = new HashMap<>(this.currSnapshot);
+        this.filesGenerator = new FilesGenerator();
     }
 
     public void saveNewSnapshotDate() {
@@ -60,7 +60,7 @@ public class SnapshotManagementSystem {
                 else {
                     lastModificationDate = Long.valueOf(0);
                 }
-                GeneralFile newFile = generateNewFile(this.directoryPath, fileName, lastModificationDate);
+                GeneralFile newFile = filesGenerator.generateNewFile(this.directoryPath, fileName, lastModificationDate);
                 this.prevSnapshot.put(fileName, newFile);
             }
             System.out.println("LOADING STATE FROM PREVIOUS SNAPSHOT SUCCEED!");
@@ -80,7 +80,7 @@ public class SnapshotManagementSystem {
                 for (File file : files) {
                     String fileName = file.getName();
                     Long lastModificationDate = file.lastModified();
-                    GeneralFile newFile = generateNewFile(this.directoryPath, fileName, lastModificationDate);
+                    GeneralFile newFile = filesGenerator.generateNewFile(this.directoryPath, fileName, lastModificationDate);
                     this.currSnapshot.put(fileName, newFile);
                 }
             }
