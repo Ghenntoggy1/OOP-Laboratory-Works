@@ -1,6 +1,7 @@
 package Lab3.Menus;
 
 import Lab3.behavior.AppLoop;
+import Lab3.implementations.ArrayStackUp;
 import Lab3.interfaces.Menu;
 import Lab3.interfaces.StackInterface;
 
@@ -11,41 +12,83 @@ public class ArrayUpStackMenu implements Menu {
     private AppLoop appLoop;
     private boolean flag = true;
     private Class<?> dataType;
+    private ArrayStackUp<Object> stack;
 
     public ArrayUpStackMenu(Scanner scanner, AppLoop appLoop) {
         this.scanner = scanner;
         this.appLoop = appLoop;
+        this.stack = new ArrayStackUp<>(1, this.scanner);
     }
 
     @Override
     public void handleInput() {
-        System.out.println("Choose data type (Integer or String): ");
-        String dataTypeInput = scanner.nextLine().toLowerCase();
-
-        if (dataTypeInput.equals("integer")) {
-            dataType = Integer.class;
-        } else if (dataTypeInput.equals("string")) {
-            dataType = String.class;
-        } else {
-            System.out.println("Invalid data type choice. Please choose Integer or String.");
-            dataType = null;
-        }
-
         String input = takeUserInput();
         String[] commandsList = input.split(" ");
 
         switch (commandsList[0]) {
             case "push" -> {
-                System.out.println("PUSH WIP");
+                this.flag = false;
+                if (commandsList.length > 1) {
+                    for (int i = 1; i < commandsList.length; i++) {
+                        this.stack.push(commandsList[i]);
+                    }
+                }
+                else {
+                    while (true) {
+                        String input1 = takeElementInput();
+                        this.stack.push(input1);
+                        System.out.println("MORE ELEMENTS? Y/N");
+                        input1 = this.scanner.nextLine();
+                        if (input1.equalsIgnoreCase("n")) {
+                            break;
+                        }
+                    }
+                }
             }
             case "pop" -> {
-                System.out.println("POP WIP");
+                this.flag = false;
+                Object peekedElement = this.stack.peek();
+                if (peekedElement != null) {
+                    System.out.println("POPPED ELEMENT: " + this.stack.peek());
+                    this.stack.pop();
+                }
+
             }
             case "peek" -> {
-                System.out.println("PEEK WIP");
+                this.flag = false;
+                Object peekedElement = this.stack.peek();
+                if (peekedElement != null) {
+                    System.out.println("LAST ELEMENT IN THE STACK: " + peekedElement);
+                }
+            }
+            case "full", "f" -> {
+                this.flag = false;
+                System.out.println("STACK:\n" + this.stack.toString());
             }
             case "search" -> {
-                System.out.println("SEARCH WIP");
+                this.flag = false;
+                if (commandsList.length > 1) {
+                    for (int i = 1; i < commandsList.length; i++) {
+                        boolean isFound = false;
+                        for (int j = 0; j < this.stack.getTopIndex(); j++) {
+                            if (this.stack.getStackArray()[j].equals(commandsList[i])) {
+                                System.out.println("SEARCHED ELEMENT " + commandsList[i] + " IS ON INDEX: " + j);
+                                isFound = true;
+                            }
+                        }
+                        if (!isFound) {
+                            System.out.println("ELEMENT " + commandsList[i] + " NOT FOUND!");
+                        }
+                    }
+                }
+                else {
+                    String searchedElement = takeElementInput();
+                    for (int i = 0; i < this.stack.getTopIndex(); i++) {
+                        if (this.stack.getStackArray()[i].equals(searchedElement)) {
+                            System.out.println("SEARCHED ELEMENT " + searchedElement + " IS ON INDEX: " + i);
+                        }
+                    }
+                }
             }
             case "help", "h" -> {
                 this.flag = false;
@@ -64,17 +107,25 @@ public class ArrayUpStackMenu implements Menu {
     @Override
     public String takeUserInput() {
         System.out.println("INPUT CHOICE:");
-        String input = scanner.nextLine();
+        String input = this.scanner.nextLine();
         System.out.println("YOUR CHOICE: " + input);
+        return input;
+    }
+
+    public String takeElementInput() {
+        System.out.println("INPUT ELEMENT:");
+        String input = this.scanner.nextLine();
+        System.out.println("YOUR ELEMENT: " + input);
         return input;
     }
 
     @Override
     public void printChoices() {
-        System.out.println("push <element> - PUSH ELEMENT");
-        System.out.println("pop <element> - POP ELEMENT");
+        System.out.println("push <element> <element2> ... <elementN> - PUSH ELEMENT");
+        System.out.println("pop - POP");
         System.out.println("peek - PEEK");
-        System.out.println("search <element> - SEARCH ELEMENT");
+        System.out.println("search <element1> <element2> ... <elementN> - SEARCH ELEMENT");
+        System.out.println("full, f - DISPLAY FULL STACK");
         System.out.println("help, h - HELP");
         System.out.println("exit, e - EXIT MENU");
     }

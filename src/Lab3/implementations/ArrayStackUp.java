@@ -27,7 +27,6 @@ public class ArrayStackUp<T> implements StackInterface<T> {
     public void push(T newElement) {
         if (this.topIndex == this.stackArray.length) {
             expandStackArray();
-            System.out.println("STACK EXPANDED!");
         }
         this.stackArray[this.topIndex] = newElement;
         this.topIndex++;
@@ -41,7 +40,7 @@ public class ArrayStackUp<T> implements StackInterface<T> {
     @Override
     public T pop() {
         if (isEmpty()) {
-            System.out.println("NO ELEMENTS IN THE STACK!");
+            return null;
         }
         this.topIndex--;
         T poppedElement = this.stackArray[this.topIndex];
@@ -87,5 +86,13 @@ public class ArrayStackUp<T> implements StackInterface<T> {
     @Override
     public String toString() {
         return Arrays.toString(stackArray);
+    }
+
+    public int getTopIndex() {
+        return this.topIndex;
+    }
+
+    public T[] getStackArray() {
+        return this.stackArray;
     }
 }
