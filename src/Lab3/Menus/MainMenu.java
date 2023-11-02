@@ -23,11 +23,9 @@ public class MainMenu implements Menu {
         switch (input) {
             case "s", "stack" -> {
                 appLoop.setActiveMenu(new StackMenu(this.scanner, this.appLoop));
-                System.out.println("STACK WIP");
             }
             case "q", "queue" -> {
                 appLoop.setActiveMenu(new QueueMenu(this.scanner, this.appLoop));
-                System.out.println("QUEUE WIP");
             }
             case "h", "help" -> {
                 flag = false;
@@ -68,7 +66,7 @@ public class MainMenu implements Menu {
 
     @Override
     public void printHelp() {
-        System.out.println("CHOICES");
+        System.out.println("\nCHOICES");
         printChoices();
     }
 
