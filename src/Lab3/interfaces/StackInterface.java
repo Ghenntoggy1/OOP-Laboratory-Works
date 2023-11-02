@@ -4,7 +4,7 @@ public interface StackInterface<T> {
     void push(T newElement);
     T pop();
     T peek();
-    T search();
+    void search(T searchedElement);
     boolean isEmpty();
     String toString();
 }

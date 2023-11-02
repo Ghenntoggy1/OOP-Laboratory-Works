@@ -1,7 +1,9 @@
 package Lab3.Menus;
 
 import Lab3.behavior.AppLoop;
+import Lab3.implementations.ArrayStackUp;
 import Lab3.interfaces.Menu;
+import Lab3.interfaces.StackInterface;
 
 import java.util.Scanner;
 
@@ -21,6 +23,35 @@ public class StackMenu implements Menu {
 
         switch (input) {
             case "up", "u" -> {
+                StackInterface<Integer> stackInteger = new ArrayStackUp<>(1, this.scanner);
+                String s = scanner.nextLine();
+                stackInteger.push(Integer.parseInt(s));
+                String result = stackInteger.toString();
+                System.out.println(result);
+                if (stackInteger.isEmpty()) {
+                    System.out.println("True");
+                }
+                else {
+                    System.out.println("False");
+                }
+                s = scanner.nextLine();
+                stackInteger.push(Integer.parseInt(s));
+                result = stackInteger.toString();
+                System.out.println(result);
+                if (stackInteger.isEmpty()) {
+                    System.out.println("True");
+                }
+                else {
+                    System.out.println("False");
+                }
+                int value = stackInteger.peek();
+                System.out.println("Last value: " + value);
+                stackInteger.pop();
+                value = stackInteger.peek();
+                System.out.println("Last value: " + value);
+                System.out.println(stackInteger);
+                stackInteger.pop();
+                System.out.println(stackInteger);
                 System.out.println("UP WIP");
             }
             case "down", "d" -> {
@@ -90,3 +121,5 @@ public class StackMenu implements Menu {
         System.out.println("STACK IMPLEMENTATIONS MENU");
     }
 }
+
+
