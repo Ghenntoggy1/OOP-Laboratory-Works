@@ -1,8 +1,8 @@
 package Lab3.Menus;
 
-import Lab3.interfaces.Menu;
+import Lab3.interfaces.MenuInterface;
 
-public class ExitMenu implements Menu {
+public class ExitMenu implements MenuInterface {
 
     @Override
     public void handleInput() {

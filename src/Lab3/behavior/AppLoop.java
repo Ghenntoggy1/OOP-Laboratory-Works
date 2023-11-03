@@ -1,14 +1,14 @@
 package Lab3.behavior;
 
 import Lab3.Menus.ExitMenu;
-import Lab3.interfaces.Menu;
+import Lab3.interfaces.MenuInterface;
 import Lab3.Menus.MainMenu;
 
 import java.util.Scanner;
 
 public class AppLoop {
     private final Scanner scanner;
-    private Menu activeMenu;
+    private MenuInterface activeMenu;
 
     public AppLoop() {
         this.scanner = new Scanner(System.in);
@@ -24,7 +24,7 @@ public class AppLoop {
         this.scanner.close();
     }
 
-    public void setActiveMenu(Menu activeMenu) {
+    public void setActiveMenu(MenuInterface activeMenu) {
         this.activeMenu = activeMenu;
     }
 }

@@ -1,12 +1,11 @@
 package Lab3.Menus;
 
-import Lab3.Menus.ExitMenu;
 import Lab3.behavior.AppLoop;
-import Lab3.interfaces.Menu;
+import Lab3.interfaces.MenuInterface;
 
 import java.util.Scanner;
 
-public class MainMenu implements Menu {
+public class MainMenu implements MenuInterface {
     Scanner scanner;
     AppLoop appLoop;
     private boolean flag = true;

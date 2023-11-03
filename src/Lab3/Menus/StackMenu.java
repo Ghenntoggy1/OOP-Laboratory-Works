@@ -1,13 +1,11 @@
 package Lab3.Menus;
 
 import Lab3.behavior.AppLoop;
-import Lab3.implementations.ArrayStackUp;
-import Lab3.interfaces.Menu;
-import Lab3.interfaces.StackInterface;
+import Lab3.interfaces.MenuInterface;
 
 import java.util.Scanner;
 
-public class StackMenu implements Menu {
+public class StackMenu implements MenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;

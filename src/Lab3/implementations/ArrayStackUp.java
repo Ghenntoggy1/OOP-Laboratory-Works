@@ -3,7 +3,6 @@ package Lab3.implementations;
 import Lab3.interfaces.StackInterface;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class ArrayStackUp<T> implements StackInterface<T> {
     private int topIndex;
@@ -35,15 +34,14 @@ public class ArrayStackUp<T> implements StackInterface<T> {
     }
 
     @Override
-    public T pop() {
+    public void pop() {
         if (isEmpty()) {
-            return null;
+            return;
         }
         this.topIndex--;
         T poppedElement = this.stackArray[this.topIndex];
         this.stackArray[this.topIndex] = null;
 //        this.stackArray = Arrays.copyOf(this.stackArray, this.stackArray.length - 1);
-        return poppedElement;
     }
 
     @Override
@@ -60,12 +58,13 @@ public class ArrayStackUp<T> implements StackInterface<T> {
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE STACK!");
         }
-        for (int i = 0; i < this.stackArray.length; i++) {
-            if (this.stackArray[i].toString().equals(searchedElement.toString())) {
-                System.out.println("ELEMENT " + searchedElement + " FOUND AT INDEX " + i);
-            }
-            else if (this.stackArray.length - 1 == i && !this.stackArray[i].toString().equals(searchedElement.toString())) {
-                System.out.println("NO SUCH ELEMENT HAS BEEN FOUND!");
+        else {
+            for (int i = 0; i < getTopIndex(); i++) {
+                if (this.stackArray[i].toString().equals(searchedElement.toString())) {
+                    System.out.println("ELEMENT " + searchedElement + " FOUND AT INDEX " + i);
+                } else if (this.stackArray.length == i && !this.stackArray[i].toString().equals(searchedElement.toString())) {
+                    System.out.println("NO SUCH ELEMENT HAS BEEN FOUND!");
+                }
             }
         }
     }

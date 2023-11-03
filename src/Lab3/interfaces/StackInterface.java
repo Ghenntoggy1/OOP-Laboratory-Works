@@ -2,7 +2,7 @@ package Lab3.interfaces;
 
 public interface StackInterface<T> {
     void push(T newElement);
-    T pop();
+    void pop();
     T peek();
     void search(T searchedElement);
     boolean isEmpty();
