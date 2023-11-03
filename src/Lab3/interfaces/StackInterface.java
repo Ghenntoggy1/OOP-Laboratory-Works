@@ -7,4 +7,5 @@ public interface StackInterface<T> {
     void search(T searchedElement);
     boolean isEmpty();
     String toString();
+    void empty();
 }

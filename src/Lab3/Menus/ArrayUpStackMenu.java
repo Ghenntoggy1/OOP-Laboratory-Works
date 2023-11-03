@@ -11,13 +11,12 @@ public class ArrayUpStackMenu implements Menu {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
-    private Class<?> dataType;
     private ArrayStackUp<Object> stack;
 
     public ArrayUpStackMenu(Scanner scanner, AppLoop appLoop) {
         this.scanner = scanner;
         this.appLoop = appLoop;
-        this.stack = new ArrayStackUp<>(1, this.scanner);
+        this.stack = new ArrayStackUp<>(1);
     }
 
     @Override
@@ -65,7 +64,16 @@ public class ArrayUpStackMenu implements Menu {
                 this.flag = false;
                 System.out.println("STACK:\n" + this.stack.toString());
             }
-            case "search" -> {
+            case "status" -> {
+                System.out.print("STACK IS: ");
+                if (this.stack.isEmpty()) {
+                    System.out.println("EMPTY");
+                }
+                else {
+                    System.out.println("FULL");
+                }
+            }
+            case "search", "s" -> {
                 this.flag = false;
                 if (commandsList.length > 1) {
                     for (int i = 1; i < commandsList.length; i++) {
@@ -89,6 +97,10 @@ public class ArrayUpStackMenu implements Menu {
                         }
                     }
                 }
+            }
+            case "empty" -> {
+                this.flag = false;
+                this.stack.empty();
             }
             case "help", "h" -> {
                 this.flag = false;
@@ -124,8 +136,10 @@ public class ArrayUpStackMenu implements Menu {
         System.out.println("push <element> <element2> ... <elementN> - PUSH ELEMENT");
         System.out.println("pop - POP");
         System.out.println("peek - PEEK");
-        System.out.println("search <element1> <element2> ... <elementN> - SEARCH ELEMENT");
+        System.out.println("status - IS STACK EMPTY?");
+        System.out.println("search, s <element1> <element2> ... <elementN> - SEARCH ELEMENT");
         System.out.println("full, f - DISPLAY FULL STACK");
+        System.out.println("empty - EMPTY THE STACK");
         System.out.println("help, h - HELP");
         System.out.println("exit, e - EXIT MENU");
     }

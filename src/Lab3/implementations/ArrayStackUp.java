@@ -6,21 +6,18 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class ArrayStackUp<T> implements StackInterface<T> {
-    private Scanner scanner;
     private int topIndex;
     private T[] stackArray;
     private int defaultSize = 5;
 
-    public ArrayStackUp(int specificSize, Scanner scanner) {
+    public ArrayStackUp(int specificSize) {
         this.stackArray = (T[])(new Object[specificSize]);
         this.topIndex = 0;
-        this.scanner = scanner;
     }
 
-    public ArrayStackUp(Scanner scanner) {
+    public ArrayStackUp() {
         this.stackArray = (T[])(new Object[this.defaultSize]);
         this.topIndex = 0;
-        this.scanner = scanner;
     }
 
     @Override
@@ -86,6 +83,12 @@ public class ArrayStackUp<T> implements StackInterface<T> {
     @Override
     public String toString() {
         return Arrays.toString(stackArray);
+    }
+
+    @Override
+    public void empty() {
+        this.stackArray = (T[])(new Object[this.topIndex]);
+        this.topIndex = 0;
     }
 
     public int getTopIndex() {
