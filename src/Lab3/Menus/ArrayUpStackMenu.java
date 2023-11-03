@@ -64,38 +64,29 @@ public class ArrayUpStackMenu implements MenuInterface {
                 System.out.println("STACK:\n" + this.stack.toString());
             }
             case "status" -> {
+                this.flag = false;
+                int sizeStack = this.stack.getStackArray().length;
+                int occupiedSpace = this.stack.getTopIndex();
                 System.out.print("STACK IS: ");
                 if (this.stack.isEmpty()) {
-                    System.out.println("EMPTY");
+                    System.out.println("EMPTY: 0 / " + sizeStack);
+                }
+                else if (this.stack.getTopIndex() == sizeStack){
+                    System.out.println("FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
                 }
                 else {
-                    System.out.println("FULL");
+                    System.out.println("PARTIALLY FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
                 }
             }
             case "search", "s" -> {
                 this.flag = false;
                 if (commandsList.length > 1) {
                     for (int i = 1; i < commandsList.length; i++) {
-//                        boolean isFound = false;
-//                        for (int j = 0; j < this.stack.getTopIndex(); j++) {
-//                            if (this.stack.getStackArray()[j].equals(commandsList[i])) {
-//                                System.out.println("SEARCHED ELEMENT " + commandsList[i] + " IS ON INDEX: " + j);
-//                                isFound = true;
-//                            }
-//                        }
-//                        if (!isFound) {
-//                            System.out.println("ELEMENT " + commandsList[i] + " NOT FOUND!");
-//                        }
                         this.stack.search(commandsList[i]);
                     }
                 }
                 else {
                     String searchedElement = takeElementInput();
-//                    for (int i = 0; i < this.stack.getTopIndex(); i++) {
-//                        if (this.stack.getStackArray()[i].equals(searchedElement)) {
-//                            System.out.println("SEARCHED ELEMENT " + searchedElement + " IS ON INDEX: " + i);
-//                        }
-//                    }
                     this.stack.search(searchedElement);
                 }
             }
