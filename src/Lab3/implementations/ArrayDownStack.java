@@ -25,7 +25,6 @@ public class ArrayDownStack<T> implements StackInterface<T> {
         if (this.topIndex < 0) {
             expandStackArray();
         }
-        System.out.println(this.topIndex);
         this.stackArray[this.topIndex] = newElement;
         this.topIndex--;
     }
@@ -40,7 +39,7 @@ public class ArrayDownStack<T> implements StackInterface<T> {
     }
 
     @Override
-    public void pop() {
+    public void pop() {  // TODO pop method
         if (isEmpty()) {
             return;
         }
@@ -49,7 +48,7 @@ public class ArrayDownStack<T> implements StackInterface<T> {
     }
 
     @Override
-    public T peek() {
+    public T peek() {  // TODO peek method
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE STACK!");
             return null;
@@ -58,7 +57,7 @@ public class ArrayDownStack<T> implements StackInterface<T> {
     }
 
     @Override
-    public void search(T searchedElement) {
+    public void search(T searchedElement) {  // TODO search method
         boolean isFound = false;
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE STACK!");
@@ -97,8 +96,8 @@ public class ArrayDownStack<T> implements StackInterface<T> {
 
     @Override
     public void empty() {
-        this.stackArray = (T[])(new Object[this.topIndex]);
-        this.topIndex = this.stackArray.length - 1;  // TODO verify if needed
+        this.stackArray = (T[])(new Object[this.stackArray.length]);
+        this.topIndex = this.stackArray.length - 1;
     }
 
     @Override

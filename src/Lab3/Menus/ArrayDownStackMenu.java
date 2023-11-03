@@ -66,7 +66,7 @@ public class ArrayDownStackMenu implements MenuInterface {
             case "status" -> {
                 this.flag = false;
                 int sizeStack = this.stack.getStackArray().length;
-                this.stack.setOccupiedSpace(); // TODO repair multiple resize
+                this.stack.setOccupiedSpace();
                 int occupiedSpace = this.stack.getOccupiedSpace();
                 System.out.print("STACK IS: ");
                 if (this.stack.isEmpty()) {
