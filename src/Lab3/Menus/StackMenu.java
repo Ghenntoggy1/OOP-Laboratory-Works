@@ -22,9 +22,9 @@ public class StackMenu implements MenuInterface {
         switch (input) {
             case "up", "u" -> {
                 this.appLoop.setActiveMenu(new ArrayUpStackMenu(this.scanner, this.appLoop));
-                System.out.println("UP WIP");
             }
             case "down", "d" -> {
+                this.appLoop.setActiveMenu(new ArrayDownStackMenu(this.scanner, this.appLoop));
                 System.out.println("DOWN WIP");
             }
             case "linked", "l" -> {

@@ -6,6 +6,5 @@ public interface StackInterface<T> {
     T peek();
     void search(T searchedElement);
     boolean isEmpty();
-    String toString();
     void empty();
 }

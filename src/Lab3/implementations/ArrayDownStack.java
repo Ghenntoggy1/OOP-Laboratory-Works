@@ -8,6 +8,7 @@ public class ArrayDownStack<T> implements StackInterface<T> {
     private int topIndex;
     private T[] stackArray;
     private int defaultSize = 5;
+    private int occupiedSpace;
 
     public ArrayDownStack(int specificSize) {
         this.stackArray = (T[])(new Object[specificSize]);
@@ -21,9 +22,10 @@ public class ArrayDownStack<T> implements StackInterface<T> {
 
     @Override
     public void push(T newElement) {
-        if (this.topIndex == 0) {
+        if (this.topIndex < 0) {
             expandStackArray();
         }
+        System.out.println(this.topIndex);
         this.stackArray[this.topIndex] = newElement;
         this.topIndex--;
     }
@@ -34,31 +36,85 @@ public class ArrayDownStack<T> implements StackInterface<T> {
         newStackArray[0] = null;
         System.arraycopy(this.stackArray, 0, newStackArray, 1, this.stackArray.length);
         this.stackArray = newStackArray;
-        System.out.println(Arrays.toString(newStackArray));
+        this.topIndex = 0;
     }
 
     @Override
     public void pop() {
-
+        if (isEmpty()) {
+            return;
+        }
+        this.topIndex--;
+        this.stackArray[this.topIndex] = null;
     }
 
     @Override
     public T peek() {
-        return null;
+        if (isEmpty()) {
+            System.out.println("NO ELEMENTS IN THE STACK!");
+            return null;
+        }
+        return this.stackArray[topIndex - 1];
     }
 
     @Override
-    public void search(Object searchedElement) {
-
+    public void search(T searchedElement) {
+        boolean isFound = false;
+        if (isEmpty()) {
+            System.out.println("NO ELEMENTS IN THE STACK!");
+        }
+        else {
+            for (int i = 0; i < this.topIndex; i++) {
+                if (this.stackArray[i].toString().equals(searchedElement.toString())) {
+                    System.out.println("ELEMENT " + searchedElement + " FOUND AT INDEX " + i);
+                    isFound = true;
+                }
+            }
+        }
+        if (!isFound && !isEmpty()) {
+            System.out.println("ELEMENT " + searchedElement + " NOT FOUND!");
+        }
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        for (int i = this.stackArray.length - 1; i >= 0; i--) {
+            if (this.stackArray[i] != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void setOccupiedSpace() {
+        this.occupiedSpace = 0;
+        for (int i = this.stackArray.length - 1; i >= 0; i--) {
+            if (this.stackArray[i] != null) {
+                this.occupiedSpace++;
+            }
+        }
     }
 
     @Override
     public void empty() {
+        this.stackArray = (T[])(new Object[this.topIndex]);
+        this.topIndex = this.stackArray.length - 1;  // TODO verify if needed
+    }
 
+    @Override
+    public String toString() {
+        return Arrays.toString(stackArray);
+    }
+
+    public int getTopIndex() {
+        return this.topIndex;
+    }
+
+    public T[] getStackArray() {
+        return this.stackArray;
+    }
+
+    public int getOccupiedSpace() {
+        return this.occupiedSpace;
     }
 }

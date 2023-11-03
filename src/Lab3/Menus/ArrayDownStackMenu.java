@@ -20,7 +20,93 @@ public class ArrayDownStackMenu implements MenuInterface {
 
     @Override
     public void handleInput() {
+        String input = takeUserInput();
+        String[] commandsList = input.split(" ");
 
+        switch (commandsList[0]) {
+            case "push" -> {
+                this.flag = false;
+                if (commandsList.length > 1) {
+                    for (int i = 1; i < commandsList.length; i++) {
+                        this.stack.push(commandsList[i]);
+                    }
+                }
+                else {
+                    while (true) {
+                        String input1 = takeElementInput();
+                        this.stack.push(input1);
+                        System.out.println("MORE ELEMENTS? Y/N");
+                        input1 = this.scanner.nextLine();
+                        if (input1.equalsIgnoreCase("n")) {
+                            break;
+                        }
+                    }
+                }
+            }
+            case "pop" -> {
+                this.flag = false;
+                Object peekedElement = this.stack.peek();
+                if (peekedElement != null) {
+                    System.out.println("POPPED ELEMENT: " + this.stack.peek());
+                    this.stack.pop();
+                }
+
+            }
+            case "peek" -> {
+                this.flag = false;
+                Object peekedElement = this.stack.peek();
+                if (peekedElement != null) {
+                    System.out.println("LAST ELEMENT IN THE STACK: " + peekedElement);
+                }
+            }
+            case "full", "f" -> {
+                this.flag = false;
+                System.out.println("STACK:\n" + this.stack.toString());
+            }
+            case "status" -> {
+                this.flag = false;
+                int sizeStack = this.stack.getStackArray().length;
+                this.stack.setOccupiedSpace(); // TODO repair multiple resize
+                int occupiedSpace = this.stack.getOccupiedSpace();
+                System.out.print("STACK IS: ");
+                if (this.stack.isEmpty()) {
+                    System.out.println("EMPTY: 0 / " + sizeStack);
+                }
+                else if (this.stack.getOccupiedSpace() == sizeStack){
+                    System.out.println("FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
+                }
+                else {
+                    System.out.println("PARTIALLY FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
+                }
+            }
+            case "search", "s" -> {
+                this.flag = false;
+                if (commandsList.length > 1) {
+                    for (int i = 1; i < commandsList.length; i++) {
+                        this.stack.search(commandsList[i]);
+                    }
+                }
+                else {
+                    String searchedElement = takeElementInput();
+                    this.stack.search(searchedElement);
+                }
+            }
+            case "empty" -> {
+                this.flag = false;
+                this.stack.empty();
+            }
+            case "help", "h" -> {
+                this.flag = false;
+                printHelp();
+            }
+            case "exit", "e" -> {
+                printQuit();
+                this.appLoop.setActiveMenu(new StackMenu(this.scanner, this.appLoop));
+            }
+            default -> {
+                printInvalid();
+            }
+        }
     }
 
     @Override
@@ -68,6 +154,6 @@ public class ArrayDownStackMenu implements MenuInterface {
 
     @Override
     public void printGreetings() {
-        System.out.println("WELCOME TO ARRAY UP STACK IMPLEMENTATION MENU!");
+        System.out.println("WELCOME TO ARRAY DOWN STACK IMPLEMENTATION MENU!");
     }
 }

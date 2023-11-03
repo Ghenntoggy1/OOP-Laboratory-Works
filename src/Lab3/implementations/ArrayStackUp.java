@@ -60,7 +60,7 @@ public class ArrayStackUp<T> implements StackInterface<T> {
             System.out.println("NO ELEMENTS IN THE STACK!");
         }
         else {
-            for (int i = 0; i < getTopIndex(); i++) {
+            for (int i = this.topIndex - 1; i >= 0; i--) {
                 if (this.stackArray[i].toString().equals(searchedElement.toString())) {
                     System.out.println("ELEMENT " + searchedElement + " FOUND AT INDEX " + i);
                     isFound = true;
@@ -74,7 +74,7 @@ public class ArrayStackUp<T> implements StackInterface<T> {
 
     @Override
     public boolean isEmpty() {
-        for (int i = 0; i < this.topIndex; i++) {
+        for (int i = this.topIndex - 1; i >= 0 ; i--) {
             if (this.stackArray[i] != null) {
                 return false;
             }
