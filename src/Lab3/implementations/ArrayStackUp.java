@@ -39,7 +39,7 @@ public class ArrayStackUp<T> implements StackInterface<T> {
             return;
         }
         this.topIndex--;
-        T poppedElement = this.stackArray[this.topIndex];
+//        T poppedElement = this.stackArray[this.topIndex];
         this.stackArray[this.topIndex] = null;
 //        this.stackArray = Arrays.copyOf(this.stackArray, this.stackArray.length - 1);
     }
@@ -60,7 +60,7 @@ public class ArrayStackUp<T> implements StackInterface<T> {
             System.out.println("NO ELEMENTS IN THE STACK!");
         }
         else {
-            for (int i = this.topIndex - 1; i >= 0; i--) {
+            for (int i = 0; i < this.topIndex; i++) {
                 if (this.stackArray[i].toString().equals(searchedElement.toString())) {
                     System.out.println("ELEMENT " + searchedElement + " FOUND AT INDEX " + i);
                     isFound = true;
