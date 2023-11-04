@@ -57,16 +57,18 @@ public class ArrayDownStack<T> implements StackInterface<T> {
     }
 
     @Override
-    public void search(T searchedElement) {  // TODO search method
+    public void search(T searchedElement) {
         boolean isFound = false;
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE STACK!");
         }
         else {
-            for (int i = 0; i < this.topIndex; i++) {
-                if (this.stackArray[i].toString().equals(searchedElement.toString())) {
-                    System.out.println("ELEMENT " + searchedElement + " FOUND AT INDEX " + i);
-                    isFound = true;
+            for (int i = this.stackArray.length - 1; i >= 0; i--) {
+                if (this.stackArray[i] != null) {
+                    if (this.stackArray[i].toString().equals(searchedElement.toString())) {
+                        System.out.println("ELEMENT " + searchedElement + " FOUND AT INDEX " + (this.stackArray.length - i - 1));
+                        isFound = true;
+                    }
                 }
             }
         }
