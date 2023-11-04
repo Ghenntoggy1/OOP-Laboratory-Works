@@ -27,6 +27,9 @@ public class ArrayDownStack<T> implements StackInterface<T> {
         }
         this.stackArray[this.topIndex] = newElement;
         this.topIndex--;
+        setOccupiedSpace();
+        System.out.println("TOP INDEX " + topIndex);
+        System.out.println("Current Index " + (this.stackArray.length - this.occupiedSpace));
     }
 
     private void expandStackArray() {
@@ -36,24 +39,26 @@ public class ArrayDownStack<T> implements StackInterface<T> {
         System.arraycopy(this.stackArray, 0, newStackArray, 1, this.stackArray.length);
         this.stackArray = newStackArray;
         this.topIndex = 0;
+        setOccupiedSpace();
     }
 
     @Override
-    public void pop() {  // TODO pop method
+    public void pop() {
         if (isEmpty()) {
             return;
         }
-        this.topIndex--;
-        this.stackArray[this.topIndex] = null;
+        this.topIndex++;
+        this.stackArray[this.stackArray.length - this.occupiedSpace] = null;
     }
 
     @Override
-    public T peek() {  // TODO peek method
+    public T peek() {
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE STACK!");
             return null;
         }
-        return this.stackArray[topIndex - 1];
+        setOccupiedSpace();
+        return this.stackArray[this.stackArray.length - this.occupiedSpace];
     }
 
     @Override
