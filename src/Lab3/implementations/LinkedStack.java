@@ -51,7 +51,7 @@ public class LinkedStack<T> implements StackInterface<T> {
     }
 
     @Override
-    public void empty() {
+    public void empty() {  // elements that were reachable from my top node become targets for garbage collector of Java
         this.topNode = null;
         this.size = 0;
     }
@@ -61,8 +61,11 @@ public class LinkedStack<T> implements StackInterface<T> {
         StringBuilder result = new StringBuilder("[");
         Node<T> currentNode = this.topNode;
         while (currentNode != null) {
-            result.append(currentNode.getStoredObject()).append(" ");
-            currentNode = this.topNode.getPointer();
+            result.append(currentNode.getStoredObject());
+            currentNode = currentNode.getPointer();
+            if (currentNode != null) {
+                result.append(", ");
+            }
         }
         result.append("]");
         return result.toString();
