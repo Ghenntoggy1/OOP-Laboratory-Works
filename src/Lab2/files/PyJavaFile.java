@@ -2,7 +2,7 @@ package Lab2.files;
 
 import java.io.*;
 
-public class PyJavaFile extends GeneralFile{
+public class PyJavaFile extends GeneralFileWithLines{
     private int lineCount = 0;
     private int classCount = 0;
     private int methodCount = 0;
@@ -10,7 +10,7 @@ public class PyJavaFile extends GeneralFile{
 
     public PyJavaFile(String directoryPath, String fileName, Long lastModifiedDate) {
         super(directoryPath, fileName, lastModifiedDate);
-        this.lineCount=findLineCount(this.fullPath, 0);
+        this.lineCount = findLineCount(this.fullPath, 0);
         findClassCount();
         findMethodCount();
     }
@@ -32,6 +32,7 @@ public class PyJavaFile extends GeneralFile{
                     }
                 }
             }
+            bufferedReader.close();
         } catch (IOException ignored) {
         }
     }
@@ -52,6 +53,7 @@ public class PyJavaFile extends GeneralFile{
                     }
                 }
             }
+            bufferedReader.close();
         } catch (IOException ignored) {
         }
     }

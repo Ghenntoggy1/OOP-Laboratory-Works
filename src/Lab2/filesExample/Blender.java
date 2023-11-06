@@ -2,6 +2,7 @@ package Lab2.filesExample;
 
 public class Blender {
     private int speed;
+    private int s;
     private boolean isFull;
     public int getSpeed() {
         return this.speed;

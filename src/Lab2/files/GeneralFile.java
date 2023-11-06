@@ -25,18 +25,6 @@ public class GeneralFile {
         setSizeFile();
     }
 
-    public int findLineCount(String fullPath, int lineCount) {
-        File file = new File(fullPath);
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            while (bufferedReader.readLine() != null) {
-                lineCount++;
-            }
-        } catch (IOException ignored) {
-        }
-        return lineCount;
-    }
-
     public void setCreationDate() {
         Path filePath = Paths.get(directoryPath, fileName);
         try {
@@ -54,20 +42,6 @@ public class GeneralFile {
             this.size = metaData.size();
         } catch (IOException e) {
             System.out.println("COULDN'T READ FILE SIZE!");
-        }
-    }
-
-    public Long getCreationDate() {
-        return this.creationDate;
-    }
-
-    public void setLastModificationDate() {
-        Path filePath = Paths.get(directoryPath, fileName);
-        try {
-            BasicFileAttributes metaData = Files.readAttributes(filePath, BasicFileAttributes.class);
-            this.lastModificationDate = metaData.lastModifiedTime().to(TimeUnit.SECONDS);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 

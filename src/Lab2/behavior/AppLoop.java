@@ -2,7 +2,6 @@ package Lab2.behavior;
 
 import Lab2.Menu.MainMenu;
 
-import java.sql.Timestamp;
 import java.util.Scanner;
 
 public class AppLoop {
@@ -15,27 +14,27 @@ public class AppLoop {
         this.snapshotManagementSystem = new SnapshotManagementSystem();
     }
     public void run() {
-        mainMenu.printMenu();
-        mainMenu.printChoices();
+        this.mainMenu.printMenu();
+        this.mainMenu.printChoices();
         boolean flag = true;
         while(flag) {
-            String input = mainMenu.takeUserInput();
+            String input = this.mainMenu.takeUserInput();
             String[] commandsList = input.split(" ");
             switch (commandsList[0]) {
                 case "c", "commit" -> {
-                    snapshotManagementSystem.loadStateFromCurrSnapshot();
-                    snapshotManagementSystem.commit();
+                    this.snapshotManagementSystem.loadStateFromCurrSnapshot();
+                    this.snapshotManagementSystem.commit();
                 }
-                case "s", "status" -> snapshotManagementSystem.status();
-                case "h", "help" -> mainMenu.printHelp();
+                case "s", "status" -> this.snapshotManagementSystem.printStatus();
+                case "h", "help" -> this.mainMenu.printHelp();
                 case "q", "quit" -> {
-                    mainMenu.printExit();
+                    this.mainMenu.printExit();
                     flag = false;
                 }
                 case "i", "info" -> {
                     if (commandsList.length > 1) {
                         String fileName = commandsList[1];
-                        snapshotManagementSystem.informationAboutFile(fileName);
+                        this.snapshotManagementSystem.informationAboutFile(fileName);
                     } else {
                         System.out.println("WRONG INPUT!");
                     }
@@ -43,6 +42,6 @@ public class AppLoop {
                 default -> System.out.println("INVALID COMMAND!");
             }
         }
-        scanner.close();
+        this.scanner.close();
     }
 }

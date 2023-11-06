@@ -13,14 +13,12 @@ public class SnapshotManagementSystem {
     private String snapshotFilePath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\snapshot\\" + "snapshot.txt";
     private Long lastSnapshotDate;
     private HashMap<String, GeneralFile> currSnapshot;
-    private HashMap<String, GeneralFile> knownSnapshot;
     private HashMap<String, GeneralFile> prevSnapshot;
     private FilesGenerator filesGenerator;
 
     public SnapshotManagementSystem() {
         this.currSnapshot = new HashMap<>();
         this.prevSnapshot = new HashMap<>(this.currSnapshot);
-        this.knownSnapshot = new HashMap<>(this.currSnapshot);
         this.filesGenerator = new FilesGenerator();
     }
 
@@ -33,6 +31,8 @@ public class SnapshotManagementSystem {
                 bufferedWriter.write(newFileFromPrevFile.getName() + " - " + newFileFromPrevFile.lastModified());
                 bufferedWriter.newLine();
             }
+            fileWriter.close();
+            bufferedWriter.close();
             System.out.println("SNAPSHOT SAVE SUCCEED");
         } catch (IOException e) {
             System.out.println("SNAPSHOT SAVE FAILED!");
@@ -69,8 +69,6 @@ public class SnapshotManagementSystem {
         }
     }
 
-
-
     public void loadStateFromCurrSnapshot() {
         this.currSnapshot.clear();
         File filesPackage = new File(this.directoryPath);
@@ -100,7 +98,7 @@ public class SnapshotManagementSystem {
         System.out.println("SNAPSHOT GOT UPDATED AT: " + new Timestamp(getLastSnapshotDate()) + " : ID: " + getLastSnapshotDate());
     }
 
-    public void status() {
+    public void printStatus() {
         loadStateFromPrevSnapshot();
         loadStateFromCurrSnapshot();
         System.out.println("LOADING STATE FROM CURRENT SNAPSHOT SUCCEED!");
@@ -155,16 +153,5 @@ public class SnapshotManagementSystem {
     }
     public HashMap<String, GeneralFile> getCurrSnapshot() {
         return this.currSnapshot;
-    }
-    public void setCurrSnapshot(HashMap<String, GeneralFile> currSnapshot) {
-        this.currSnapshot.clear();
-        this.currSnapshot.putAll(currSnapshot);
-    }
-    public HashMap<String, GeneralFile> getKnownSnapshot() {
-        return this.knownSnapshot;
-    }
-    public void setKnownSnapshot(HashMap<String, GeneralFile> knownSnapshot) {
-        this.knownSnapshot.clear();
-        this.knownSnapshot.putAll(knownSnapshot);
     }
 }
