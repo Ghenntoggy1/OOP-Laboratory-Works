@@ -1,27 +1,23 @@
 package Lab3.implementations;
 
-public class Node<T> {
-    private T storedObject;
-    private Node<T> pointer;
+public class Node {
+    private Object storedObject;
+    private Node pointer;
 
-    public Node(T storedObject) {
+    public Node(Object storedObject) {
         this.storedObject = storedObject;
         this.pointer = null;
     }
 
-    public T getStoredObject() {
+    public Object getStoredObject() {
         return storedObject;
     }
 
-    public void setStoredObject(T storedObject) {
-        this.storedObject = storedObject;
-    }
-
-    public Node<T> getPointer() {
+    public Node getPointer() {
         return pointer;
     }
 
-    public void setPointer(Node<T> pointer) {
+    public void setPointer(Node pointer) {
         this.pointer = pointer;
     }
 }

@@ -1,10 +1,10 @@
 package Lab3.interfaces;
 
-public interface StackInterface<T> {
-    void push(T newElement);
+public interface StackInterface {
+    void push(Object newElement);
     void pop();
-    T peek();
-    void search(T searchedElement);
+    Object peek();
+    void search(Object searchedElement);
     boolean isEmpty();
     void empty();
 }

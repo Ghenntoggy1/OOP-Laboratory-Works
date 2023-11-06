@@ -4,37 +4,35 @@ import Lab3.interfaces.StackInterface;
 
 import java.util.Arrays;
 
-public class ArrayDownStack<T> implements StackInterface<T> {
+public class ArrayDownStack implements StackInterface {
     private int topIndex;
-    private T[] stackArray;
+    private Object[] stackArray;
     private int defaultSize = 5;
     private int occupiedSpace;
 
     public ArrayDownStack(int specificSize) {
-        this.stackArray = (T[])(new Object[specificSize]);
+        this.stackArray = new Object[specificSize];
         this.topIndex = specificSize - 1;
     }
 
     public ArrayDownStack() {
-        this.stackArray = (T[])(new Object[this.defaultSize]);
+        this.stackArray = new Object[this.defaultSize];
         this.topIndex = this.defaultSize - 1;
     }
 
     @Override
-    public void push(T newElement) {
+    public void push(Object newElement) {
         if (this.topIndex < 0) {
             expandStackArray();
         }
         this.stackArray[this.topIndex] = newElement;
         this.topIndex--;
         setOccupiedSpace();
-        System.out.println("TOP INDEX " + topIndex);
-        System.out.println("Current Index " + (this.stackArray.length - this.occupiedSpace));
     }
 
     private void expandStackArray() {
         int newCapacity = this.stackArray.length + 1;
-        T[] newStackArray = (T[])(new Object[newCapacity]);
+        Object[] newStackArray = new Object[newCapacity];
         newStackArray[0] = null;
         System.arraycopy(this.stackArray, 0, newStackArray, 1, this.stackArray.length);
         this.stackArray = newStackArray;
@@ -52,7 +50,7 @@ public class ArrayDownStack<T> implements StackInterface<T> {
     }
 
     @Override
-    public T peek() {
+    public Object peek() {
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE STACK!");
             return null;
@@ -62,7 +60,7 @@ public class ArrayDownStack<T> implements StackInterface<T> {
     }
 
     @Override
-    public void search(T searchedElement) {
+    public void search(Object searchedElement) {
         boolean isFound = false;
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE STACK!");
@@ -103,7 +101,7 @@ public class ArrayDownStack<T> implements StackInterface<T> {
 
     @Override
     public void empty() {
-        this.stackArray = (T[])(new Object[this.stackArray.length]);
+        this.stackArray = new Object[this.stackArray.length];
         this.topIndex = this.stackArray.length - 1;
     }
 
@@ -112,11 +110,7 @@ public class ArrayDownStack<T> implements StackInterface<T> {
         return Arrays.toString(stackArray);
     }
 
-    public int getTopIndex() {
-        return this.topIndex;
-    }
-
-    public T[] getStackArray() {
+    public Object[] getStackArray() {
         return this.stackArray;
     }
 

@@ -1,7 +1,9 @@
 package Lab3.Menus;
 
 import Lab3.behavior.AppLoop;
+
 import Lab3.implementations.LinkedStack;
+
 import Lab3.interfaces.MenuInterface;
 
 import java.util.Scanner;
@@ -10,12 +12,12 @@ public class LinkedStackMenu implements MenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
-    LinkedStack<Object> stack;
+    private LinkedStack stack;
 
     public LinkedStackMenu(Scanner scanner, AppLoop appLoop) {
         this.appLoop = appLoop;
         this.scanner = scanner;
-        this.stack = new LinkedStack<>();
+        this.stack = new LinkedStack(1);
     }
 
 
@@ -65,20 +67,20 @@ public class LinkedStackMenu implements MenuInterface {
                 System.out.println("STACK:\n" + this.stack.toString());
             }
             case "status" -> {
-//                this.flag = false;
-//                int sizeStack = this.stack.getStackArray().length;
-//                this.stack.setOccupiedSpace();
-//                int occupiedSpace = this.stack.getOccupiedSpace();
-//                System.out.print("STACK IS: ");
-//                if (this.stack.isEmpty()) {
-//                    System.out.println("EMPTY: 0 / " + sizeStack);
-//                }
-//                else if (this.stack.getOccupiedSpace() == sizeStack){
-//                    System.out.println("FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
-//                }
-//                else {
-//                    System.out.println("PARTIALLY FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
-//                }
+                this.flag = false;
+                int sizeStack = this.stack.getLinkedListStack().length;
+                this.stack.setOccupiedSpace();
+                int occupiedSpace = this.stack.getOccupiedSpace();
+                System.out.print("STACK IS: ");
+                if (this.stack.isEmpty()) {
+                    System.out.println("EMPTY: 0 / " + sizeStack);
+                }
+                else if (occupiedSpace == sizeStack){
+                    System.out.println("FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
+                }
+                else {
+                    System.out.println("PARTIALLY FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
+                }
             }
             case "search", "s" -> {
                 this.flag = false;
@@ -94,7 +96,12 @@ public class LinkedStackMenu implements MenuInterface {
             }
             case "empty" -> {
                 this.flag = false;
-                this.stack.empty();
+                if (!this.stack.isEmpty()) {
+                    this.stack.empty();
+                }
+                else {
+                    System.out.println("NO ELEMENTS IN THE STACK!");
+                }
             }
             case "help", "h" -> {
                 this.flag = false;

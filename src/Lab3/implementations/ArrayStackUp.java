@@ -4,23 +4,23 @@ import Lab3.interfaces.StackInterface;
 
 import java.util.Arrays;
 
-public class ArrayStackUp<T> implements StackInterface<T> {
+public class ArrayStackUp implements StackInterface {
     private int topIndex;
-    private T[] stackArray;
+    private Object[] stackArray;
     private int defaultSize = 5;
 
     public ArrayStackUp(int specificSize) {
-        this.stackArray = (T[])(new Object[specificSize]);
+        this.stackArray = new Object[specificSize];
         this.topIndex = 0;
     }
 
     public ArrayStackUp() {
-        this.stackArray = (T[])(new Object[this.defaultSize]);
+        this.stackArray = new Object[this.defaultSize];
         this.topIndex = 0;
     }
 
     @Override
-    public void push(T newElement) {
+    public void push(Object newElement) {
         if (this.topIndex == this.stackArray.length) {
             expandStackArray();
         }
@@ -36,6 +36,7 @@ public class ArrayStackUp<T> implements StackInterface<T> {
     @Override
     public void pop() {
         if (isEmpty()) {
+            System.out.println("NO ELEMENTS IN THE STACK!");
             return;
         }
         this.topIndex--;
@@ -43,7 +44,7 @@ public class ArrayStackUp<T> implements StackInterface<T> {
     }
 
     @Override
-    public T peek() {
+    public Object peek() {
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE STACK!");
             return null;
@@ -52,7 +53,7 @@ public class ArrayStackUp<T> implements StackInterface<T> {
     }
 
     @Override
-    public void search(T searchedElement) {
+    public void search(Object searchedElement) {
         boolean isFound = false;
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE STACK!");
@@ -87,7 +88,7 @@ public class ArrayStackUp<T> implements StackInterface<T> {
 
     @Override
     public void empty() {
-        this.stackArray = (T[])(new Object[this.topIndex]);
+        this.stackArray = new Object[this.stackArray.length];
         this.topIndex = 0;
     }
 
@@ -95,7 +96,7 @@ public class ArrayStackUp<T> implements StackInterface<T> {
         return this.topIndex;
     }
 
-    public T[] getStackArray() {
+    public Object[] getStackArray() {
         return this.stackArray;
     }
 }

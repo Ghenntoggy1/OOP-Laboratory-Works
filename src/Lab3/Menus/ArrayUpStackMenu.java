@@ -10,12 +10,12 @@ public class ArrayUpStackMenu implements MenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
-    private ArrayStackUp<Object> stack;
+    private ArrayStackUp stack;
 
     public ArrayUpStackMenu(Scanner scanner, AppLoop appLoop) {
         this.scanner = scanner;
         this.appLoop = appLoop;
-        this.stack = new ArrayStackUp<>(1);
+        this.stack = new ArrayStackUp(1);
     }
 
     @Override
@@ -92,7 +92,12 @@ public class ArrayUpStackMenu implements MenuInterface {
             }
             case "empty" -> {
                 this.flag = false;
-                this.stack.empty();
+                if (!this.stack.isEmpty()) {
+                    this.stack.empty();
+                }
+                else {
+                    System.out.println("NO ELEMENTS IN THE STACK!");
+                }
             }
             case "help", "h" -> {
                 this.flag = false;
