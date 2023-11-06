@@ -8,11 +8,13 @@ public class AppLoop {
     Scanner scanner;
     MainMenu mainMenu;
     SnapshotManagementSystem snapshotManagementSystem;
+
     public AppLoop() {
         this.scanner = new Scanner(System.in);
         this.mainMenu = new MainMenu(this.scanner);
         this.snapshotManagementSystem = new SnapshotManagementSystem();
     }
+
     public void run() {
         this.mainMenu.printMenu();
         this.mainMenu.printChoices();

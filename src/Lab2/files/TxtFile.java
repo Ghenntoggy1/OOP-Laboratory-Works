@@ -1,6 +1,9 @@
 package Lab2.files;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class TxtFile extends GeneralFileWithLines {
     private int lineCount;

@@ -1,9 +1,12 @@
 package Lab2.files;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class PyJavaFile extends GeneralFileWithLines{
-    private int lineCount = 0;
+    private int lineCount;
     private int classCount = 0;
     private int methodCount = 0;
     private String fullPath = this.directoryPath + "\\" + this.fileName;
@@ -36,6 +39,7 @@ public class PyJavaFile extends GeneralFileWithLines{
         } catch (IOException ignored) {
         }
     }
+
     private void findMethodCount() {
         File file = new File(this.fullPath);
         try {

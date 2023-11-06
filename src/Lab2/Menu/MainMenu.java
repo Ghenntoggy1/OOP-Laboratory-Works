@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class MainMenu implements MenuInterface {
     Scanner scanner;
-
     public MainMenu(Scanner scanner) {
         this.scanner = scanner;
     }

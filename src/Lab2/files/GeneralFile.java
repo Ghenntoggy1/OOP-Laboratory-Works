@@ -1,12 +1,14 @@
 package Lab2.files;
 
-import java.io.*;
+
+import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+
 import java.sql.Timestamp;
-import java.util.concurrent.TimeUnit;
 
 public class GeneralFile {
     protected String directoryPath;
@@ -47,10 +49,6 @@ public class GeneralFile {
 
     public Long getLastModificationDate() {
         return this.lastModificationDate;
-    }
-
-    public String getExtensionType() {
-        return this.extensionType;
     }
 
     @Override

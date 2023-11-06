@@ -26,15 +26,11 @@ public class FilesGenerator {
 
     public GeneralFile generateNewFile(String newDirectoryPath, String newFileName, Long newLastModificationDate) {
         String newExtension = getExtensionTypeFromFilename(newFileName);
-        if (newExtension.equals("txt")) {
-            return generateNewTxtFile(newDirectoryPath, newFileName, newLastModificationDate);
-        }
-        else if (newExtension.equals("jpg") || newExtension.equals("png")) {
-            return generateNewPngJpgFile(newDirectoryPath, newFileName, newLastModificationDate);
-        }
-        else if (newExtension.equals("py") || newExtension.equals("java")) {
-            return generateNewPyJavaFile(newDirectoryPath, newFileName, newLastModificationDate);
-        }
-        return null;
+        return switch (newExtension) {
+            case "txt" -> generateNewTxtFile(newDirectoryPath, newFileName, newLastModificationDate);
+            case "jpg", "png" -> generateNewPngJpgFile(newDirectoryPath, newFileName, newLastModificationDate);
+            case "py", "java" -> generateNewPyJavaFile(newDirectoryPath, newFileName, newLastModificationDate);
+            default -> null;
+        };
     }
 }
