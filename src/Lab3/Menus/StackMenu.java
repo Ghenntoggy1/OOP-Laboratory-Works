@@ -25,10 +25,9 @@ public class StackMenu implements MenuInterface {
             }
             case "down", "d" -> {
                 this.appLoop.setActiveMenu(new ArrayDownStackMenu(this.scanner, this.appLoop));
-                System.out.println("DOWN WIP");
             }
             case "linked", "l" -> {
-                System.out.println("LINKED LIST WIP");
+                this.appLoop.setActiveMenu(new LinkedStackMenu(this.scanner, this.appLoop));
             }
             case "help", "h" -> {
                 this.flag = false;
