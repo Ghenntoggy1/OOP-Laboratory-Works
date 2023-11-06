@@ -39,9 +39,7 @@ public class ArrayStackUp<T> implements StackInterface<T> {
             return;
         }
         this.topIndex--;
-//        T poppedElement = this.stackArray[this.topIndex];
         this.stackArray[this.topIndex] = null;
-//        this.stackArray = Arrays.copyOf(this.stackArray, this.stackArray.length - 1);
     }
 
     @Override

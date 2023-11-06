@@ -35,6 +35,7 @@ public class LinkedStack<T> implements StackInterface<T> {
     public T peek() {
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE STACK!");
+            return null;
         }
 
         return this.topNode.getStoredObject();
@@ -42,7 +43,24 @@ public class LinkedStack<T> implements StackInterface<T> {
 
     @Override
     public void search(T searchedElement) {
-
+        if (isEmpty()) {
+            System.out.println("NO ELEMENTS IN THE STACK!");
+            return;
+        }
+        int index = 0;
+        boolean isFound = false;
+        Node<T> currentNode = this.topNode;
+        while (currentNode != null) {
+            if (currentNode.getStoredObject().equals(searchedElement)) {
+                System.out.println("ELEMENT " + searchedElement + " FOUND AT INDEX " + index);
+                isFound = true;
+            }
+            currentNode = currentNode.getPointer();
+            index++;
+        }
+        if (!isFound && !isEmpty()) {
+            System.out.println("ELEMENT " + searchedElement + " NOT FOUND!");
+        }
     }
 
     @Override
@@ -51,7 +69,8 @@ public class LinkedStack<T> implements StackInterface<T> {
     }
 
     @Override
-    public void empty() {  // elements that were reachable from my top node become targets for garbage collector of Java
+    public void empty() {  // NOTE: elements that were reachable from my top node become targets for garbage collector
+                           // of Java
         this.topNode = null;
         this.size = 0;
     }
