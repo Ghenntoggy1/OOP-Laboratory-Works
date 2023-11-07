@@ -83,6 +83,9 @@ public class ArrayStackUp implements StackInterface {
 
     @Override
     public String toString() {
+        for (int i = this.stackArray.length - 1; i >= 0 ; i--) {
+            System.out.println(this.stackArray[i]);
+        }
         return Arrays.toString(stackArray);
     }
 
