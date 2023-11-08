@@ -1,4 +1,4 @@
-package Lab3.Menus;
+package Lab3.Menus.StackMenus;
 
 import Lab3.behavior.AppLoop;
 

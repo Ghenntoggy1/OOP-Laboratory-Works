@@ -1,5 +1,7 @@
-package Lab3.Menus;
+package Lab3.Menus.GeneralMenus;
 
+import Lab3.Menus.QueueMenus.QueueMenu;
+import Lab3.Menus.StackMenus.StackMenu;
 import Lab3.behavior.AppLoop;
 
 import Lab3.interfaces.MenuInterface;

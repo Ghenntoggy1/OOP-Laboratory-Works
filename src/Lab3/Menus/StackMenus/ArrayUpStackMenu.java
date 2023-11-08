@@ -1,23 +1,23 @@
-package Lab3.Menus;
+package Lab3.Menus.StackMenus;
 
 import Lab3.behavior.AppLoop;
 
-import Lab3.implementations.Queue.ArrayQueue;
+import Lab3.implementations.Stack.ArrayStackUp;
 
-import Lab3.interfaces.QueueMenuInterface;
+import Lab3.interfaces.StackMenuInterface;
 
 import java.util.Scanner;
 
-public class ArrayQueueMenu implements QueueMenuInterface {
+public class ArrayUpStackMenu implements StackMenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
-    private ArrayQueue arrayQueue;
+    private ArrayStackUp stack;
 
-    public ArrayQueueMenu(Scanner scanner, AppLoop appLoop) {
+    public ArrayUpStackMenu(Scanner scanner, AppLoop appLoop) {
         this.scanner = scanner;
         this.appLoop = appLoop;
-        this.arrayQueue = new ArrayQueue(1);
+        this.stack = new ArrayStackUp(1);
     }
 
     @Override
@@ -26,17 +26,17 @@ public class ArrayQueueMenu implements QueueMenuInterface {
         String[] commandsList = input.split(" ");
 
         switch (commandsList[0]) {
-            case "enqueue", "en" -> {
+            case "push" -> {
                 this.flag = false;
                 if (commandsList.length > 1) {
                     for (int i = 1; i < commandsList.length; i++) {
-                        this.arrayQueue.enqueue(commandsList[i]);
+                        this.stack.push(commandsList[i]);
                     }
                 }
                 else {
                     while (true) {
                         String input1 = takeElementInput(this.scanner);
-                        this.arrayQueue.enqueue(input1);
+                        this.stack.push(input1);
                         System.out.println("MORE ELEMENTS? Y/N");
                         input1 = this.scanner.nextLine();
                         if (input1.equalsIgnoreCase("n")) {
@@ -45,55 +45,60 @@ public class ArrayQueueMenu implements QueueMenuInterface {
                     }
                 }
             }
-            case "dequeue", "d" -> {
+            case "pop" -> {
                 this.flag = false;
-                Object rearElement = this.arrayQueue.getRearElement();
-                if (rearElement != null) {
-                    System.out.println("POPPED ELEMENT: " + this.arrayQueue.getRearElement());
-                    this.arrayQueue.deque();
+                Object peekedElement = this.stack.peek();
+                if (peekedElement != null) {
+                    System.out.println("POPPED ELEMENT: " + this.stack.peek());
+                    this.stack.pop();
                 }
 
             }
             case "peek" -> {
                 this.flag = false;
-                Object peekedElement = this.arrayQueue.peek();
+                Object peekedElement = this.stack.peek();
                 if (peekedElement != null) {
-                    System.out.println("LAST ELEMENT IN THE QUEUE: " + peekedElement);
+                    System.out.println("LAST ELEMENT IN THE STACK: " + peekedElement);
                 }
             }
             case "full", "f" -> {
                 this.flag = false;
-                System.out.println("QUEUE:\n" + this.arrayQueue.toString());
+                System.out.println("STACK:\n" + this.stack.toString());
             }
             case "status" -> {
                 this.flag = false;
-                System.out.print("QUEUE IS: ");
-                if (this.arrayQueue.isEmpty()) {
-                    System.out.println("EMPTY");
+                int sizeStack = this.stack.getStackArray().length;
+                int occupiedSpace = this.stack.getTopIndex();
+                System.out.print("STACK IS: ");
+                if (this.stack.isEmpty()) {
+                    System.out.println("EMPTY: 0 / " + sizeStack);
+                }
+                else if (this.stack.getTopIndex() == sizeStack){
+                    System.out.println("FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
                 }
                 else {
-                    System.out.println("FULL");
+                    System.out.println("PARTIALLY FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
                 }
             }
             case "search", "s" -> {
                 this.flag = false;
                 if (commandsList.length > 1) {
                     for (int i = 1; i < commandsList.length; i++) {
-                        this.arrayQueue.search(commandsList[i]);
+                        this.stack.search(commandsList[i]);
                     }
                 }
                 else {
                     String searchedElement = takeElementInput(this.scanner);
-                    this.arrayQueue.search(searchedElement);
+                    this.stack.search(searchedElement);
                 }
             }
             case "empty" -> {
                 this.flag = false;
-                if (!this.arrayQueue.isEmpty()) {
-                    this.arrayQueue.empty();
+                if (!this.stack.isEmpty()) {
+                    this.stack.empty();
                 }
                 else {
-                    System.out.println("NO ELEMENTS IN THE QUEUE!");
+                    System.out.println("NO ELEMENTS IN THE STACK!");
                 }
             }
             case "help", "h" -> {
@@ -101,9 +106,8 @@ public class ArrayQueueMenu implements QueueMenuInterface {
                 printHelp();
             }
             case "exit", "e" -> {
-                this.arrayQueue.deleteQueue();
                 printQuit();
-                this.appLoop.setActiveMenu(new QueueMenu(this.scanner, this.appLoop));
+                this.appLoop.setActiveMenu(new StackMenu(this.scanner, this.appLoop));
             }
             default -> {
                 printInvalid();
@@ -122,6 +126,6 @@ public class ArrayQueueMenu implements QueueMenuInterface {
 
     @Override
     public void printGreetings() {
-        System.out.println("WELCOME TO ARRAY QUEUE IMPLEMENTATION MENU!");
+        System.out.println("WELCOME TO ARRAY UP STACK IMPLEMENTATION MENU!");
     }
 }

@@ -1,4 +1,4 @@
-package Lab3.Menus;
+package Lab3.Menus.GeneralMenus;
 
 import Lab3.interfaces.MenuInterface;
 

@@ -1,23 +1,23 @@
-package Lab3.Menus;
+package Lab3.Menus.QueueMenus;
 
 import Lab3.behavior.AppLoop;
 
-import Lab3.implementations.Queue.LinkedQueue;
+import Lab3.implementations.Queue.VectorQueue;
 
 import Lab3.interfaces.QueueMenuInterface;
 
 import java.util.Scanner;
 
-public class LinkedQueueMenu implements QueueMenuInterface {
+public class VectorQueueMenu implements QueueMenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
-    private LinkedQueue linkedQueue;
+    private VectorQueue vectorQueue;
 
-    public LinkedQueueMenu(Scanner scanner, AppLoop appLoop) {
+    public VectorQueueMenu(Scanner scanner, AppLoop appLoop) {
         this.scanner = scanner;
         this.appLoop = appLoop;
-        this.linkedQueue = new LinkedQueue();
+        this.vectorQueue = new VectorQueue(1);
     }
 
     @Override
@@ -30,13 +30,13 @@ public class LinkedQueueMenu implements QueueMenuInterface {
                 this.flag = false;
                 if (commandsList.length > 1) {
                     for (int i = 1; i < commandsList.length; i++) {
-                        this.linkedQueue.enqueue(commandsList[i]);
+                        this.vectorQueue.enqueue(commandsList[i]);
                     }
                 }
                 else {
                     while (true) {
                         String input1 = takeElementInput(this.scanner);
-                        this.linkedQueue.enqueue(input1);
+                        this.vectorQueue.enqueue(input1);
                         System.out.println("MORE ELEMENTS? Y/N");
                         input1 = this.scanner.nextLine();
                         if (input1.equalsIgnoreCase("n")) {
@@ -47,28 +47,28 @@ public class LinkedQueueMenu implements QueueMenuInterface {
             }
             case "dequeue", "d" -> {
                 this.flag = false;
-                Object rearElement = this.linkedQueue.getRearElement();
+                Object rearElement = this.vectorQueue.getRearElement();
                 if (rearElement != null) {
-                    System.out.println("POPPED ELEMENT: " + this.linkedQueue.getRearElement());
-                    this.linkedQueue.deque();
+                    System.out.println("POPPED ELEMENT: " + this.vectorQueue.getRearElement());
+                    this.vectorQueue.deque();
                 }
 
             }
             case "peek" -> {
                 this.flag = false;
-                Object peekedElement = this.linkedQueue.peek();
+                Object peekedElement = this.vectorQueue.peek();
                 if (peekedElement != null) {
                     System.out.println("LAST ELEMENT IN THE QUEUE: " + peekedElement);
                 }
             }
             case "full", "f" -> {
                 this.flag = false;
-                System.out.println("QUEUE:\n" + this.linkedQueue.toString());
+                System.out.println("QUEUE:\n" + this.vectorQueue.toString());
             }
             case "status" -> {
                 this.flag = false;
                 System.out.print("QUEUE IS: ");
-                if (this.linkedQueue.isEmpty()) {
+                if (this.vectorQueue.isEmpty()) {
                     System.out.println("EMPTY");
                 }
                 else {
@@ -79,18 +79,18 @@ public class LinkedQueueMenu implements QueueMenuInterface {
                 this.flag = false;
                 if (commandsList.length > 1) {
                     for (int i = 1; i < commandsList.length; i++) {
-                        this.linkedQueue.search(commandsList[i]);
+                        this.vectorQueue.search(commandsList[i]);
                     }
                 }
                 else {
                     String searchedElement = takeElementInput(this.scanner);
-                    this.linkedQueue.search(searchedElement);
+                    this.vectorQueue.search(searchedElement);
                 }
             }
             case "empty" -> {
                 this.flag = false;
-                if (!this.linkedQueue.isEmpty()) {
-                    this.linkedQueue.empty();
+                if (!this.vectorQueue.isEmpty()) {
+                    this.vectorQueue.empty();
                 }
                 else {
                     System.out.println("NO ELEMENTS IN THE QUEUE!");
@@ -101,7 +101,7 @@ public class LinkedQueueMenu implements QueueMenuInterface {
                 printHelp();
             }
             case "exit", "e" -> {
-                this.linkedQueue.deleteQueue();
+                this.vectorQueue.deleteQueue();
                 printQuit();
                 this.appLoop.setActiveMenu(new QueueMenu(this.scanner, this.appLoop));
             }
@@ -122,6 +122,6 @@ public class LinkedQueueMenu implements QueueMenuInterface {
 
     @Override
     public void printGreetings() {
-        System.out.println("WELCOME TO LINKED LIST QUEUE IMPLEMENTATION MENU!");
+        System.out.println("WELCOME TO VECTOR QUEUE IMPLEMENTATION MENU!");
     }
 }

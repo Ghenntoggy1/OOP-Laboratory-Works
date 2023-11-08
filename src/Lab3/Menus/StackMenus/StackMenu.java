@@ -1,16 +1,17 @@
-package Lab3.Menus;
+package Lab3.Menus.StackMenus;
 
+import Lab3.Menus.GeneralMenus.MainMenu;
 import Lab3.behavior.AppLoop;
 import Lab3.interfaces.MenuInterface;
 
 import java.util.Scanner;
 
-public class QueueMenu implements MenuInterface {
+public class StackMenu implements MenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
 
-    public QueueMenu(Scanner scanner, AppLoop appLoop) {
+    public StackMenu(Scanner scanner, AppLoop appLoop) {
         this.scanner = scanner;
         this.appLoop = appLoop;
     }
@@ -20,14 +21,14 @@ public class QueueMenu implements MenuInterface {
         String input = takeUserInput(this.scanner);
 
         switch (input) {
-            case "array", "a" -> {
-                this.appLoop.setActiveMenu(new ArrayQueueMenu(this.scanner, this.appLoop));
+            case "up", "u" -> {
+                this.appLoop.setActiveMenu(new ArrayUpStackMenu(this.scanner, this.appLoop));
             }
-            case "vector", "v" -> {
-                this.appLoop.setActiveMenu(new VectorQueueMenu(this.scanner, this.appLoop));
+            case "down", "d" -> {
+                this.appLoop.setActiveMenu(new ArrayDownStackMenu(this.scanner, this.appLoop));
             }
             case "linked", "l" -> {
-                this.appLoop.setActiveMenu(new LinkedQueueMenu(this.scanner, this.appLoop));
+                this.appLoop.setActiveMenu(new LinkedStackMenu(this.scanner, this.appLoop));
             }
             case "help", "h" -> {
                 this.flag = false;
@@ -54,8 +55,8 @@ public class QueueMenu implements MenuInterface {
 
     @Override
     public void printChoices() {
-        System.out.println("array, a - ARRAY IMPLEMENTATION");
-        System.out.println("vector, v - VECTOR QUEUE IMPLEMENTATION");
+        System.out.println("up, u - ARRAY UP IMPLEMENTATION");
+        System.out.println("down, d - ARRAY DOWN IMPLEMENTATION");
         System.out.println("linked, l - LINKED LIST IMPLEMENTATION");
         System.out.println("help, h - HELP");
         System.out.println("exit, e - EXIT MENU");
@@ -68,6 +69,6 @@ public class QueueMenu implements MenuInterface {
 
     @Override
     public void printGreetings() {
-        System.out.println("QUEUE IMPLEMENTATIONS MENU");
+        System.out.println("STACK IMPLEMENTATIONS MENU");
     }
 }

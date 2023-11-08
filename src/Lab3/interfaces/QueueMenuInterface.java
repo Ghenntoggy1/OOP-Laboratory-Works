@@ -15,11 +15,6 @@ public interface QueueMenuInterface extends MenuInterface{
         System.out.println("exit, e - EXIT MENU");
     }
 
-    @Override
-    default void printQuit() {
-        System.out.println("EXITTING MENU...");
-    }
-
     default String takeElementInput(Scanner scanner) {
         System.out.println("INPUT ELEMENT:");
         String input = scanner.nextLine();

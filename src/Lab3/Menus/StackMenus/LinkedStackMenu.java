@@ -1,23 +1,23 @@
-package Lab3.Menus;
+package Lab3.Menus.StackMenus;
 
 import Lab3.behavior.AppLoop;
 
-import Lab3.implementations.Stack.ArrayStackUp;
+import Lab3.implementations.Stack.LinkedStack;
 
 import Lab3.interfaces.StackMenuInterface;
 
 import java.util.Scanner;
 
-public class ArrayUpStackMenu implements StackMenuInterface {
+public class LinkedStackMenu implements StackMenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
-    private ArrayStackUp stack;
+    private LinkedStack stack;
 
-    public ArrayUpStackMenu(Scanner scanner, AppLoop appLoop) {
-        this.scanner = scanner;
+    public LinkedStackMenu(Scanner scanner, AppLoop appLoop) {
         this.appLoop = appLoop;
-        this.stack = new ArrayStackUp(1);
+        this.scanner = scanner;
+        this.stack = new LinkedStack(1);
     }
 
     @Override
@@ -67,13 +67,14 @@ public class ArrayUpStackMenu implements StackMenuInterface {
             }
             case "status" -> {
                 this.flag = false;
-                int sizeStack = this.stack.getStackArray().length;
-                int occupiedSpace = this.stack.getTopIndex();
+                int sizeStack = this.stack.getLinkedListStack().length;
+                this.stack.setOccupiedSpace();
+                int occupiedSpace = this.stack.getOccupiedSpace();
                 System.out.print("STACK IS: ");
                 if (this.stack.isEmpty()) {
                     System.out.println("EMPTY: 0 / " + sizeStack);
                 }
-                else if (this.stack.getTopIndex() == sizeStack){
+                else if (occupiedSpace == sizeStack){
                     System.out.println("FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
                 }
                 else {
@@ -126,6 +127,6 @@ public class ArrayUpStackMenu implements StackMenuInterface {
 
     @Override
     public void printGreetings() {
-        System.out.println("WELCOME TO ARRAY UP STACK IMPLEMENTATION MENU!");
+        System.out.println("WELCOME TO LINKED LIST STACK IMPLEMENTATION MENU!");
     }
 }
