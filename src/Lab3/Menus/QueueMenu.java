@@ -23,9 +23,8 @@ public class QueueMenu implements MenuInterface {
             case "array", "a" -> {
                 this.appLoop.setActiveMenu(new ArrayQueueMenu(this.scanner, this.appLoop));
             }
-            case "priority", "p" -> {
-                System.out.println("priority WIP");
-                //this.appLoop.setActiveMenu(new PriorityQueueMenu(this.scanner, this.appLoop));
+            case "vector", "v" -> {
+                this.appLoop.setActiveMenu(new VectorQueueMenu(this.scanner, this.appLoop));
             }
             case "linked", "l" -> {
                 this.appLoop.setActiveMenu(new LinkedQueueMenu(this.scanner, this.appLoop));
@@ -64,7 +63,7 @@ public class QueueMenu implements MenuInterface {
     @Override
     public void printChoices() {
         System.out.println("array, a - ARRAY IMPLEMENTATION");
-        System.out.println("priority, p - PRIORITY QUEUE IMPLEMENTATION");
+        System.out.println("vector, v - VECTOR QUEUE IMPLEMENTATION");
         System.out.println("linked, l - LINKED LIST IMPLEMENTATION");
         System.out.println("help, h - HELP");
         System.out.println("exit, e - EXIT MENU");

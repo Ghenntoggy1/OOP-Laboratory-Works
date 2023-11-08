@@ -2,18 +2,18 @@ package Lab3.implementations.Queue;
 
 import Lab3.interfaces.QueueInterface;
 
-import java.util.LinkedList;
+import java.util.Vector;
 
-public class LinkedQueue implements QueueInterface {
-    private LinkedList<Object> linkedListQueue;
+public class VectorQueue implements QueueInterface {
+    private Vector<Object> vectorQueue;
 
-    public LinkedQueue() {
-        this.linkedListQueue = new LinkedList<>();
+    public VectorQueue(int capacity) {
+        this.vectorQueue = new Vector<>(capacity);
     }
 
     @Override
     public void enqueue(Object newElement) {
-        this.linkedListQueue.add(newElement);
+        this.vectorQueue.add(newElement);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class LinkedQueue implements QueueInterface {
             System.out.println("NO ELEMENTS IN THE QUEUE!");
             return;
         }
-        this.linkedListQueue.removeFirst();
+        this.vectorQueue.remove(0);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class LinkedQueue implements QueueInterface {
             System.out.println("NO ELEMENTS IN THE QUEUE!");
             return null;
         }
-        return this.linkedListQueue.getLast();
+        return this.vectorQueue.get(this.vectorQueue.size() - 1);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class LinkedQueue implements QueueInterface {
             return;
         }
         else {
-            for (int i = 0; i < this.linkedListQueue.size(); i++) {
-                if (this.linkedListQueue.get(i).toString().equals(searchedElement.toString())) {
+            for (int i = 0; i < this.vectorQueue.size(); i++) {
+                if (this.vectorQueue.get(i).toString().equals(searchedElement.toString())) {
                     System.out.println("ELEMENT " + searchedElement + " FOUND AT INDEX " + i);
                     isFound = true;
                 }
@@ -56,7 +56,7 @@ public class LinkedQueue implements QueueInterface {
 
     @Override
     public boolean isEmpty() {
-        return this.linkedListQueue.isEmpty();
+        return this.vectorQueue.isEmpty();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class LinkedQueue implements QueueInterface {
             System.out.println("QUEUE ALREADY EMPTY!");
             return;
         }
-        this.linkedListQueue.clear();
+        this.vectorQueue.clear();
     }
 
     public Object getRearElement() {
@@ -73,16 +73,16 @@ public class LinkedQueue implements QueueInterface {
             System.out.println("NO ELEMENTS IN THE QUEUE!");
             return null;
         }
-        return this.linkedListQueue.getFirst();
+        return this.vectorQueue.get(0);
     }
 
     @Override
     public String toString() {
-        return this.linkedListQueue.toString();
+        return this.vectorQueue.toString();
 
     }
 
     public void deleteQueue() {
-        this.linkedListQueue = null;
+        this.vectorQueue = null;
     }
 }
