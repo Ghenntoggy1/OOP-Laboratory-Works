@@ -45,9 +45,9 @@ public class ArrayQueueMenu implements MenuInterface {
             }
             case "dequeue", "d" -> {
                 this.flag = false;
-                Object peekedElement = this.arrayQueue.peek();  // TODO not peek, but last non null element in queue
-                if (peekedElement != null) {
-                    System.out.println("POPPED ELEMENT: " + this.arrayQueue.peek());
+                Object rearElement = this.arrayQueue.getRearElement();
+                if (rearElement != null) {
+                    System.out.println("POPPED ELEMENT: " + this.arrayQueue.getRearElement());
                     this.arrayQueue.deque();
                 }
 
@@ -64,19 +64,14 @@ public class ArrayQueueMenu implements MenuInterface {
                 System.out.println("STACK:\n" + this.arrayQueue.toString());
             }
             case "status" -> {
-//                this.flag = false;
-//                int sizeStack = this.arrayQueue.getStackArray().length;
-//                int occupiedSpace = this.arrayQueue.getTopIndex();
-//                System.out.print("STACK IS: ");
-//                if (this.arrayQueue.isEmpty()) {
-//                    System.out.println("EMPTY: 0 / " + sizeStack);
-//                }
-//                else if (this.arrayQueue.getTopIndex() == sizeStack){
-//                    System.out.println("FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
-//                }
-//                else {
-//                    System.out.println("PARTIALLY FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
-//                }
+                this.flag = false;
+                System.out.print("STACK IS: ");
+                if (this.arrayQueue.isEmpty()) {
+                    System.out.println("EMPTY");
+                }
+                else {
+                    System.out.println("FULL");
+                }
             }
             case "search", "s" -> {
                 this.flag = false;
@@ -130,8 +125,8 @@ public class ArrayQueueMenu implements MenuInterface {
 
     @Override
     public void printChoices() {
-        System.out.println("enqueue <element> <element2> ... <elementN> - ENQUEUE ELEMENT");
-        System.out.println("dequeue - DEQUEUE");
+        System.out.println("enqueue, en <element> <element2> ... <elementN> - ENQUEUE ELEMENT");
+        System.out.println("dequeue, d - DEQUEUE");
         System.out.println("peek, p - PEEK");
         System.out.println("status - IS STACK EMPTY?");
         System.out.println("search, s <element1> <element2> ... <elementN> - SEARCH ELEMENT");
