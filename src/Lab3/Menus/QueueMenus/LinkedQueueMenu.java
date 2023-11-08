@@ -1,26 +1,28 @@
-package Lab3.Menus;
+package Lab3.Menus.QueueMenus;
 
 import Lab3.behavior.AppLoop;
-import Lab3.implementations.Queue.ArrayQueue;
-import Lab3.interfaces.MenuInterface;
+
+import Lab3.implementations.Queue.LinkedQueue;
+
+import Lab3.interfaces.QueueMenuInterface;
 
 import java.util.Scanner;
 
-public class ArrayQueueMenu implements MenuInterface {
+public class LinkedQueueMenu implements QueueMenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
-    private ArrayQueue arrayQueue;
+    private LinkedQueue linkedQueue;
 
-    public ArrayQueueMenu(Scanner scanner, AppLoop appLoop) {
+    public LinkedQueueMenu(Scanner scanner, AppLoop appLoop) {
         this.scanner = scanner;
         this.appLoop = appLoop;
-        this.arrayQueue = new ArrayQueue(1);
+        this.linkedQueue = new LinkedQueue();
     }
 
     @Override
     public void handleInput() {
-        String input = takeUserInput();
+        String input = takeUserInput(this.scanner);
         String[] commandsList = input.split(" ");
 
         switch (commandsList[0]) {
@@ -28,13 +30,13 @@ public class ArrayQueueMenu implements MenuInterface {
                 this.flag = false;
                 if (commandsList.length > 1) {
                     for (int i = 1; i < commandsList.length; i++) {
-                        this.arrayQueue.enqueue(commandsList[i]);
+                        this.linkedQueue.enqueue(commandsList[i]);
                     }
                 }
                 else {
                     while (true) {
-                        String input1 = takeElementInput();
-                        this.arrayQueue.enqueue(input1);
+                        String input1 = takeElementInput(this.scanner);
+                        this.linkedQueue.enqueue(input1);
                         System.out.println("MORE ELEMENTS? Y/N");
                         input1 = this.scanner.nextLine();
                         if (input1.equalsIgnoreCase("n")) {
@@ -45,28 +47,28 @@ public class ArrayQueueMenu implements MenuInterface {
             }
             case "dequeue", "d" -> {
                 this.flag = false;
-                Object rearElement = this.arrayQueue.getRearElement();
+                Object rearElement = this.linkedQueue.getRearElement();
                 if (rearElement != null) {
-                    System.out.println("POPPED ELEMENT: " + this.arrayQueue.getRearElement());
-                    this.arrayQueue.deque();
+                    System.out.println("POPPED ELEMENT: " + this.linkedQueue.getRearElement());
+                    this.linkedQueue.deque();
                 }
 
             }
             case "peek" -> {
                 this.flag = false;
-                Object peekedElement = this.arrayQueue.peek();
+                Object peekedElement = this.linkedQueue.peek();
                 if (peekedElement != null) {
                     System.out.println("LAST ELEMENT IN THE QUEUE: " + peekedElement);
                 }
             }
             case "full", "f" -> {
                 this.flag = false;
-                System.out.println("QUEUE:\n" + this.arrayQueue.toString());
+                System.out.println("QUEUE:\n" + this.linkedQueue.toString());
             }
             case "status" -> {
                 this.flag = false;
                 System.out.print("QUEUE IS: ");
-                if (this.arrayQueue.isEmpty()) {
+                if (this.linkedQueue.isEmpty()) {
                     System.out.println("EMPTY");
                 }
                 else {
@@ -77,18 +79,18 @@ public class ArrayQueueMenu implements MenuInterface {
                 this.flag = false;
                 if (commandsList.length > 1) {
                     for (int i = 1; i < commandsList.length; i++) {
-                        this.arrayQueue.search(commandsList[i]);
+                        this.linkedQueue.search(commandsList[i]);
                     }
                 }
                 else {
-                    String searchedElement = takeElementInput();
-                    this.arrayQueue.search(searchedElement);
+                    String searchedElement = takeElementInput(this.scanner);
+                    this.linkedQueue.search(searchedElement);
                 }
             }
             case "empty" -> {
                 this.flag = false;
-                if (!this.arrayQueue.isEmpty()) {
-                    this.arrayQueue.empty();
+                if (!this.linkedQueue.isEmpty()) {
+                    this.linkedQueue.empty();
                 }
                 else {
                     System.out.println("NO ELEMENTS IN THE QUEUE!");
@@ -99,7 +101,7 @@ public class ArrayQueueMenu implements MenuInterface {
                 printHelp();
             }
             case "exit", "e" -> {
-                this.arrayQueue.deleteQueue();
+                this.linkedQueue.deleteQueue();
                 printQuit();
                 this.appLoop.setActiveMenu(new QueueMenu(this.scanner, this.appLoop));
             }
@@ -107,34 +109,6 @@ public class ArrayQueueMenu implements MenuInterface {
                 printInvalid();
             }
         }
-    }
-
-    @Override
-    public String takeUserInput() {
-        System.out.println("INPUT CHOICE:");
-        String input = this.scanner.nextLine();
-        System.out.println("YOUR CHOICE: " + input);
-        return input;
-    }
-
-    public String takeElementInput() {
-        System.out.println("INPUT ELEMENT:");
-        String input = this.scanner.nextLine();
-        System.out.println("YOUR ELEMENT: " + input);
-        return input;
-    }
-
-    @Override
-    public void printChoices() {
-        System.out.println("enqueue, en <element> <element2> ... <elementN> - ENQUEUE ELEMENT");
-        System.out.println("dequeue, d - DEQUEUE");
-        System.out.println("peek, p - PEEK");
-        System.out.println("status - IS QUEUE EMPTY?");
-        System.out.println("search, s <element1> <element2> ... <elementN> - SEARCH ELEMENT");
-        System.out.println("full, f - DISPLAY FULL QUEUE");
-        System.out.println("empty - EMPTY THE QUEUE");
-        System.out.println("help, h - HELP");
-        System.out.println("exit, e - EXIT MENU");
     }
 
     @Override
@@ -147,23 +121,7 @@ public class ArrayQueueMenu implements MenuInterface {
     }
 
     @Override
-    public void printHelp() {
-        System.out.println("\nCHOICES");
-        printChoices();
-    }
-
-    @Override
-    public void printQuit() {
-        System.out.println("EXITTING MENU...");
-    }
-
-    @Override
-    public void printInvalid() {
-        System.out.println("INVALID CHOICE!");
-    }
-
-    @Override
     public void printGreetings() {
-        System.out.println("WELCOME TO ARRAY QUEUE IMPLEMENTATION MENU!");
+        System.out.println("WELCOME TO LINKED LIST QUEUE IMPLEMENTATION MENU!");
     }
 }

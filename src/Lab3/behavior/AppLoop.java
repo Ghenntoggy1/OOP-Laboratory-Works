@@ -1,8 +1,8 @@
 package Lab3.behavior;
 
-import Lab3.Menus.ExitMenu;
+import Lab3.Menus.GeneralMenus.ExitMenu;
 import Lab3.interfaces.MenuInterface;
-import Lab3.Menus.MainMenu;
+import Lab3.Menus.GeneralMenus.MainMenu;
 
 import java.util.Scanner;
 

@@ -1,29 +1,28 @@
-package Lab3.Menus;
+package Lab3.Menus.StackMenus;
 
 import Lab3.behavior.AppLoop;
 
-import Lab3.implementations.Stack.LinkedStack;
+import Lab3.implementations.Stack.ArrayDownStack;
 
-import Lab3.interfaces.MenuInterface;
+import Lab3.interfaces.StackMenuInterface;
 
 import java.util.Scanner;
 
-public class LinkedStackMenu implements MenuInterface {
+public class ArrayDownStackMenu implements StackMenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
-    private LinkedStack stack;
+    private ArrayDownStack stack;
 
-    public LinkedStackMenu(Scanner scanner, AppLoop appLoop) {
-        this.appLoop = appLoop;
+    ArrayDownStackMenu(Scanner scanner, AppLoop appLoop) {
         this.scanner = scanner;
-        this.stack = new LinkedStack(1);
+        this.appLoop = appLoop;
+        this.stack = new ArrayDownStack(1);
     }
-
 
     @Override
     public void handleInput() {
-        String input = takeUserInput();
+        String input = takeUserInput(this.scanner);
         String[] commandsList = input.split(" ");
 
         switch (commandsList[0]) {
@@ -36,7 +35,7 @@ public class LinkedStackMenu implements MenuInterface {
                 }
                 else {
                     while (true) {
-                        String input1 = takeElementInput();
+                        String input1 = takeElementInput(this.scanner);
                         this.stack.push(input1);
                         System.out.println("MORE ELEMENTS? Y/N");
                         input1 = this.scanner.nextLine();
@@ -68,14 +67,14 @@ public class LinkedStackMenu implements MenuInterface {
             }
             case "status" -> {
                 this.flag = false;
-                int sizeStack = this.stack.getLinkedListStack().length;
+                int sizeStack = this.stack.getStackArray().length;
                 this.stack.setOccupiedSpace();
                 int occupiedSpace = this.stack.getOccupiedSpace();
                 System.out.print("STACK IS: ");
                 if (this.stack.isEmpty()) {
                     System.out.println("EMPTY: 0 / " + sizeStack);
                 }
-                else if (occupiedSpace == sizeStack){
+                else if (this.stack.getOccupiedSpace() == sizeStack){
                     System.out.println("FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
                 }
                 else {
@@ -90,7 +89,7 @@ public class LinkedStackMenu implements MenuInterface {
                     }
                 }
                 else {
-                    String searchedElement = takeElementInput();
+                    String searchedElement = takeElementInput(this.scanner);
                     this.stack.search(searchedElement);
                 }
             }
@@ -118,34 +117,6 @@ public class LinkedStackMenu implements MenuInterface {
     }
 
     @Override
-    public String takeUserInput() {
-        System.out.println("INPUT CHOICE:");
-        String input = this.scanner.nextLine();
-        System.out.println("YOUR CHOICE: " + input);
-        return input;
-    }
-
-    public String takeElementInput() {
-        System.out.println("INPUT ELEMENT:");
-        String input = this.scanner.nextLine();
-        System.out.println("YOUR ELEMENT: " + input);
-        return input;
-    }
-
-    @Override
-    public void printChoices() {
-        System.out.println("push <element> <element2> ... <elementN> - PUSH ELEMENT");
-        System.out.println("pop - POP");
-        System.out.println("peek - PEEK");
-        System.out.println("status - IS STACK EMPTY?");
-        System.out.println("search, s <element1> <element2> ... <elementN> - SEARCH ELEMENT");
-        System.out.println("full, f - DISPLAY FULL STACK");
-        System.out.println("empty - EMPTY THE STACK");
-        System.out.println("help, h - HELP");
-        System.out.println("exit, e - EXIT MENU");
-    }
-
-    @Override
     public void printMenu() {
         if (flag) {
             printGreetings();
@@ -155,23 +126,7 @@ public class LinkedStackMenu implements MenuInterface {
     }
 
     @Override
-    public void printHelp() {
-        System.out.println("\nCHOICES");
-        printChoices();
-    }
-
-    @Override
-    public void printQuit() {
-        System.out.println("EXITTING MENU...");
-    }
-
-    @Override
-    public void printInvalid() {
-        System.out.println("INVALID CHOICE!");
-    }
-
-    @Override
     public void printGreetings() {
-        System.out.println("WELCOME TO LINKED LIST STACK IMPLEMENTATION MENU!");
+        System.out.println("WELCOME TO ARRAY DOWN STACK IMPLEMENTATION MENU!");
     }
 }

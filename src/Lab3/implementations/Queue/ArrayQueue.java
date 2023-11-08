@@ -81,6 +81,7 @@ public class ArrayQueue implements QueueInterface {
         return this.arrayQueue.toString();
     }
 
+    @Override
     public Object getRearElement() {
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE QUEUE!");
@@ -89,6 +90,7 @@ public class ArrayQueue implements QueueInterface {
         return this.arrayQueue.get(this.rear);
     }
 
+    @Override
     public void deleteQueue() {
         this.arrayQueue = null;
     }

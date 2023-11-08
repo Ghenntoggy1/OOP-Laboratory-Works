@@ -1,4 +1,4 @@
-package Lab3.Menus;
+package Lab3.Menus.GeneralMenus;
 
 import Lab3.interfaces.MenuInterface;
 
@@ -7,11 +7,6 @@ public class ExitMenu implements MenuInterface {
     @Override
     public void handleInput() {
 
-    }
-
-    @Override
-    public String takeUserInput() {
-        return null;
     }
 
     @Override

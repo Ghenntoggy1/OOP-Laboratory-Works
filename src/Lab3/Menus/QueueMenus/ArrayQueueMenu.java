@@ -1,26 +1,28 @@
-package Lab3.Menus;
+package Lab3.Menus.QueueMenus;
 
 import Lab3.behavior.AppLoop;
-import Lab3.implementations.Queue.VectorQueue;
-import Lab3.interfaces.MenuInterface;
+
+import Lab3.implementations.Queue.ArrayQueue;
+
+import Lab3.interfaces.QueueMenuInterface;
 
 import java.util.Scanner;
 
-public class VectorQueueMenu implements MenuInterface {
+public class ArrayQueueMenu implements QueueMenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
-    private VectorQueue vectorQueue;
+    private ArrayQueue arrayQueue;
 
-    public VectorQueueMenu(Scanner scanner, AppLoop appLoop) {
+    public ArrayQueueMenu(Scanner scanner, AppLoop appLoop) {
         this.scanner = scanner;
         this.appLoop = appLoop;
-        this.vectorQueue = new VectorQueue(1);
+        this.arrayQueue = new ArrayQueue(1);
     }
 
     @Override
     public void handleInput() {
-        String input = takeUserInput();
+        String input = takeUserInput(this.scanner);
         String[] commandsList = input.split(" ");
 
         switch (commandsList[0]) {
@@ -28,13 +30,13 @@ public class VectorQueueMenu implements MenuInterface {
                 this.flag = false;
                 if (commandsList.length > 1) {
                     for (int i = 1; i < commandsList.length; i++) {
-                        this.vectorQueue.enqueue(commandsList[i]);
+                        this.arrayQueue.enqueue(commandsList[i]);
                     }
                 }
                 else {
                     while (true) {
-                        String input1 = takeElementInput();
-                        this.vectorQueue.enqueue(input1);
+                        String input1 = takeElementInput(this.scanner);
+                        this.arrayQueue.enqueue(input1);
                         System.out.println("MORE ELEMENTS? Y/N");
                         input1 = this.scanner.nextLine();
                         if (input1.equalsIgnoreCase("n")) {
@@ -45,28 +47,28 @@ public class VectorQueueMenu implements MenuInterface {
             }
             case "dequeue", "d" -> {
                 this.flag = false;
-                Object rearElement = this.vectorQueue.getRearElement();
+                Object rearElement = this.arrayQueue.getRearElement();
                 if (rearElement != null) {
-                    System.out.println("POPPED ELEMENT: " + this.vectorQueue.getRearElement());
-                    this.vectorQueue.deque();
+                    System.out.println("POPPED ELEMENT: " + this.arrayQueue.getRearElement());
+                    this.arrayQueue.deque();
                 }
 
             }
             case "peek" -> {
                 this.flag = false;
-                Object peekedElement = this.vectorQueue.peek();
+                Object peekedElement = this.arrayQueue.peek();
                 if (peekedElement != null) {
                     System.out.println("LAST ELEMENT IN THE QUEUE: " + peekedElement);
                 }
             }
             case "full", "f" -> {
                 this.flag = false;
-                System.out.println("QUEUE:\n" + this.vectorQueue.toString());
+                System.out.println("QUEUE:\n" + this.arrayQueue.toString());
             }
             case "status" -> {
                 this.flag = false;
                 System.out.print("QUEUE IS: ");
-                if (this.vectorQueue.isEmpty()) {
+                if (this.arrayQueue.isEmpty()) {
                     System.out.println("EMPTY");
                 }
                 else {
@@ -77,18 +79,18 @@ public class VectorQueueMenu implements MenuInterface {
                 this.flag = false;
                 if (commandsList.length > 1) {
                     for (int i = 1; i < commandsList.length; i++) {
-                        this.vectorQueue.search(commandsList[i]);
+                        this.arrayQueue.search(commandsList[i]);
                     }
                 }
                 else {
-                    String searchedElement = takeElementInput();
-                    this.vectorQueue.search(searchedElement);
+                    String searchedElement = takeElementInput(this.scanner);
+                    this.arrayQueue.search(searchedElement);
                 }
             }
             case "empty" -> {
                 this.flag = false;
-                if (!this.vectorQueue.isEmpty()) {
-                    this.vectorQueue.empty();
+                if (!this.arrayQueue.isEmpty()) {
+                    this.arrayQueue.empty();
                 }
                 else {
                     System.out.println("NO ELEMENTS IN THE QUEUE!");
@@ -99,7 +101,7 @@ public class VectorQueueMenu implements MenuInterface {
                 printHelp();
             }
             case "exit", "e" -> {
-                this.vectorQueue.deleteQueue();
+                this.arrayQueue.deleteQueue();
                 printQuit();
                 this.appLoop.setActiveMenu(new QueueMenu(this.scanner, this.appLoop));
             }
@@ -107,21 +109,6 @@ public class VectorQueueMenu implements MenuInterface {
                 printInvalid();
             }
         }
-    }
-
-    @Override
-    public String takeUserInput() {
-        System.out.println("INPUT CHOICE:");
-        String input = this.scanner.nextLine();
-        System.out.println("YOUR CHOICE: " + input);
-        return input;
-    }
-
-    public String takeElementInput() {
-        System.out.println("INPUT ELEMENT:");
-        String input = this.scanner.nextLine();
-        System.out.println("YOUR ELEMENT: " + input);
-        return input;
     }
 
     @Override
@@ -134,36 +121,7 @@ public class VectorQueueMenu implements MenuInterface {
     }
 
     @Override
-    public void printChoices() {
-        System.out.println("enqueue, en <element> <element2> ... <elementN> - ENQUEUE ELEMENT");
-        System.out.println("dequeue, d - DEQUEUE");
-        System.out.println("peek, p - PEEK");
-        System.out.println("status - IS STACK EMPTY?");
-        System.out.println("search, s <element1> <element2> ... <elementN> - SEARCH ELEMENT");
-        System.out.println("full, f - DISPLAY FULL STACK");
-        System.out.println("empty - EMPTY THE STACK");
-        System.out.println("help, h - HELP");
-        System.out.println("exit, e - EXIT MENU");
-    }
-
-    @Override
-    public void printHelp() {
-        System.out.println("\nCHOICES");
-        printChoices();
-    }
-
-    @Override
-    public void printQuit() {
-        System.out.println("EXITTING MENU...");
-    }
-
-    @Override
-    public void printInvalid() {
-        System.out.println("INVALID CHOICE!");
-    }
-
-    @Override
     public void printGreetings() {
-        System.out.println("WELCOME TO VECTOR QUEUE IMPLEMENTATION MENU!");
+        System.out.println("WELCOME TO ARRAY QUEUE IMPLEMENTATION MENU!");
     }
 }

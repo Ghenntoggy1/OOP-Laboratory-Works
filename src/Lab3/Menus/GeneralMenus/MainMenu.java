@@ -1,6 +1,9 @@
-package Lab3.Menus;
+package Lab3.Menus.GeneralMenus;
 
+import Lab3.Menus.QueueMenus.QueueMenu;
+import Lab3.Menus.StackMenus.StackMenu;
 import Lab3.behavior.AppLoop;
+
 import Lab3.interfaces.MenuInterface;
 
 import java.util.Scanner;
@@ -17,7 +20,7 @@ public class MainMenu implements MenuInterface {
 
     @Override
     public void handleInput() {
-        String input = takeUserInput();
+        String input = takeUserInput(this.scanner);
 
         switch (input) {
             case "s", "stack" -> {
@@ -39,14 +42,6 @@ public class MainMenu implements MenuInterface {
     }
 
     @Override
-    public String takeUserInput() {
-        System.out.println("INPUT CHOICE:");
-        String input = scanner.nextLine();
-        System.out.println("YOUR CHOICE: " + input);
-        return input;
-    }
-
-    @Override
     public void printChoices() {
         System.out.println("stack, s - STACK IMPLEMENTATIONS");
         System.out.println("queue, q - QUEUE IMPLEMENTATIONS");
@@ -64,19 +59,8 @@ public class MainMenu implements MenuInterface {
     }
 
     @Override
-    public void printHelp() {
-        System.out.println("\nCHOICES");
-        printChoices();
-    }
-
-    @Override
     public void printQuit() {
 
-    }
-
-    @Override
-    public void printInvalid() {
-        System.out.println("INVALID CHOICE!");
     }
 
     @Override

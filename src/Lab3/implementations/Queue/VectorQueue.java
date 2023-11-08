@@ -42,7 +42,7 @@ public class VectorQueue implements QueueInterface {
             return;
         }
         else {
-            for (int i = 0; i < this.vectorQueue.size(); i++) {
+            for (int i = this.vectorQueue.size() - 1; i >= 0 ; i--) {
                 if (this.vectorQueue.get(i).toString().equals(searchedElement.toString())) {
                     System.out.println("ELEMENT " + searchedElement + " FOUND AT INDEX " + i);
                     isFound = true;
@@ -68,6 +68,7 @@ public class VectorQueue implements QueueInterface {
         this.vectorQueue.clear();
     }
 
+    @Override
     public Object getRearElement() {
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE QUEUE!");
@@ -82,6 +83,7 @@ public class VectorQueue implements QueueInterface {
 
     }
 
+    @Override
     public void deleteQueue() {
         this.vectorQueue = null;
     }
