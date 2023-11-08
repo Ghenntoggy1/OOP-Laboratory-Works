@@ -1,12 +1,14 @@
 package Lab3.Menus;
 
 import Lab3.behavior.AppLoop;
+
 import Lab3.implementations.Queue.ArrayQueue;
-import Lab3.interfaces.MenuInterface;
+
+import Lab3.interfaces.QueueMenuInterface;
 
 import java.util.Scanner;
 
-public class ArrayQueueMenu implements MenuInterface {
+public class ArrayQueueMenu implements QueueMenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
@@ -20,7 +22,7 @@ public class ArrayQueueMenu implements MenuInterface {
 
     @Override
     public void handleInput() {
-        String input = takeUserInput();
+        String input = takeUserInput(this.scanner);
         String[] commandsList = input.split(" ");
 
         switch (commandsList[0]) {
@@ -33,7 +35,7 @@ public class ArrayQueueMenu implements MenuInterface {
                 }
                 else {
                     while (true) {
-                        String input1 = takeElementInput();
+                        String input1 = takeElementInput(this.scanner);
                         this.arrayQueue.enqueue(input1);
                         System.out.println("MORE ELEMENTS? Y/N");
                         input1 = this.scanner.nextLine();
@@ -81,7 +83,7 @@ public class ArrayQueueMenu implements MenuInterface {
                     }
                 }
                 else {
-                    String searchedElement = takeElementInput();
+                    String searchedElement = takeElementInput(this.scanner);
                     this.arrayQueue.search(searchedElement);
                 }
             }
@@ -110,56 +112,12 @@ public class ArrayQueueMenu implements MenuInterface {
     }
 
     @Override
-    public String takeUserInput() {
-        System.out.println("INPUT CHOICE:");
-        String input = this.scanner.nextLine();
-        System.out.println("YOUR CHOICE: " + input);
-        return input;
-    }
-
-    public String takeElementInput() {
-        System.out.println("INPUT ELEMENT:");
-        String input = this.scanner.nextLine();
-        System.out.println("YOUR ELEMENT: " + input);
-        return input;
-    }
-
-    @Override
-    public void printChoices() {
-        System.out.println("enqueue, en <element> <element2> ... <elementN> - ENQUEUE ELEMENT");
-        System.out.println("dequeue, d - DEQUEUE");
-        System.out.println("peek, p - PEEK");
-        System.out.println("status - IS QUEUE EMPTY?");
-        System.out.println("search, s <element1> <element2> ... <elementN> - SEARCH ELEMENT");
-        System.out.println("full, f - DISPLAY FULL QUEUE");
-        System.out.println("empty - EMPTY THE QUEUE");
-        System.out.println("help, h - HELP");
-        System.out.println("exit, e - EXIT MENU");
-    }
-
-    @Override
     public void printMenu() {
         if (flag) {
             printGreetings();
             printChoices();
         }
         flag = true;
-    }
-
-    @Override
-    public void printHelp() {
-        System.out.println("\nCHOICES");
-        printChoices();
-    }
-
-    @Override
-    public void printQuit() {
-        System.out.println("EXITTING MENU...");
-    }
-
-    @Override
-    public void printInvalid() {
-        System.out.println("INVALID CHOICE!");
     }
 
     @Override

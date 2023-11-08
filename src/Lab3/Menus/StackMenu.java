@@ -17,7 +17,7 @@ public class StackMenu implements MenuInterface {
 
     @Override
     public void handleInput() {
-        String input = takeUserInput();
+        String input = takeUserInput(this.scanner);
 
         switch (input) {
             case "up", "u" -> {
@@ -44,14 +44,6 @@ public class StackMenu implements MenuInterface {
     }
 
     @Override
-    public String takeUserInput() {
-        System.out.println("INPUT CHOICE:");
-        String input = scanner.nextLine();
-        System.out.println("YOUR CHOICE: " + input);
-        return input;
-    }
-
-    @Override
     public void printMenu() {
         if (flag) {
             printGreetings();
@@ -70,19 +62,8 @@ public class StackMenu implements MenuInterface {
     }
 
     @Override
-    public void printHelp() {
-        System.out.println("HELP");
-        printChoices();
-    }
-
-    @Override
     public void printQuit() {
         System.out.println("EXITTING MENU...");
-    }
-
-    @Override
-    public void printInvalid() {
-        System.out.println("INVALID CHOICE!");
     }
 
     @Override

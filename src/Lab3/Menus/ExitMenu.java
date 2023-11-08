@@ -10,11 +10,6 @@ public class ExitMenu implements MenuInterface {
     }
 
     @Override
-    public String takeUserInput() {
-        return null;
-    }
-
-    @Override
     public void printMenu() {
 
     }

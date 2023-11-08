@@ -42,7 +42,7 @@ public class LinkedQueue implements QueueInterface {
             return;
         }
         else {
-            for (int i = 0; i < this.linkedListQueue.size(); i++) {
+            for (int i = this.linkedListQueue.size() - 1; i >= 0; i--) {
                 if (this.linkedListQueue.get(i).toString().equals(searchedElement.toString())) {
                     System.out.println("ELEMENT " + searchedElement + " FOUND AT INDEX " + i);
                     isFound = true;
@@ -68,6 +68,7 @@ public class LinkedQueue implements QueueInterface {
         this.linkedListQueue.clear();
     }
 
+    @Override
     public Object getRearElement() {
         if (isEmpty()) {
             System.out.println("NO ELEMENTS IN THE QUEUE!");
@@ -82,6 +83,7 @@ public class LinkedQueue implements QueueInterface {
 
     }
 
+    @Override
     public void deleteQueue() {
         this.linkedListQueue = null;
     }

@@ -7,4 +7,6 @@ public interface QueueInterface {
     void search(Object searchedElement);
     boolean isEmpty();
     void empty();
+    void deleteQueue();
+    Object getRearElement();
 }
