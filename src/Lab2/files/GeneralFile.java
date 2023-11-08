@@ -1,12 +1,14 @@
 package Lab2.files;
 
-import java.io.*;
+
+import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+
 import java.sql.Timestamp;
-import java.util.concurrent.TimeUnit;
 
 public class GeneralFile {
     protected String directoryPath;
@@ -23,18 +25,6 @@ public class GeneralFile {
         this.lastModificationDate = lastModificationDate;
         setCreationDate();
         setSizeFile();
-    }
-
-    public int findLineCount(String fullPath, int lineCount) {
-        File file = new File(fullPath);
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            while (bufferedReader.readLine() != null) {
-                lineCount++;
-            }
-        } catch (IOException ignored) {
-        }
-        return lineCount;
     }
 
     public void setCreationDate() {
@@ -57,26 +47,8 @@ public class GeneralFile {
         }
     }
 
-    public Long getCreationDate() {
-        return this.creationDate;
-    }
-
-    public void setLastModificationDate() {
-        Path filePath = Paths.get(directoryPath, fileName);
-        try {
-            BasicFileAttributes metaData = Files.readAttributes(filePath, BasicFileAttributes.class);
-            this.lastModificationDate = metaData.lastModifiedTime().to(TimeUnit.SECONDS);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public Long getLastModificationDate() {
         return this.lastModificationDate;
-    }
-
-    public String getExtensionType() {
-        return this.extensionType;
     }
 
     @Override

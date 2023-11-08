@@ -2,25 +2,31 @@ package Lab2.behavior;
 
 import Lab2.files.GeneralFile;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 import java.sql.Timestamp;
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.List;
+
 
 public class SnapshotManagementSystem {
-    private String directoryPath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\filesExample\\";
-    private String snapshotFilePath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\snapshot\\" + "snapshot.txt";
+    private final String filesDirectoryPath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\filesExample\\";
+    private final String snapshotFilePath = "C:\\IT Roma\\OOP Labs\\Labs\\src\\Lab2\\snapshot\\snapshot.txt";
     private Long lastSnapshotDate;
     private HashMap<String, GeneralFile> currSnapshot;
-    private HashMap<String, GeneralFile> knownSnapshot;
     private HashMap<String, GeneralFile> prevSnapshot;
     private FilesGenerator filesGenerator;
 
     public SnapshotManagementSystem() {
         this.currSnapshot = new HashMap<>();
         this.prevSnapshot = new HashMap<>(this.currSnapshot);
-        this.knownSnapshot = new HashMap<>(this.currSnapshot);
         this.filesGenerator = new FilesGenerator();
     }
 
@@ -29,10 +35,12 @@ public class SnapshotManagementSystem {
             bufferedWriter.write("Snapshot at: " + new Timestamp(this.lastSnapshotDate) + ": ID: " + this.lastSnapshotDate);
             bufferedWriter.newLine();
             for (String fileName : this.prevSnapshot.keySet()) {
-                File newFileFromPrevFile = new File(this.directoryPath + fileName);
+                File newFileFromPrevFile = new File(this.filesDirectoryPath + fileName);
                 bufferedWriter.write(newFileFromPrevFile.getName() + " - " + newFileFromPrevFile.lastModified());
                 bufferedWriter.newLine();
             }
+            fileWriter.close();
+            bufferedWriter.close();
             System.out.println("SNAPSHOT SAVE SUCCEED");
         } catch (IOException e) {
             System.out.println("SNAPSHOT SAVE FAILED!");
@@ -52,7 +60,7 @@ public class SnapshotManagementSystem {
                 }
                 String[] file_lastModificationDate = line.split(" - ");
                 String fileName = file_lastModificationDate[0];
-                File file = new File(this.directoryPath + fileName);
+                File file = new File(this.filesDirectoryPath + fileName);
                 Long lastModificationDate;
                 if (file.exists()) {
                     lastModificationDate = Long.parseLong(file_lastModificationDate[1]);
@@ -60,7 +68,7 @@ public class SnapshotManagementSystem {
                 else {
                     lastModificationDate = Long.valueOf(0);
                 }
-                GeneralFile newFile = filesGenerator.generateNewFile(this.directoryPath, fileName, lastModificationDate);
+                GeneralFile newFile = filesGenerator.generateNewFile(this.filesDirectoryPath, fileName, lastModificationDate);
                 this.prevSnapshot.put(fileName, newFile);
             }
             System.out.println("LOADING STATE FROM PREVIOUS SNAPSHOT SUCCEED!");
@@ -69,18 +77,16 @@ public class SnapshotManagementSystem {
         }
     }
 
-
-
     public void loadStateFromCurrSnapshot() {
         this.currSnapshot.clear();
-        File filesPackage = new File(this.directoryPath);
+        File filesPackage = new File(this.filesDirectoryPath);
         if (filesPackage.exists() && filesPackage.isDirectory()) {
             File[] files = filesPackage.listFiles();
             if (files != null) {
                 for (File file : files) {
                     String fileName = file.getName();
                     Long lastModificationDate = file.lastModified();
-                    GeneralFile newFile = filesGenerator.generateNewFile(this.directoryPath, fileName, lastModificationDate);
+                    GeneralFile newFile = filesGenerator.generateNewFile(this.filesDirectoryPath, fileName, lastModificationDate);
                     this.currSnapshot.put(fileName, newFile);
                 }
             }
@@ -100,7 +106,7 @@ public class SnapshotManagementSystem {
         System.out.println("SNAPSHOT GOT UPDATED AT: " + new Timestamp(getLastSnapshotDate()) + " : ID: " + getLastSnapshotDate());
     }
 
-    public void status() {
+    public void printStatus() {
         loadStateFromPrevSnapshot();
         loadStateFromCurrSnapshot();
         System.out.println("LOADING STATE FROM CURRENT SNAPSHOT SUCCEED!");
@@ -155,16 +161,5 @@ public class SnapshotManagementSystem {
     }
     public HashMap<String, GeneralFile> getCurrSnapshot() {
         return this.currSnapshot;
-    }
-    public void setCurrSnapshot(HashMap<String, GeneralFile> currSnapshot) {
-        this.currSnapshot.clear();
-        this.currSnapshot.putAll(currSnapshot);
-    }
-    public HashMap<String, GeneralFile> getKnownSnapshot() {
-        return this.knownSnapshot;
-    }
-    public void setKnownSnapshot(HashMap<String, GeneralFile> knownSnapshot) {
-        this.knownSnapshot.clear();
-        this.knownSnapshot.putAll(knownSnapshot);
     }
 }

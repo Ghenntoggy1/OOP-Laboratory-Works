@@ -1,7 +1,9 @@
 package Lab2.files;
 
 import javax.imageio.ImageIO;
+
 import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
 

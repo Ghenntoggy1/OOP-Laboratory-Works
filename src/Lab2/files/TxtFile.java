@@ -1,9 +1,12 @@
 package Lab2.files;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
-public class TxtFile extends GeneralFile {
-    private int lineCount = 0;
+public class TxtFile extends GeneralFileWithLines {
+    private int lineCount;
     private int wordCount = 0;
     private int characterCount = 0;
     private String fullPath = this.directoryPath + "\\" + this.fileName;
@@ -23,6 +26,7 @@ public class TxtFile extends GeneralFile {
             while ((line = bufferedReader.readLine()) != null) {
                 this.characterCount += line.length();
             }
+            bufferedReader.close();
         } catch (IOException ignored) {
         }
     }
@@ -36,6 +40,7 @@ public class TxtFile extends GeneralFile {
                 String[] wordsInLine = line.split("\\s+");
                 this.wordCount += wordsInLine.length;
             }
+            bufferedReader.close();
         } catch (IOException ignored) {
         }
     }
