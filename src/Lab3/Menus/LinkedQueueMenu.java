@@ -1,6 +1,9 @@
 package Lab3.Menus;
 
 import Lab3.behavior.AppLoop;
+
+import Lab3.implementations.Queue.LinkedQueue;
+
 import Lab3.interfaces.MenuInterface;
 
 import java.util.Scanner;
@@ -9,108 +12,103 @@ public class LinkedQueueMenu implements MenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
-    //private LinkedQueue queue;
+    private LinkedQueue linkedQueue;
 
     public LinkedQueueMenu(Scanner scanner, AppLoop appLoop) {
         this.scanner = scanner;
         this.appLoop = appLoop;
-//        this.queue = new LinkedQueue();
+        this.linkedQueue = new LinkedQueue();
     }
 
     @Override
     public void handleInput() {
-//        String input = takeUserInput();
-//        String[] commandsList = input.split(" ");
-//
-//        switch (commandsList[0]) {
-//            case "push" -> {
-//                this.flag = false;
-//                if (commandsList.length > 1) {
-//                    for (int i = 1; i < commandsList.length; i++) {
-//                        this.stack.push(commandsList[i]);
-//                    }
-//                }
-//                else {
-//                    while (true) {
-//                        String input1 = takeElementInput();
-//                        this.stack.push(input1);
-//                        System.out.println("MORE ELEMENTS? Y/N");
-//                        input1 = this.scanner.nextLine();
-//                        if (input1.equalsIgnoreCase("n")) {
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//            case "pop" -> {
-//                this.flag = false;
-//                Object peekedElement = this.stack.peek();
-//                if (peekedElement != null) {
-//                    System.out.println("POPPED ELEMENT: " + this.stack.peek());
-//                    this.stack.pop();
-//                }
-//
-//            }
-//            case "peek" -> {
-//                this.flag = false;
-//                Object peekedElement = this.stack.peek();
-//                if (peekedElement != null) {
-//                    System.out.println("LAST ELEMENT IN THE STACK: " + peekedElement);
-//                }
-//            }
-//            case "full", "f" -> {
-//                this.flag = false;
-//                System.out.println("STACK:\n" + this.stack.toString());
-//            }
-//            case "status" -> {
-//                this.flag = false;
-//                int sizeStack = this.stack.getLinkedListStack().length;
-//                this.stack.setOccupiedSpace();
-//                int occupiedSpace = this.stack.getOccupiedSpace();
-//                System.out.print("STACK IS: ");
-//                if (this.stack.isEmpty()) {
-//                    System.out.println("EMPTY: 0 / " + sizeStack);
-//                }
-//                else if (occupiedSpace == sizeStack){
-//                    System.out.println("FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
-//                }
-//                else {
-//                    System.out.println("PARTIALLY FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
-//                }
-//            }
-//            case "search", "s" -> {
-//                this.flag = false;
-//                if (commandsList.length > 1) {
-//                    for (int i = 1; i < commandsList.length; i++) {
-//                        this.stack.search(commandsList[i]);
-//                    }
-//                }
-//                else {
-//                    String searchedElement = takeElementInput();
-//                    this.stack.search(searchedElement);
-//                }
-//            }
-//            case "empty" -> {
-//                this.flag = false;
-//                if (!this.stack.isEmpty()) {
-//                    this.stack.empty();
-//                }
-//                else {
-//                    System.out.println("NO ELEMENTS IN THE STACK!");
-//                }
-//            }
-//            case "help", "h" -> {
-//                this.flag = false;
-//                printHelp();
-//            }
-//            case "exit", "e" -> {
-//                printQuit();
-//                this.appLoop.setActiveMenu(new StackMenu(this.scanner, this.appLoop));
-//            }
-//            default -> {
-//                printInvalid();
-//            }
-//        }
+        String input = takeUserInput();
+        String[] commandsList = input.split(" ");
+
+        switch (commandsList[0]) {
+            case "enqueue", "en" -> {
+                this.flag = false;
+                if (commandsList.length > 1) {
+                    for (int i = 1; i < commandsList.length; i++) {
+                        this.linkedQueue.enqueue(commandsList[i]);
+                    }
+                }
+                else {
+                    while (true) {
+                        String input1 = takeElementInput();
+                        this.linkedQueue.enqueue(input1);
+                        System.out.println("MORE ELEMENTS? Y/N");
+                        input1 = this.scanner.nextLine();
+                        if (input1.equalsIgnoreCase("n")) {
+                            break;
+                        }
+                    }
+                }
+            }
+            case "dequeue", "d" -> {
+                this.flag = false;
+                Object rearElement = this.linkedQueue.getRearElement();
+                if (rearElement != null) {
+                    System.out.println("POPPED ELEMENT: " + this.linkedQueue.getRearElement());
+                    this.linkedQueue.deque();
+                }
+
+            }
+            case "peek" -> {
+                this.flag = false;
+                Object peekedElement = this.linkedQueue.peek();
+                if (peekedElement != null) {
+                    System.out.println("LAST ELEMENT IN THE QUEUE: " + peekedElement);
+                }
+            }
+            case "full", "f" -> {
+                this.flag = false;
+                System.out.println("QUEUE:\n" + this.linkedQueue.toString());
+            }
+            case "status" -> {
+                this.flag = false;
+                System.out.print("QUEUE IS: ");
+                if (this.linkedQueue.isEmpty()) {
+                    System.out.println("EMPTY");
+                }
+                else {
+                    System.out.println("FULL");
+                }
+            }
+            case "search", "s" -> {
+                this.flag = false;
+                if (commandsList.length > 1) {
+                    for (int i = 1; i < commandsList.length; i++) {
+                        this.linkedQueue.search(commandsList[i]);
+                    }
+                }
+                else {
+                    String searchedElement = takeElementInput();
+                    this.linkedQueue.search(searchedElement);
+                }
+            }
+            case "empty" -> {
+                this.flag = false;
+                if (!this.linkedQueue.isEmpty()) {
+                    this.linkedQueue.empty();
+                }
+                else {
+                    System.out.println("NO ELEMENTS IN THE QUEUE!");
+                }
+            }
+            case "help", "h" -> {
+                this.flag = false;
+                printHelp();
+            }
+            case "exit", "e" -> {
+                this.linkedQueue.deleteQueue();
+                printQuit();
+                this.appLoop.setActiveMenu(new QueueMenu(this.scanner, this.appLoop));
+            }
+            default -> {
+                printInvalid();
+            }
+        }
     }
 
     @Override

@@ -1,35 +1,30 @@
-package Lab3.implementations;
+package Lab3.implementations.Queue;
 
 import Lab3.interfaces.QueueInterface;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ArrayQueue implements QueueInterface {
     private ArrayList<Object> arrayQueue;
     private int front;
     private int rear;
-    private int size;
     private int defaultSize = 1;
 
     public ArrayQueue(int capacity) {
-        this.arrayQueue = new ArrayList<>();
+        this.arrayQueue = new ArrayList<>(capacity);
         this.front = 0;
         this.rear = capacity - 1;
-//        this.size = this.arrayQueue.size();
     }
 
     public ArrayQueue() {
         this.arrayQueue = new ArrayList<>();
         this.front = 0;
         this.rear = this.defaultSize - 1;
-//        this.size = this.arrayQueue.length;
     }
 
     @Override
     public void enqueue(Object newElement) {
         this.arrayQueue.add(this.front, newElement);
-        this.size = this.arrayQueue.size();
         this.rear = this.arrayQueue.size() - 1;
     }
 
@@ -56,7 +51,7 @@ public class ArrayQueue implements QueueInterface {
     public void search(Object searchedElement) {
         boolean isFound = false;
         if (isEmpty()) {
-            System.out.println("NO ELEMENTS IN THE STACK!");
+            System.out.println("NO ELEMENTS IN THE QUEUE!");
         }
         else {
             for (int i = 0; i < this.arrayQueue.size(); i++) {
@@ -92,5 +87,9 @@ public class ArrayQueue implements QueueInterface {
             return null;
         }
         return this.arrayQueue.get(this.rear);
+    }
+
+    public void deleteQueue() {
+        this.arrayQueue = null;
     }
 }

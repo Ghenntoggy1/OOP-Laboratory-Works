@@ -2,7 +2,7 @@ package Lab3.Menus;
 
 import Lab3.behavior.AppLoop;
 
-import Lab3.implementations.LinkedStack;
+import Lab3.implementations.Stack.LinkedStack;
 
 import Lab3.interfaces.MenuInterface;
 

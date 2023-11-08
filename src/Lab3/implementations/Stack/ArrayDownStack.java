@@ -1,4 +1,4 @@
-package Lab3.implementations;
+package Lab3.implementations.Stack;
 
 import Lab3.interfaces.StackInterface;
 

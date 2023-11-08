@@ -1,7 +1,7 @@
 package Lab3.Menus;
 
 import Lab3.behavior.AppLoop;
-import Lab3.implementations.ArrayDownStack;
+import Lab3.implementations.Stack.ArrayDownStack;
 import Lab3.interfaces.MenuInterface;
 
 import java.util.Scanner;

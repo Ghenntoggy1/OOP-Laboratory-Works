@@ -28,8 +28,7 @@ public class QueueMenu implements MenuInterface {
                 //this.appLoop.setActiveMenu(new PriorityQueueMenu(this.scanner, this.appLoop));
             }
             case "linked", "l" -> {
-                System.out.println("linked WIP");
-                //this.appLoop.setActiveMenu(new LinkedQueueMenu(this.scanner, this.appLoop));
+                this.appLoop.setActiveMenu(new LinkedQueueMenu(this.scanner, this.appLoop));
             }
             case "help", "h" -> {
                 this.flag = false;

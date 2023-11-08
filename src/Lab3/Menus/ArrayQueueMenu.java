@@ -1,7 +1,7 @@
 package Lab3.Menus;
 
 import Lab3.behavior.AppLoop;
-import Lab3.implementations.ArrayQueue;
+import Lab3.implementations.Queue.ArrayQueue;
 import Lab3.interfaces.MenuInterface;
 
 import java.util.Scanner;
@@ -56,16 +56,16 @@ public class ArrayQueueMenu implements MenuInterface {
                 this.flag = false;
                 Object peekedElement = this.arrayQueue.peek();
                 if (peekedElement != null) {
-                    System.out.println("LAST ELEMENT IN THE STACK: " + peekedElement);
+                    System.out.println("LAST ELEMENT IN THE QUEUE: " + peekedElement);
                 }
             }
             case "full", "f" -> {
                 this.flag = false;
-                System.out.println("STACK:\n" + this.arrayQueue.toString());
+                System.out.println("QUEUE:\n" + this.arrayQueue.toString());
             }
             case "status" -> {
                 this.flag = false;
-                System.out.print("STACK IS: ");
+                System.out.print("QUEUE IS: ");
                 if (this.arrayQueue.isEmpty()) {
                     System.out.println("EMPTY");
                 }
@@ -91,7 +91,7 @@ public class ArrayQueueMenu implements MenuInterface {
                     this.arrayQueue.empty();
                 }
                 else {
-                    System.out.println("NO ELEMENTS IN THE STACK!");
+                    System.out.println("NO ELEMENTS IN THE QUEUE!");
                 }
             }
             case "help", "h" -> {
@@ -99,6 +99,7 @@ public class ArrayQueueMenu implements MenuInterface {
                 printHelp();
             }
             case "exit", "e" -> {
+                this.arrayQueue.deleteQueue();
                 printQuit();
                 this.appLoop.setActiveMenu(new QueueMenu(this.scanner, this.appLoop));
             }
@@ -128,10 +129,10 @@ public class ArrayQueueMenu implements MenuInterface {
         System.out.println("enqueue, en <element> <element2> ... <elementN> - ENQUEUE ELEMENT");
         System.out.println("dequeue, d - DEQUEUE");
         System.out.println("peek, p - PEEK");
-        System.out.println("status - IS STACK EMPTY?");
+        System.out.println("status - IS QUEUE EMPTY?");
         System.out.println("search, s <element1> <element2> ... <elementN> - SEARCH ELEMENT");
-        System.out.println("full, f - DISPLAY FULL STACK");
-        System.out.println("empty - EMPTY THE STACK");
+        System.out.println("full, f - DISPLAY FULL QUEUE");
+        System.out.println("empty - EMPTY THE QUEUE");
         System.out.println("help, h - HELP");
         System.out.println("exit, e - EXIT MENU");
     }
