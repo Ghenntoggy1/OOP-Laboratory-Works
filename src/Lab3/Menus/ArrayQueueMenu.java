@@ -1,21 +1,21 @@
 package Lab3.Menus;
 
 import Lab3.behavior.AppLoop;
-import Lab3.implementations.Stack.ArrayStackUp;
+import Lab3.implementations.Queue.ArrayQueue;
 import Lab3.interfaces.MenuInterface;
 
 import java.util.Scanner;
 
-public class ArrayUpStackMenu implements MenuInterface {
+public class ArrayQueueMenu implements MenuInterface {
     private Scanner scanner;
     private AppLoop appLoop;
     private boolean flag = true;
-    private ArrayStackUp stack;
+    private ArrayQueue arrayQueue;
 
-    public ArrayUpStackMenu(Scanner scanner, AppLoop appLoop) {
+    public ArrayQueueMenu(Scanner scanner, AppLoop appLoop) {
         this.scanner = scanner;
         this.appLoop = appLoop;
-        this.stack = new ArrayStackUp(1);
+        this.arrayQueue = new ArrayQueue(1);
     }
 
     @Override
@@ -24,17 +24,17 @@ public class ArrayUpStackMenu implements MenuInterface {
         String[] commandsList = input.split(" ");
 
         switch (commandsList[0]) {
-            case "push" -> {
+            case "enqueue", "en" -> {
                 this.flag = false;
                 if (commandsList.length > 1) {
                     for (int i = 1; i < commandsList.length; i++) {
-                        this.stack.push(commandsList[i]);
+                        this.arrayQueue.enqueue(commandsList[i]);
                     }
                 }
                 else {
                     while (true) {
                         String input1 = takeElementInput();
-                        this.stack.push(input1);
+                        this.arrayQueue.enqueue(input1);
                         System.out.println("MORE ELEMENTS? Y/N");
                         input1 = this.scanner.nextLine();
                         if (input1.equalsIgnoreCase("n")) {
@@ -43,60 +43,55 @@ public class ArrayUpStackMenu implements MenuInterface {
                     }
                 }
             }
-            case "pop" -> {
+            case "dequeue", "d" -> {
                 this.flag = false;
-                Object peekedElement = this.stack.peek();
-                if (peekedElement != null) {
-                    System.out.println("POPPED ELEMENT: " + this.stack.peek());
-                    this.stack.pop();
+                Object rearElement = this.arrayQueue.getRearElement();
+                if (rearElement != null) {
+                    System.out.println("POPPED ELEMENT: " + this.arrayQueue.getRearElement());
+                    this.arrayQueue.deque();
                 }
 
             }
             case "peek" -> {
                 this.flag = false;
-                Object peekedElement = this.stack.peek();
+                Object peekedElement = this.arrayQueue.peek();
                 if (peekedElement != null) {
-                    System.out.println("LAST ELEMENT IN THE STACK: " + peekedElement);
+                    System.out.println("LAST ELEMENT IN THE QUEUE: " + peekedElement);
                 }
             }
             case "full", "f" -> {
                 this.flag = false;
-                System.out.println("STACK:\n" + this.stack.toString());
+                System.out.println("QUEUE:\n" + this.arrayQueue.toString());
             }
             case "status" -> {
                 this.flag = false;
-                int sizeStack = this.stack.getStackArray().length;
-                int occupiedSpace = this.stack.getTopIndex();
-                System.out.print("STACK IS: ");
-                if (this.stack.isEmpty()) {
-                    System.out.println("EMPTY: 0 / " + sizeStack);
-                }
-                else if (this.stack.getTopIndex() == sizeStack){
-                    System.out.println("FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
+                System.out.print("QUEUE IS: ");
+                if (this.arrayQueue.isEmpty()) {
+                    System.out.println("EMPTY");
                 }
                 else {
-                    System.out.println("PARTIALLY FULL: " + occupiedSpace + " / " + sizeStack + " ELEMENTS");
+                    System.out.println("FULL");
                 }
             }
             case "search", "s" -> {
                 this.flag = false;
                 if (commandsList.length > 1) {
                     for (int i = 1; i < commandsList.length; i++) {
-                        this.stack.search(commandsList[i]);
+                        this.arrayQueue.search(commandsList[i]);
                     }
                 }
                 else {
                     String searchedElement = takeElementInput();
-                    this.stack.search(searchedElement);
+                    this.arrayQueue.search(searchedElement);
                 }
             }
             case "empty" -> {
                 this.flag = false;
-                if (!this.stack.isEmpty()) {
-                    this.stack.empty();
+                if (!this.arrayQueue.isEmpty()) {
+                    this.arrayQueue.empty();
                 }
                 else {
-                    System.out.println("NO ELEMENTS IN THE STACK!");
+                    System.out.println("NO ELEMENTS IN THE QUEUE!");
                 }
             }
             case "help", "h" -> {
@@ -104,8 +99,9 @@ public class ArrayUpStackMenu implements MenuInterface {
                 printHelp();
             }
             case "exit", "e" -> {
+                this.arrayQueue.deleteQueue();
                 printQuit();
-                this.appLoop.setActiveMenu(new StackMenu(this.scanner, this.appLoop));
+                this.appLoop.setActiveMenu(new QueueMenu(this.scanner, this.appLoop));
             }
             default -> {
                 printInvalid();
@@ -130,13 +126,13 @@ public class ArrayUpStackMenu implements MenuInterface {
 
     @Override
     public void printChoices() {
-        System.out.println("push <element> <element2> ... <elementN> - PUSH ELEMENT");
-        System.out.println("pop - POP");
-        System.out.println("peek - PEEK");
-        System.out.println("status - IS STACK EMPTY?");
+        System.out.println("enqueue, en <element> <element2> ... <elementN> - ENQUEUE ELEMENT");
+        System.out.println("dequeue, d - DEQUEUE");
+        System.out.println("peek, p - PEEK");
+        System.out.println("status - IS QUEUE EMPTY?");
         System.out.println("search, s <element1> <element2> ... <elementN> - SEARCH ELEMENT");
-        System.out.println("full, f - DISPLAY FULL STACK");
-        System.out.println("empty - EMPTY THE STACK");
+        System.out.println("full, f - DISPLAY FULL QUEUE");
+        System.out.println("empty - EMPTY THE QUEUE");
         System.out.println("help, h - HELP");
         System.out.println("exit, e - EXIT MENU");
     }
@@ -168,6 +164,6 @@ public class ArrayUpStackMenu implements MenuInterface {
 
     @Override
     public void printGreetings() {
-        System.out.println("WELCOME TO ARRAY UP STACK IMPLEMENTATION MENU!");
+        System.out.println("WELCOME TO ARRAY QUEUE IMPLEMENTATION MENU!");
     }
 }
